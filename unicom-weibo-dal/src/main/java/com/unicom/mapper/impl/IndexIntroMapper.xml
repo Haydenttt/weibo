@@ -1,0 +1,560 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.unicom.mapper.IndexIntroMapper">
+  <resultMap id="BaseResultMap" type="com.unicom.model.IndexIntro">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="day_heat_sum" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="day_heat_level" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="day_heat_start" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="day_heat_end" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="day_heat_avg" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="creator" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="updater" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, day_heat_sum, day_heat_level, day_heat_start, day_heat_end, day_heat_avg, create_time, 
+    creator, update_time, updater
+  </sql>
+  <select id="selectByExample" parameterType="com.unicom.model.IndexIntroExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from index_intro
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from index_intro
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from index_intro
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.unicom.model.IndexIntroExample">
+    delete from index_intro
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.unicom.model.IndexIntro" useGeneratedKeys="true">
+    insert into index_intro (day_heat_sum, day_heat_level, day_heat_start, 
+      day_heat_end, day_heat_avg, create_time, 
+      creator, update_time, updater
+      )
+    values (#{dayHeatSum,jdbcType=INTEGER}, #{dayHeatLevel,jdbcType=TINYINT}, #{dayHeatStart,jdbcType=VARCHAR}, 
+      #{dayHeatEnd,jdbcType=VARCHAR}, #{dayHeatAvg,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{creator,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updater,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.unicom.model.IndexIntro" useGeneratedKeys="true">
+    insert into index_intro
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="dayHeatSum != null">
+        day_heat_sum,
+      </if>
+      <if test="dayHeatLevel != null">
+        day_heat_level,
+      </if>
+      <if test="dayHeatStart != null">
+        day_heat_start,
+      </if>
+      <if test="dayHeatEnd != null">
+        day_heat_end,
+      </if>
+      <if test="dayHeatAvg != null">
+        day_heat_avg,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="creator != null">
+        creator,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updater != null">
+        updater,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="dayHeatSum != null">
+        #{dayHeatSum,jdbcType=INTEGER},
+      </if>
+      <if test="dayHeatLevel != null">
+        #{dayHeatLevel,jdbcType=TINYINT},
+      </if>
+      <if test="dayHeatStart != null">
+        #{dayHeatStart,jdbcType=VARCHAR},
+      </if>
+      <if test="dayHeatEnd != null">
+        #{dayHeatEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="dayHeatAvg != null">
+        #{dayHeatAvg,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updater != null">
+        #{updater,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByExampleSelective" parameterType="map">
+    update index_intro
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.dayHeatSum != null">
+        day_heat_sum = #{record.dayHeatSum,jdbcType=INTEGER},
+      </if>
+      <if test="record.dayHeatLevel != null">
+        day_heat_level = #{record.dayHeatLevel,jdbcType=TINYINT},
+      </if>
+      <if test="record.dayHeatStart != null">
+        day_heat_start = #{record.dayHeatStart,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dayHeatEnd != null">
+        day_heat_end = #{record.dayHeatEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dayHeatAvg != null">
+        day_heat_avg = #{record.dayHeatAvg,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.creator != null">
+        creator = #{record.creator,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updater != null">
+        updater = #{record.updater,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update index_intro
+    set id = #{record.id,jdbcType=INTEGER},
+      day_heat_sum = #{record.dayHeatSum,jdbcType=INTEGER},
+      day_heat_level = #{record.dayHeatLevel,jdbcType=TINYINT},
+      day_heat_start = #{record.dayHeatStart,jdbcType=VARCHAR},
+      day_heat_end = #{record.dayHeatEnd,jdbcType=VARCHAR},
+      day_heat_avg = #{record.dayHeatAvg,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      creator = #{record.creator,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      updater = #{record.updater,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.unicom.model.IndexIntro">
+    update index_intro
+    <set>
+      <if test="dayHeatSum != null">
+        day_heat_sum = #{dayHeatSum,jdbcType=INTEGER},
+      </if>
+      <if test="dayHeatLevel != null">
+        day_heat_level = #{dayHeatLevel,jdbcType=TINYINT},
+      </if>
+      <if test="dayHeatStart != null">
+        day_heat_start = #{dayHeatStart,jdbcType=VARCHAR},
+      </if>
+      <if test="dayHeatEnd != null">
+        day_heat_end = #{dayHeatEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="dayHeatAvg != null">
+        day_heat_avg = #{dayHeatAvg,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updater != null">
+        updater = #{updater,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.unicom.model.IndexIntro">
+    update index_intro
+    set day_heat_sum = #{dayHeatSum,jdbcType=INTEGER},
+      day_heat_level = #{dayHeatLevel,jdbcType=TINYINT},
+      day_heat_start = #{dayHeatStart,jdbcType=VARCHAR},
+      day_heat_end = #{dayHeatEnd,jdbcType=VARCHAR},
+      day_heat_avg = #{dayHeatAvg,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      creator = #{creator,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      updater = #{updater,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.unicom.model.IndexIntro">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="day_heat_sum" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="day_heat_level" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="day_heat_start" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="day_heat_end" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="day_heat_avg" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="creator" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="updater" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, day_heat_sum, day_heat_level, day_heat_start, day_heat_end, day_heat_avg, create_time, 
+    creator, update_time, updater
+  </sql>
+  <select id="selectByExample" parameterType="com.unicom.model.IndexIntroExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from index_intro
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from index_intro
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from index_intro
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.unicom.model.IndexIntroExample">
+    delete from index_intro
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.unicom.model.IndexIntro" useGeneratedKeys="true">
+    insert into index_intro (day_heat_sum, day_heat_level, day_heat_start, 
+      day_heat_end, day_heat_avg, create_time, 
+      creator, update_time, updater
+      )
+    values (#{dayHeatSum,jdbcType=INTEGER}, #{dayHeatLevel,jdbcType=TINYINT}, #{dayHeatStart,jdbcType=VARCHAR}, 
+      #{dayHeatEnd,jdbcType=VARCHAR}, #{dayHeatAvg,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{creator,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updater,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.unicom.model.IndexIntro" useGeneratedKeys="true">
+    insert into index_intro
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="dayHeatSum != null">
+        day_heat_sum,
+      </if>
+      <if test="dayHeatLevel != null">
+        day_heat_level,
+      </if>
+      <if test="dayHeatStart != null">
+        day_heat_start,
+      </if>
+      <if test="dayHeatEnd != null">
+        day_heat_end,
+      </if>
+      <if test="dayHeatAvg != null">
+        day_heat_avg,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="creator != null">
+        creator,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updater != null">
+        updater,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="dayHeatSum != null">
+        #{dayHeatSum,jdbcType=INTEGER},
+      </if>
+      <if test="dayHeatLevel != null">
+        #{dayHeatLevel,jdbcType=TINYINT},
+      </if>
+      <if test="dayHeatStart != null">
+        #{dayHeatStart,jdbcType=VARCHAR},
+      </if>
+      <if test="dayHeatEnd != null">
+        #{dayHeatEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="dayHeatAvg != null">
+        #{dayHeatAvg,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updater != null">
+        #{updater,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByExampleSelective" parameterType="map">
+    update index_intro
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.dayHeatSum != null">
+        day_heat_sum = #{record.dayHeatSum,jdbcType=INTEGER},
+      </if>
+      <if test="record.dayHeatLevel != null">
+        day_heat_level = #{record.dayHeatLevel,jdbcType=TINYINT},
+      </if>
+      <if test="record.dayHeatStart != null">
+        day_heat_start = #{record.dayHeatStart,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dayHeatEnd != null">
+        day_heat_end = #{record.dayHeatEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dayHeatAvg != null">
+        day_heat_avg = #{record.dayHeatAvg,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.creator != null">
+        creator = #{record.creator,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updater != null">
+        updater = #{record.updater,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update index_intro
+    set id = #{record.id,jdbcType=INTEGER},
+      day_heat_sum = #{record.dayHeatSum,jdbcType=INTEGER},
+      day_heat_level = #{record.dayHeatLevel,jdbcType=TINYINT},
+      day_heat_start = #{record.dayHeatStart,jdbcType=VARCHAR},
+      day_heat_end = #{record.dayHeatEnd,jdbcType=VARCHAR},
+      day_heat_avg = #{record.dayHeatAvg,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      creator = #{record.creator,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      updater = #{record.updater,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.unicom.model.IndexIntro">
+    update index_intro
+    <set>
+      <if test="dayHeatSum != null">
+        day_heat_sum = #{dayHeatSum,jdbcType=INTEGER},
+      </if>
+      <if test="dayHeatLevel != null">
+        day_heat_level = #{dayHeatLevel,jdbcType=TINYINT},
+      </if>
+      <if test="dayHeatStart != null">
+        day_heat_start = #{dayHeatStart,jdbcType=VARCHAR},
+      </if>
+      <if test="dayHeatEnd != null">
+        day_heat_end = #{dayHeatEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="dayHeatAvg != null">
+        day_heat_avg = #{dayHeatAvg,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updater != null">
+        updater = #{updater,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.unicom.model.IndexIntro">
+    update index_intro
+    set day_heat_sum = #{dayHeatSum,jdbcType=INTEGER},
+      day_heat_level = #{dayHeatLevel,jdbcType=TINYINT},
+      day_heat_start = #{dayHeatStart,jdbcType=VARCHAR},
+      day_heat_end = #{dayHeatEnd,jdbcType=VARCHAR},
+      day_heat_avg = #{dayHeatAvg,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      creator = #{creator,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      updater = #{updater,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

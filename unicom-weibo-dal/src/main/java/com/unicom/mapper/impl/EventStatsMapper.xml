@@ -1,0 +1,1350 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.unicom.mapper.EventStatsMapper">
+  <resultMap id="BaseResultMap" type="com.unicom.model.EventStats">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="event_id" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="effect_inf" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="effect_type_pro" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="effect_all_pro" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="effect_class_avg" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="weibo_inf" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="weibo_type_pro" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="weibo_all_pro" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="weibo_class_avg" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="weixin_inf" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="weixin_type_pro" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="weixin_all_pro" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="weixin_class_avg" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="media_inf" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="media_type_pro" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="media_all_pro" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="media_class_avg" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="media_num" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="ccp_media_in" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="ccp_type_pro" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="ccp_all_pro" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="ccp_class_avg" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="finance_media_in" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="finance_type_pro" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="finance_all_pro" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="finance_class_avg" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="tech_media_in" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="tech_type_pro" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="tech_all_pro" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="tech_class_avg" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="creator" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="updater" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, event_id, effect_inf, effect_type_pro, effect_all_pro, effect_class_avg, weibo_inf, 
+    weibo_type_pro, weibo_all_pro, weibo_class_avg, weixin_inf, weixin_type_pro, weixin_all_pro, 
+    weixin_class_avg, media_inf, media_type_pro, media_all_pro, media_class_avg, media_num, 
+    ccp_media_in, ccp_type_pro, ccp_all_pro, ccp_class_avg, finance_media_in, finance_type_pro, 
+    finance_all_pro, finance_class_avg, tech_media_in, tech_type_pro, tech_all_pro, tech_class_avg, 
+    create_time, creator, update_time, updater
+  </sql>
+  <select id="selectByExample" parameterType="com.unicom.model.EventStatsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from event_stats
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from event_stats
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from event_stats
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.unicom.model.EventStatsExample">
+    delete from event_stats
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.unicom.model.EventStats" useGeneratedKeys="true">
+    insert into event_stats (event_id, effect_inf, effect_type_pro, 
+      effect_all_pro, effect_class_avg, weibo_inf, 
+      weibo_type_pro, weibo_all_pro, weibo_class_avg, 
+      weixin_inf, weixin_type_pro, weixin_all_pro, 
+      weixin_class_avg, media_inf, media_type_pro, 
+      media_all_pro, media_class_avg, media_num, 
+      ccp_media_in, ccp_type_pro, ccp_all_pro, 
+      ccp_class_avg, finance_media_in, finance_type_pro, 
+      finance_all_pro, finance_class_avg, tech_media_in, 
+      tech_type_pro, tech_all_pro, tech_class_avg, 
+      create_time, creator, update_time, 
+      updater)
+    values (#{eventId,jdbcType=VARCHAR}, #{effectInf,jdbcType=DECIMAL}, #{effectTypePro,jdbcType=DECIMAL}, 
+      #{effectAllPro,jdbcType=DECIMAL}, #{effectClassAvg,jdbcType=DECIMAL}, #{weiboInf,jdbcType=DECIMAL}, 
+      #{weiboTypePro,jdbcType=DECIMAL}, #{weiboAllPro,jdbcType=DECIMAL}, #{weiboClassAvg,jdbcType=DECIMAL}, 
+      #{weixinInf,jdbcType=DECIMAL}, #{weixinTypePro,jdbcType=DECIMAL}, #{weixinAllPro,jdbcType=DECIMAL}, 
+      #{weixinClassAvg,jdbcType=DECIMAL}, #{mediaInf,jdbcType=DECIMAL}, #{mediaTypePro,jdbcType=DECIMAL}, 
+      #{mediaAllPro,jdbcType=DECIMAL}, #{mediaClassAvg,jdbcType=DECIMAL}, #{mediaNum,jdbcType=INTEGER}, 
+      #{ccpMediaIn,jdbcType=DECIMAL}, #{ccpTypePro,jdbcType=DECIMAL}, #{ccpAllPro,jdbcType=DECIMAL}, 
+      #{ccpClassAvg,jdbcType=DECIMAL}, #{financeMediaIn,jdbcType=DECIMAL}, #{financeTypePro,jdbcType=DECIMAL}, 
+      #{financeAllPro,jdbcType=DECIMAL}, #{financeClassAvg,jdbcType=DECIMAL}, #{techMediaIn,jdbcType=DECIMAL}, 
+      #{techTypePro,jdbcType=DECIMAL}, #{techAllPro,jdbcType=DECIMAL}, #{techClassAvg,jdbcType=DECIMAL}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updater,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.unicom.model.EventStats" useGeneratedKeys="true">
+    insert into event_stats
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="eventId != null">
+        event_id,
+      </if>
+      <if test="effectInf != null">
+        effect_inf,
+      </if>
+      <if test="effectTypePro != null">
+        effect_type_pro,
+      </if>
+      <if test="effectAllPro != null">
+        effect_all_pro,
+      </if>
+      <if test="effectClassAvg != null">
+        effect_class_avg,
+      </if>
+      <if test="weiboInf != null">
+        weibo_inf,
+      </if>
+      <if test="weiboTypePro != null">
+        weibo_type_pro,
+      </if>
+      <if test="weiboAllPro != null">
+        weibo_all_pro,
+      </if>
+      <if test="weiboClassAvg != null">
+        weibo_class_avg,
+      </if>
+      <if test="weixinInf != null">
+        weixin_inf,
+      </if>
+      <if test="weixinTypePro != null">
+        weixin_type_pro,
+      </if>
+      <if test="weixinAllPro != null">
+        weixin_all_pro,
+      </if>
+      <if test="weixinClassAvg != null">
+        weixin_class_avg,
+      </if>
+      <if test="mediaInf != null">
+        media_inf,
+      </if>
+      <if test="mediaTypePro != null">
+        media_type_pro,
+      </if>
+      <if test="mediaAllPro != null">
+        media_all_pro,
+      </if>
+      <if test="mediaClassAvg != null">
+        media_class_avg,
+      </if>
+      <if test="mediaNum != null">
+        media_num,
+      </if>
+      <if test="ccpMediaIn != null">
+        ccp_media_in,
+      </if>
+      <if test="ccpTypePro != null">
+        ccp_type_pro,
+      </if>
+      <if test="ccpAllPro != null">
+        ccp_all_pro,
+      </if>
+      <if test="ccpClassAvg != null">
+        ccp_class_avg,
+      </if>
+      <if test="financeMediaIn != null">
+        finance_media_in,
+      </if>
+      <if test="financeTypePro != null">
+        finance_type_pro,
+      </if>
+      <if test="financeAllPro != null">
+        finance_all_pro,
+      </if>
+      <if test="financeClassAvg != null">
+        finance_class_avg,
+      </if>
+      <if test="techMediaIn != null">
+        tech_media_in,
+      </if>
+      <if test="techTypePro != null">
+        tech_type_pro,
+      </if>
+      <if test="techAllPro != null">
+        tech_all_pro,
+      </if>
+      <if test="techClassAvg != null">
+        tech_class_avg,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="creator != null">
+        creator,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updater != null">
+        updater,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="eventId != null">
+        #{eventId,jdbcType=VARCHAR},
+      </if>
+      <if test="effectInf != null">
+        #{effectInf,jdbcType=DECIMAL},
+      </if>
+      <if test="effectTypePro != null">
+        #{effectTypePro,jdbcType=DECIMAL},
+      </if>
+      <if test="effectAllPro != null">
+        #{effectAllPro,jdbcType=DECIMAL},
+      </if>
+      <if test="effectClassAvg != null">
+        #{effectClassAvg,jdbcType=DECIMAL},
+      </if>
+      <if test="weiboInf != null">
+        #{weiboInf,jdbcType=DECIMAL},
+      </if>
+      <if test="weiboTypePro != null">
+        #{weiboTypePro,jdbcType=DECIMAL},
+      </if>
+      <if test="weiboAllPro != null">
+        #{weiboAllPro,jdbcType=DECIMAL},
+      </if>
+      <if test="weiboClassAvg != null">
+        #{weiboClassAvg,jdbcType=DECIMAL},
+      </if>
+      <if test="weixinInf != null">
+        #{weixinInf,jdbcType=DECIMAL},
+      </if>
+      <if test="weixinTypePro != null">
+        #{weixinTypePro,jdbcType=DECIMAL},
+      </if>
+      <if test="weixinAllPro != null">
+        #{weixinAllPro,jdbcType=DECIMAL},
+      </if>
+      <if test="weixinClassAvg != null">
+        #{weixinClassAvg,jdbcType=DECIMAL},
+      </if>
+      <if test="mediaInf != null">
+        #{mediaInf,jdbcType=DECIMAL},
+      </if>
+      <if test="mediaTypePro != null">
+        #{mediaTypePro,jdbcType=DECIMAL},
+      </if>
+      <if test="mediaAllPro != null">
+        #{mediaAllPro,jdbcType=DECIMAL},
+      </if>
+      <if test="mediaClassAvg != null">
+        #{mediaClassAvg,jdbcType=DECIMAL},
+      </if>
+      <if test="mediaNum != null">
+        #{mediaNum,jdbcType=INTEGER},
+      </if>
+      <if test="ccpMediaIn != null">
+        #{ccpMediaIn,jdbcType=DECIMAL},
+      </if>
+      <if test="ccpTypePro != null">
+        #{ccpTypePro,jdbcType=DECIMAL},
+      </if>
+      <if test="ccpAllPro != null">
+        #{ccpAllPro,jdbcType=DECIMAL},
+      </if>
+      <if test="ccpClassAvg != null">
+        #{ccpClassAvg,jdbcType=DECIMAL},
+      </if>
+      <if test="financeMediaIn != null">
+        #{financeMediaIn,jdbcType=DECIMAL},
+      </if>
+      <if test="financeTypePro != null">
+        #{financeTypePro,jdbcType=DECIMAL},
+      </if>
+      <if test="financeAllPro != null">
+        #{financeAllPro,jdbcType=DECIMAL},
+      </if>
+      <if test="financeClassAvg != null">
+        #{financeClassAvg,jdbcType=DECIMAL},
+      </if>
+      <if test="techMediaIn != null">
+        #{techMediaIn,jdbcType=DECIMAL},
+      </if>
+      <if test="techTypePro != null">
+        #{techTypePro,jdbcType=DECIMAL},
+      </if>
+      <if test="techAllPro != null">
+        #{techAllPro,jdbcType=DECIMAL},
+      </if>
+      <if test="techClassAvg != null">
+        #{techClassAvg,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updater != null">
+        #{updater,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByExampleSelective" parameterType="map">
+    update event_stats
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.eventId != null">
+        event_id = #{record.eventId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.effectInf != null">
+        effect_inf = #{record.effectInf,jdbcType=DECIMAL},
+      </if>
+      <if test="record.effectTypePro != null">
+        effect_type_pro = #{record.effectTypePro,jdbcType=DECIMAL},
+      </if>
+      <if test="record.effectAllPro != null">
+        effect_all_pro = #{record.effectAllPro,jdbcType=DECIMAL},
+      </if>
+      <if test="record.effectClassAvg != null">
+        effect_class_avg = #{record.effectClassAvg,jdbcType=DECIMAL},
+      </if>
+      <if test="record.weiboInf != null">
+        weibo_inf = #{record.weiboInf,jdbcType=DECIMAL},
+      </if>
+      <if test="record.weiboTypePro != null">
+        weibo_type_pro = #{record.weiboTypePro,jdbcType=DECIMAL},
+      </if>
+      <if test="record.weiboAllPro != null">
+        weibo_all_pro = #{record.weiboAllPro,jdbcType=DECIMAL},
+      </if>
+      <if test="record.weiboClassAvg != null">
+        weibo_class_avg = #{record.weiboClassAvg,jdbcType=DECIMAL},
+      </if>
+      <if test="record.weixinInf != null">
+        weixin_inf = #{record.weixinInf,jdbcType=DECIMAL},
+      </if>
+      <if test="record.weixinTypePro != null">
+        weixin_type_pro = #{record.weixinTypePro,jdbcType=DECIMAL},
+      </if>
+      <if test="record.weixinAllPro != null">
+        weixin_all_pro = #{record.weixinAllPro,jdbcType=DECIMAL},
+      </if>
+      <if test="record.weixinClassAvg != null">
+        weixin_class_avg = #{record.weixinClassAvg,jdbcType=DECIMAL},
+      </if>
+      <if test="record.mediaInf != null">
+        media_inf = #{record.mediaInf,jdbcType=DECIMAL},
+      </if>
+      <if test="record.mediaTypePro != null">
+        media_type_pro = #{record.mediaTypePro,jdbcType=DECIMAL},
+      </if>
+      <if test="record.mediaAllPro != null">
+        media_all_pro = #{record.mediaAllPro,jdbcType=DECIMAL},
+      </if>
+      <if test="record.mediaClassAvg != null">
+        media_class_avg = #{record.mediaClassAvg,jdbcType=DECIMAL},
+      </if>
+      <if test="record.mediaNum != null">
+        media_num = #{record.mediaNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.ccpMediaIn != null">
+        ccp_media_in = #{record.ccpMediaIn,jdbcType=DECIMAL},
+      </if>
+      <if test="record.ccpTypePro != null">
+        ccp_type_pro = #{record.ccpTypePro,jdbcType=DECIMAL},
+      </if>
+      <if test="record.ccpAllPro != null">
+        ccp_all_pro = #{record.ccpAllPro,jdbcType=DECIMAL},
+      </if>
+      <if test="record.ccpClassAvg != null">
+        ccp_class_avg = #{record.ccpClassAvg,jdbcType=DECIMAL},
+      </if>
+      <if test="record.financeMediaIn != null">
+        finance_media_in = #{record.financeMediaIn,jdbcType=DECIMAL},
+      </if>
+      <if test="record.financeTypePro != null">
+        finance_type_pro = #{record.financeTypePro,jdbcType=DECIMAL},
+      </if>
+      <if test="record.financeAllPro != null">
+        finance_all_pro = #{record.financeAllPro,jdbcType=DECIMAL},
+      </if>
+      <if test="record.financeClassAvg != null">
+        finance_class_avg = #{record.financeClassAvg,jdbcType=DECIMAL},
+      </if>
+      <if test="record.techMediaIn != null">
+        tech_media_in = #{record.techMediaIn,jdbcType=DECIMAL},
+      </if>
+      <if test="record.techTypePro != null">
+        tech_type_pro = #{record.techTypePro,jdbcType=DECIMAL},
+      </if>
+      <if test="record.techAllPro != null">
+        tech_all_pro = #{record.techAllPro,jdbcType=DECIMAL},
+      </if>
+      <if test="record.techClassAvg != null">
+        tech_class_avg = #{record.techClassAvg,jdbcType=DECIMAL},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.creator != null">
+        creator = #{record.creator,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updater != null">
+        updater = #{record.updater,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update event_stats
+    set id = #{record.id,jdbcType=INTEGER},
+      event_id = #{record.eventId,jdbcType=VARCHAR},
+      effect_inf = #{record.effectInf,jdbcType=DECIMAL},
+      effect_type_pro = #{record.effectTypePro,jdbcType=DECIMAL},
+      effect_all_pro = #{record.effectAllPro,jdbcType=DECIMAL},
+      effect_class_avg = #{record.effectClassAvg,jdbcType=DECIMAL},
+      weibo_inf = #{record.weiboInf,jdbcType=DECIMAL},
+      weibo_type_pro = #{record.weiboTypePro,jdbcType=DECIMAL},
+      weibo_all_pro = #{record.weiboAllPro,jdbcType=DECIMAL},
+      weibo_class_avg = #{record.weiboClassAvg,jdbcType=DECIMAL},
+      weixin_inf = #{record.weixinInf,jdbcType=DECIMAL},
+      weixin_type_pro = #{record.weixinTypePro,jdbcType=DECIMAL},
+      weixin_all_pro = #{record.weixinAllPro,jdbcType=DECIMAL},
+      weixin_class_avg = #{record.weixinClassAvg,jdbcType=DECIMAL},
+      media_inf = #{record.mediaInf,jdbcType=DECIMAL},
+      media_type_pro = #{record.mediaTypePro,jdbcType=DECIMAL},
+      media_all_pro = #{record.mediaAllPro,jdbcType=DECIMAL},
+      media_class_avg = #{record.mediaClassAvg,jdbcType=DECIMAL},
+      media_num = #{record.mediaNum,jdbcType=INTEGER},
+      ccp_media_in = #{record.ccpMediaIn,jdbcType=DECIMAL},
+      ccp_type_pro = #{record.ccpTypePro,jdbcType=DECIMAL},
+      ccp_all_pro = #{record.ccpAllPro,jdbcType=DECIMAL},
+      ccp_class_avg = #{record.ccpClassAvg,jdbcType=DECIMAL},
+      finance_media_in = #{record.financeMediaIn,jdbcType=DECIMAL},
+      finance_type_pro = #{record.financeTypePro,jdbcType=DECIMAL},
+      finance_all_pro = #{record.financeAllPro,jdbcType=DECIMAL},
+      finance_class_avg = #{record.financeClassAvg,jdbcType=DECIMAL},
+      tech_media_in = #{record.techMediaIn,jdbcType=DECIMAL},
+      tech_type_pro = #{record.techTypePro,jdbcType=DECIMAL},
+      tech_all_pro = #{record.techAllPro,jdbcType=DECIMAL},
+      tech_class_avg = #{record.techClassAvg,jdbcType=DECIMAL},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      creator = #{record.creator,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      updater = #{record.updater,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.unicom.model.EventStats">
+    update event_stats
+    <set>
+      <if test="eventId != null">
+        event_id = #{eventId,jdbcType=VARCHAR},
+      </if>
+      <if test="effectInf != null">
+        effect_inf = #{effectInf,jdbcType=DECIMAL},
+      </if>
+      <if test="effectTypePro != null">
+        effect_type_pro = #{effectTypePro,jdbcType=DECIMAL},
+      </if>
+      <if test="effectAllPro != null">
+        effect_all_pro = #{effectAllPro,jdbcType=DECIMAL},
+      </if>
+      <if test="effectClassAvg != null">
+        effect_class_avg = #{effectClassAvg,jdbcType=DECIMAL},
+      </if>
+      <if test="weiboInf != null">
+        weibo_inf = #{weiboInf,jdbcType=DECIMAL},
+      </if>
+      <if test="weiboTypePro != null">
+        weibo_type_pro = #{weiboTypePro,jdbcType=DECIMAL},
+      </if>
+      <if test="weiboAllPro != null">
+        weibo_all_pro = #{weiboAllPro,jdbcType=DECIMAL},
+      </if>
+      <if test="weiboClassAvg != null">
+        weibo_class_avg = #{weiboClassAvg,jdbcType=DECIMAL},
+      </if>
+      <if test="weixinInf != null">
+        weixin_inf = #{weixinInf,jdbcType=DECIMAL},
+      </if>
+      <if test="weixinTypePro != null">
+        weixin_type_pro = #{weixinTypePro,jdbcType=DECIMAL},
+      </if>
+      <if test="weixinAllPro != null">
+        weixin_all_pro = #{weixinAllPro,jdbcType=DECIMAL},
+      </if>
+      <if test="weixinClassAvg != null">
+        weixin_class_avg = #{weixinClassAvg,jdbcType=DECIMAL},
+      </if>
+      <if test="mediaInf != null">
+        media_inf = #{mediaInf,jdbcType=DECIMAL},
+      </if>
+      <if test="mediaTypePro != null">
+        media_type_pro = #{mediaTypePro,jdbcType=DECIMAL},
+      </if>
+      <if test="mediaAllPro != null">
+        media_all_pro = #{mediaAllPro,jdbcType=DECIMAL},
+      </if>
+      <if test="mediaClassAvg != null">
+        media_class_avg = #{mediaClassAvg,jdbcType=DECIMAL},
+      </if>
+      <if test="mediaNum != null">
+        media_num = #{mediaNum,jdbcType=INTEGER},
+      </if>
+      <if test="ccpMediaIn != null">
+        ccp_media_in = #{ccpMediaIn,jdbcType=DECIMAL},
+      </if>
+      <if test="ccpTypePro != null">
+        ccp_type_pro = #{ccpTypePro,jdbcType=DECIMAL},
+      </if>
+      <if test="ccpAllPro != null">
+        ccp_all_pro = #{ccpAllPro,jdbcType=DECIMAL},
+      </if>
+      <if test="ccpClassAvg != null">
+        ccp_class_avg = #{ccpClassAvg,jdbcType=DECIMAL},
+      </if>
+      <if test="financeMediaIn != null">
+        finance_media_in = #{financeMediaIn,jdbcType=DECIMAL},
+      </if>
+      <if test="financeTypePro != null">
+        finance_type_pro = #{financeTypePro,jdbcType=DECIMAL},
+      </if>
+      <if test="financeAllPro != null">
+        finance_all_pro = #{financeAllPro,jdbcType=DECIMAL},
+      </if>
+      <if test="financeClassAvg != null">
+        finance_class_avg = #{financeClassAvg,jdbcType=DECIMAL},
+      </if>
+      <if test="techMediaIn != null">
+        tech_media_in = #{techMediaIn,jdbcType=DECIMAL},
+      </if>
+      <if test="techTypePro != null">
+        tech_type_pro = #{techTypePro,jdbcType=DECIMAL},
+      </if>
+      <if test="techAllPro != null">
+        tech_all_pro = #{techAllPro,jdbcType=DECIMAL},
+      </if>
+      <if test="techClassAvg != null">
+        tech_class_avg = #{techClassAvg,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updater != null">
+        updater = #{updater,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.unicom.model.EventStats">
+    update event_stats
+    set event_id = #{eventId,jdbcType=VARCHAR},
+      effect_inf = #{effectInf,jdbcType=DECIMAL},
+      effect_type_pro = #{effectTypePro,jdbcType=DECIMAL},
+      effect_all_pro = #{effectAllPro,jdbcType=DECIMAL},
+      effect_class_avg = #{effectClassAvg,jdbcType=DECIMAL},
+      weibo_inf = #{weiboInf,jdbcType=DECIMAL},
+      weibo_type_pro = #{weiboTypePro,jdbcType=DECIMAL},
+      weibo_all_pro = #{weiboAllPro,jdbcType=DECIMAL},
+      weibo_class_avg = #{weiboClassAvg,jdbcType=DECIMAL},
+      weixin_inf = #{weixinInf,jdbcType=DECIMAL},
+      weixin_type_pro = #{weixinTypePro,jdbcType=DECIMAL},
+      weixin_all_pro = #{weixinAllPro,jdbcType=DECIMAL},
+      weixin_class_avg = #{weixinClassAvg,jdbcType=DECIMAL},
+      media_inf = #{mediaInf,jdbcType=DECIMAL},
+      media_type_pro = #{mediaTypePro,jdbcType=DECIMAL},
+      media_all_pro = #{mediaAllPro,jdbcType=DECIMAL},
+      media_class_avg = #{mediaClassAvg,jdbcType=DECIMAL},
+      media_num = #{mediaNum,jdbcType=INTEGER},
+      ccp_media_in = #{ccpMediaIn,jdbcType=DECIMAL},
+      ccp_type_pro = #{ccpTypePro,jdbcType=DECIMAL},
+      ccp_all_pro = #{ccpAllPro,jdbcType=DECIMAL},
+      ccp_class_avg = #{ccpClassAvg,jdbcType=DECIMAL},
+      finance_media_in = #{financeMediaIn,jdbcType=DECIMAL},
+      finance_type_pro = #{financeTypePro,jdbcType=DECIMAL},
+      finance_all_pro = #{financeAllPro,jdbcType=DECIMAL},
+      finance_class_avg = #{financeClassAvg,jdbcType=DECIMAL},
+      tech_media_in = #{techMediaIn,jdbcType=DECIMAL},
+      tech_type_pro = #{techTypePro,jdbcType=DECIMAL},
+      tech_all_pro = #{techAllPro,jdbcType=DECIMAL},
+      tech_class_avg = #{techClassAvg,jdbcType=DECIMAL},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      creator = #{creator,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      updater = #{updater,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.unicom.model.EventStats">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="event_id" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="effect_inf" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="effect_type_pro" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="effect_all_pro" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="effect_class_avg" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="weibo_inf" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="weibo_type_pro" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="weibo_all_pro" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="weibo_class_avg" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="weixin_inf" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="weixin_type_pro" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="weixin_all_pro" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="weixin_class_avg" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="media_inf" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="media_type_pro" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="media_all_pro" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="media_class_avg" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="media_num" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="ccp_media_in" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="ccp_type_pro" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="ccp_all_pro" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="ccp_class_avg" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="finance_media_in" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="finance_type_pro" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="finance_all_pro" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="finance_class_avg" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="tech_media_in" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="tech_type_pro" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="tech_all_pro" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="tech_class_avg" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="creator" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="updater" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, event_id, effect_inf, effect_type_pro, effect_all_pro, effect_class_avg, weibo_inf, 
+    weibo_type_pro, weibo_all_pro, weibo_class_avg, weixin_inf, weixin_type_pro, weixin_all_pro, 
+    weixin_class_avg, media_inf, media_type_pro, media_all_pro, media_class_avg, media_num, 
+    ccp_media_in, ccp_type_pro, ccp_all_pro, ccp_class_avg, finance_media_in, finance_type_pro, 
+    finance_all_pro, finance_class_avg, tech_media_in, tech_type_pro, tech_all_pro, tech_class_avg, 
+    create_time, creator, update_time, updater
+  </sql>
+  <select id="selectByExample" parameterType="com.unicom.model.EventStatsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from event_stats
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from event_stats
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from event_stats
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.unicom.model.EventStatsExample">
+    delete from event_stats
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.unicom.model.EventStats" useGeneratedKeys="true">
+    insert into event_stats (event_id, effect_inf, effect_type_pro, 
+      effect_all_pro, effect_class_avg, weibo_inf, 
+      weibo_type_pro, weibo_all_pro, weibo_class_avg, 
+      weixin_inf, weixin_type_pro, weixin_all_pro, 
+      weixin_class_avg, media_inf, media_type_pro, 
+      media_all_pro, media_class_avg, media_num, 
+      ccp_media_in, ccp_type_pro, ccp_all_pro, 
+      ccp_class_avg, finance_media_in, finance_type_pro, 
+      finance_all_pro, finance_class_avg, tech_media_in, 
+      tech_type_pro, tech_all_pro, tech_class_avg, 
+      create_time, creator, update_time, 
+      updater)
+    values (#{eventId,jdbcType=VARCHAR}, #{effectInf,jdbcType=DECIMAL}, #{effectTypePro,jdbcType=DECIMAL}, 
+      #{effectAllPro,jdbcType=DECIMAL}, #{effectClassAvg,jdbcType=DECIMAL}, #{weiboInf,jdbcType=DECIMAL}, 
+      #{weiboTypePro,jdbcType=DECIMAL}, #{weiboAllPro,jdbcType=DECIMAL}, #{weiboClassAvg,jdbcType=DECIMAL}, 
+      #{weixinInf,jdbcType=DECIMAL}, #{weixinTypePro,jdbcType=DECIMAL}, #{weixinAllPro,jdbcType=DECIMAL}, 
+      #{weixinClassAvg,jdbcType=DECIMAL}, #{mediaInf,jdbcType=DECIMAL}, #{mediaTypePro,jdbcType=DECIMAL}, 
+      #{mediaAllPro,jdbcType=DECIMAL}, #{mediaClassAvg,jdbcType=DECIMAL}, #{mediaNum,jdbcType=INTEGER}, 
+      #{ccpMediaIn,jdbcType=DECIMAL}, #{ccpTypePro,jdbcType=DECIMAL}, #{ccpAllPro,jdbcType=DECIMAL}, 
+      #{ccpClassAvg,jdbcType=DECIMAL}, #{financeMediaIn,jdbcType=DECIMAL}, #{financeTypePro,jdbcType=DECIMAL}, 
+      #{financeAllPro,jdbcType=DECIMAL}, #{financeClassAvg,jdbcType=DECIMAL}, #{techMediaIn,jdbcType=DECIMAL}, 
+      #{techTypePro,jdbcType=DECIMAL}, #{techAllPro,jdbcType=DECIMAL}, #{techClassAvg,jdbcType=DECIMAL}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updater,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.unicom.model.EventStats" useGeneratedKeys="true">
+    insert into event_stats
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="eventId != null">
+        event_id,
+      </if>
+      <if test="effectInf != null">
+        effect_inf,
+      </if>
+      <if test="effectTypePro != null">
+        effect_type_pro,
+      </if>
+      <if test="effectAllPro != null">
+        effect_all_pro,
+      </if>
+      <if test="effectClassAvg != null">
+        effect_class_avg,
+      </if>
+      <if test="weiboInf != null">
+        weibo_inf,
+      </if>
+      <if test="weiboTypePro != null">
+        weibo_type_pro,
+      </if>
+      <if test="weiboAllPro != null">
+        weibo_all_pro,
+      </if>
+      <if test="weiboClassAvg != null">
+        weibo_class_avg,
+      </if>
+      <if test="weixinInf != null">
+        weixin_inf,
+      </if>
+      <if test="weixinTypePro != null">
+        weixin_type_pro,
+      </if>
+      <if test="weixinAllPro != null">
+        weixin_all_pro,
+      </if>
+      <if test="weixinClassAvg != null">
+        weixin_class_avg,
+      </if>
+      <if test="mediaInf != null">
+        media_inf,
+      </if>
+      <if test="mediaTypePro != null">
+        media_type_pro,
+      </if>
+      <if test="mediaAllPro != null">
+        media_all_pro,
+      </if>
+      <if test="mediaClassAvg != null">
+        media_class_avg,
+      </if>
+      <if test="mediaNum != null">
+        media_num,
+      </if>
+      <if test="ccpMediaIn != null">
+        ccp_media_in,
+      </if>
+      <if test="ccpTypePro != null">
+        ccp_type_pro,
+      </if>
+      <if test="ccpAllPro != null">
+        ccp_all_pro,
+      </if>
+      <if test="ccpClassAvg != null">
+        ccp_class_avg,
+      </if>
+      <if test="financeMediaIn != null">
+        finance_media_in,
+      </if>
+      <if test="financeTypePro != null">
+        finance_type_pro,
+      </if>
+      <if test="financeAllPro != null">
+        finance_all_pro,
+      </if>
+      <if test="financeClassAvg != null">
+        finance_class_avg,
+      </if>
+      <if test="techMediaIn != null">
+        tech_media_in,
+      </if>
+      <if test="techTypePro != null">
+        tech_type_pro,
+      </if>
+      <if test="techAllPro != null">
+        tech_all_pro,
+      </if>
+      <if test="techClassAvg != null">
+        tech_class_avg,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="creator != null">
+        creator,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updater != null">
+        updater,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="eventId != null">
+        #{eventId,jdbcType=VARCHAR},
+      </if>
+      <if test="effectInf != null">
+        #{effectInf,jdbcType=DECIMAL},
+      </if>
+      <if test="effectTypePro != null">
+        #{effectTypePro,jdbcType=DECIMAL},
+      </if>
+      <if test="effectAllPro != null">
+        #{effectAllPro,jdbcType=DECIMAL},
+      </if>
+      <if test="effectClassAvg != null">
+        #{effectClassAvg,jdbcType=DECIMAL},
+      </if>
+      <if test="weiboInf != null">
+        #{weiboInf,jdbcType=DECIMAL},
+      </if>
+      <if test="weiboTypePro != null">
+        #{weiboTypePro,jdbcType=DECIMAL},
+      </if>
+      <if test="weiboAllPro != null">
+        #{weiboAllPro,jdbcType=DECIMAL},
+      </if>
+      <if test="weiboClassAvg != null">
+        #{weiboClassAvg,jdbcType=DECIMAL},
+      </if>
+      <if test="weixinInf != null">
+        #{weixinInf,jdbcType=DECIMAL},
+      </if>
+      <if test="weixinTypePro != null">
+        #{weixinTypePro,jdbcType=DECIMAL},
+      </if>
+      <if test="weixinAllPro != null">
+        #{weixinAllPro,jdbcType=DECIMAL},
+      </if>
+      <if test="weixinClassAvg != null">
+        #{weixinClassAvg,jdbcType=DECIMAL},
+      </if>
+      <if test="mediaInf != null">
+        #{mediaInf,jdbcType=DECIMAL},
+      </if>
+      <if test="mediaTypePro != null">
+        #{mediaTypePro,jdbcType=DECIMAL},
+      </if>
+      <if test="mediaAllPro != null">
+        #{mediaAllPro,jdbcType=DECIMAL},
+      </if>
+      <if test="mediaClassAvg != null">
+        #{mediaClassAvg,jdbcType=DECIMAL},
+      </if>
+      <if test="mediaNum != null">
+        #{mediaNum,jdbcType=INTEGER},
+      </if>
+      <if test="ccpMediaIn != null">
+        #{ccpMediaIn,jdbcType=DECIMAL},
+      </if>
+      <if test="ccpTypePro != null">
+        #{ccpTypePro,jdbcType=DECIMAL},
+      </if>
+      <if test="ccpAllPro != null">
+        #{ccpAllPro,jdbcType=DECIMAL},
+      </if>
+      <if test="ccpClassAvg != null">
+        #{ccpClassAvg,jdbcType=DECIMAL},
+      </if>
+      <if test="financeMediaIn != null">
+        #{financeMediaIn,jdbcType=DECIMAL},
+      </if>
+      <if test="financeTypePro != null">
+        #{financeTypePro,jdbcType=DECIMAL},
+      </if>
+      <if test="financeAllPro != null">
+        #{financeAllPro,jdbcType=DECIMAL},
+      </if>
+      <if test="financeClassAvg != null">
+        #{financeClassAvg,jdbcType=DECIMAL},
+      </if>
+      <if test="techMediaIn != null">
+        #{techMediaIn,jdbcType=DECIMAL},
+      </if>
+      <if test="techTypePro != null">
+        #{techTypePro,jdbcType=DECIMAL},
+      </if>
+      <if test="techAllPro != null">
+        #{techAllPro,jdbcType=DECIMAL},
+      </if>
+      <if test="techClassAvg != null">
+        #{techClassAvg,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updater != null">
+        #{updater,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByExampleSelective" parameterType="map">
+    update event_stats
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.eventId != null">
+        event_id = #{record.eventId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.effectInf != null">
+        effect_inf = #{record.effectInf,jdbcType=DECIMAL},
+      </if>
+      <if test="record.effectTypePro != null">
+        effect_type_pro = #{record.effectTypePro,jdbcType=DECIMAL},
+      </if>
+      <if test="record.effectAllPro != null">
+        effect_all_pro = #{record.effectAllPro,jdbcType=DECIMAL},
+      </if>
+      <if test="record.effectClassAvg != null">
+        effect_class_avg = #{record.effectClassAvg,jdbcType=DECIMAL},
+      </if>
+      <if test="record.weiboInf != null">
+        weibo_inf = #{record.weiboInf,jdbcType=DECIMAL},
+      </if>
+      <if test="record.weiboTypePro != null">
+        weibo_type_pro = #{record.weiboTypePro,jdbcType=DECIMAL},
+      </if>
+      <if test="record.weiboAllPro != null">
+        weibo_all_pro = #{record.weiboAllPro,jdbcType=DECIMAL},
+      </if>
+      <if test="record.weiboClassAvg != null">
+        weibo_class_avg = #{record.weiboClassAvg,jdbcType=DECIMAL},
+      </if>
+      <if test="record.weixinInf != null">
+        weixin_inf = #{record.weixinInf,jdbcType=DECIMAL},
+      </if>
+      <if test="record.weixinTypePro != null">
+        weixin_type_pro = #{record.weixinTypePro,jdbcType=DECIMAL},
+      </if>
+      <if test="record.weixinAllPro != null">
+        weixin_all_pro = #{record.weixinAllPro,jdbcType=DECIMAL},
+      </if>
+      <if test="record.weixinClassAvg != null">
+        weixin_class_avg = #{record.weixinClassAvg,jdbcType=DECIMAL},
+      </if>
+      <if test="record.mediaInf != null">
+        media_inf = #{record.mediaInf,jdbcType=DECIMAL},
+      </if>
+      <if test="record.mediaTypePro != null">
+        media_type_pro = #{record.mediaTypePro,jdbcType=DECIMAL},
+      </if>
+      <if test="record.mediaAllPro != null">
+        media_all_pro = #{record.mediaAllPro,jdbcType=DECIMAL},
+      </if>
+      <if test="record.mediaClassAvg != null">
+        media_class_avg = #{record.mediaClassAvg,jdbcType=DECIMAL},
+      </if>
+      <if test="record.mediaNum != null">
+        media_num = #{record.mediaNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.ccpMediaIn != null">
+        ccp_media_in = #{record.ccpMediaIn,jdbcType=DECIMAL},
+      </if>
+      <if test="record.ccpTypePro != null">
+        ccp_type_pro = #{record.ccpTypePro,jdbcType=DECIMAL},
+      </if>
+      <if test="record.ccpAllPro != null">
+        ccp_all_pro = #{record.ccpAllPro,jdbcType=DECIMAL},
+      </if>
+      <if test="record.ccpClassAvg != null">
+        ccp_class_avg = #{record.ccpClassAvg,jdbcType=DECIMAL},
+      </if>
+      <if test="record.financeMediaIn != null">
+        finance_media_in = #{record.financeMediaIn,jdbcType=DECIMAL},
+      </if>
+      <if test="record.financeTypePro != null">
+        finance_type_pro = #{record.financeTypePro,jdbcType=DECIMAL},
+      </if>
+      <if test="record.financeAllPro != null">
+        finance_all_pro = #{record.financeAllPro,jdbcType=DECIMAL},
+      </if>
+      <if test="record.financeClassAvg != null">
+        finance_class_avg = #{record.financeClassAvg,jdbcType=DECIMAL},
+      </if>
+      <if test="record.techMediaIn != null">
+        tech_media_in = #{record.techMediaIn,jdbcType=DECIMAL},
+      </if>
+      <if test="record.techTypePro != null">
+        tech_type_pro = #{record.techTypePro,jdbcType=DECIMAL},
+      </if>
+      <if test="record.techAllPro != null">
+        tech_all_pro = #{record.techAllPro,jdbcType=DECIMAL},
+      </if>
+      <if test="record.techClassAvg != null">
+        tech_class_avg = #{record.techClassAvg,jdbcType=DECIMAL},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.creator != null">
+        creator = #{record.creator,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updater != null">
+        updater = #{record.updater,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update event_stats
+    set id = #{record.id,jdbcType=INTEGER},
+      event_id = #{record.eventId,jdbcType=VARCHAR},
+      effect_inf = #{record.effectInf,jdbcType=DECIMAL},
+      effect_type_pro = #{record.effectTypePro,jdbcType=DECIMAL},
+      effect_all_pro = #{record.effectAllPro,jdbcType=DECIMAL},
+      effect_class_avg = #{record.effectClassAvg,jdbcType=DECIMAL},
+      weibo_inf = #{record.weiboInf,jdbcType=DECIMAL},
+      weibo_type_pro = #{record.weiboTypePro,jdbcType=DECIMAL},
+      weibo_all_pro = #{record.weiboAllPro,jdbcType=DECIMAL},
+      weibo_class_avg = #{record.weiboClassAvg,jdbcType=DECIMAL},
+      weixin_inf = #{record.weixinInf,jdbcType=DECIMAL},
+      weixin_type_pro = #{record.weixinTypePro,jdbcType=DECIMAL},
+      weixin_all_pro = #{record.weixinAllPro,jdbcType=DECIMAL},
+      weixin_class_avg = #{record.weixinClassAvg,jdbcType=DECIMAL},
+      media_inf = #{record.mediaInf,jdbcType=DECIMAL},
+      media_type_pro = #{record.mediaTypePro,jdbcType=DECIMAL},
+      media_all_pro = #{record.mediaAllPro,jdbcType=DECIMAL},
+      media_class_avg = #{record.mediaClassAvg,jdbcType=DECIMAL},
+      media_num = #{record.mediaNum,jdbcType=INTEGER},
+      ccp_media_in = #{record.ccpMediaIn,jdbcType=DECIMAL},
+      ccp_type_pro = #{record.ccpTypePro,jdbcType=DECIMAL},
+      ccp_all_pro = #{record.ccpAllPro,jdbcType=DECIMAL},
+      ccp_class_avg = #{record.ccpClassAvg,jdbcType=DECIMAL},
+      finance_media_in = #{record.financeMediaIn,jdbcType=DECIMAL},
+      finance_type_pro = #{record.financeTypePro,jdbcType=DECIMAL},
+      finance_all_pro = #{record.financeAllPro,jdbcType=DECIMAL},
+      finance_class_avg = #{record.financeClassAvg,jdbcType=DECIMAL},
+      tech_media_in = #{record.techMediaIn,jdbcType=DECIMAL},
+      tech_type_pro = #{record.techTypePro,jdbcType=DECIMAL},
+      tech_all_pro = #{record.techAllPro,jdbcType=DECIMAL},
+      tech_class_avg = #{record.techClassAvg,jdbcType=DECIMAL},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      creator = #{record.creator,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      updater = #{record.updater,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.unicom.model.EventStats">
+    update event_stats
+    <set>
+      <if test="eventId != null">
+        event_id = #{eventId,jdbcType=VARCHAR},
+      </if>
+      <if test="effectInf != null">
+        effect_inf = #{effectInf,jdbcType=DECIMAL},
+      </if>
+      <if test="effectTypePro != null">
+        effect_type_pro = #{effectTypePro,jdbcType=DECIMAL},
+      </if>
+      <if test="effectAllPro != null">
+        effect_all_pro = #{effectAllPro,jdbcType=DECIMAL},
+      </if>
+      <if test="effectClassAvg != null">
+        effect_class_avg = #{effectClassAvg,jdbcType=DECIMAL},
+      </if>
+      <if test="weiboInf != null">
+        weibo_inf = #{weiboInf,jdbcType=DECIMAL},
+      </if>
+      <if test="weiboTypePro != null">
+        weibo_type_pro = #{weiboTypePro,jdbcType=DECIMAL},
+      </if>
+      <if test="weiboAllPro != null">
+        weibo_all_pro = #{weiboAllPro,jdbcType=DECIMAL},
+      </if>
+      <if test="weiboClassAvg != null">
+        weibo_class_avg = #{weiboClassAvg,jdbcType=DECIMAL},
+      </if>
+      <if test="weixinInf != null">
+        weixin_inf = #{weixinInf,jdbcType=DECIMAL},
+      </if>
+      <if test="weixinTypePro != null">
+        weixin_type_pro = #{weixinTypePro,jdbcType=DECIMAL},
+      </if>
+      <if test="weixinAllPro != null">
+        weixin_all_pro = #{weixinAllPro,jdbcType=DECIMAL},
+      </if>
+      <if test="weixinClassAvg != null">
+        weixin_class_avg = #{weixinClassAvg,jdbcType=DECIMAL},
+      </if>
+      <if test="mediaInf != null">
+        media_inf = #{mediaInf,jdbcType=DECIMAL},
+      </if>
+      <if test="mediaTypePro != null">
+        media_type_pro = #{mediaTypePro,jdbcType=DECIMAL},
+      </if>
+      <if test="mediaAllPro != null">
+        media_all_pro = #{mediaAllPro,jdbcType=DECIMAL},
+      </if>
+      <if test="mediaClassAvg != null">
+        media_class_avg = #{mediaClassAvg,jdbcType=DECIMAL},
+      </if>
+      <if test="mediaNum != null">
+        media_num = #{mediaNum,jdbcType=INTEGER},
+      </if>
+      <if test="ccpMediaIn != null">
+        ccp_media_in = #{ccpMediaIn,jdbcType=DECIMAL},
+      </if>
+      <if test="ccpTypePro != null">
+        ccp_type_pro = #{ccpTypePro,jdbcType=DECIMAL},
+      </if>
+      <if test="ccpAllPro != null">
+        ccp_all_pro = #{ccpAllPro,jdbcType=DECIMAL},
+      </if>
+      <if test="ccpClassAvg != null">
+        ccp_class_avg = #{ccpClassAvg,jdbcType=DECIMAL},
+      </if>
+      <if test="financeMediaIn != null">
+        finance_media_in = #{financeMediaIn,jdbcType=DECIMAL},
+      </if>
+      <if test="financeTypePro != null">
+        finance_type_pro = #{financeTypePro,jdbcType=DECIMAL},
+      </if>
+      <if test="financeAllPro != null">
+        finance_all_pro = #{financeAllPro,jdbcType=DECIMAL},
+      </if>
+      <if test="financeClassAvg != null">
+        finance_class_avg = #{financeClassAvg,jdbcType=DECIMAL},
+      </if>
+      <if test="techMediaIn != null">
+        tech_media_in = #{techMediaIn,jdbcType=DECIMAL},
+      </if>
+      <if test="techTypePro != null">
+        tech_type_pro = #{techTypePro,jdbcType=DECIMAL},
+      </if>
+      <if test="techAllPro != null">
+        tech_all_pro = #{techAllPro,jdbcType=DECIMAL},
+      </if>
+      <if test="techClassAvg != null">
+        tech_class_avg = #{techClassAvg,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updater != null">
+        updater = #{updater,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.unicom.model.EventStats">
+    update event_stats
+    set event_id = #{eventId,jdbcType=VARCHAR},
+      effect_inf = #{effectInf,jdbcType=DECIMAL},
+      effect_type_pro = #{effectTypePro,jdbcType=DECIMAL},
+      effect_all_pro = #{effectAllPro,jdbcType=DECIMAL},
+      effect_class_avg = #{effectClassAvg,jdbcType=DECIMAL},
+      weibo_inf = #{weiboInf,jdbcType=DECIMAL},
+      weibo_type_pro = #{weiboTypePro,jdbcType=DECIMAL},
+      weibo_all_pro = #{weiboAllPro,jdbcType=DECIMAL},
+      weibo_class_avg = #{weiboClassAvg,jdbcType=DECIMAL},
+      weixin_inf = #{weixinInf,jdbcType=DECIMAL},
+      weixin_type_pro = #{weixinTypePro,jdbcType=DECIMAL},
+      weixin_all_pro = #{weixinAllPro,jdbcType=DECIMAL},
+      weixin_class_avg = #{weixinClassAvg,jdbcType=DECIMAL},
+      media_inf = #{mediaInf,jdbcType=DECIMAL},
+      media_type_pro = #{mediaTypePro,jdbcType=DECIMAL},
+      media_all_pro = #{mediaAllPro,jdbcType=DECIMAL},
+      media_class_avg = #{mediaClassAvg,jdbcType=DECIMAL},
+      media_num = #{mediaNum,jdbcType=INTEGER},
+      ccp_media_in = #{ccpMediaIn,jdbcType=DECIMAL},
+      ccp_type_pro = #{ccpTypePro,jdbcType=DECIMAL},
+      ccp_all_pro = #{ccpAllPro,jdbcType=DECIMAL},
+      ccp_class_avg = #{ccpClassAvg,jdbcType=DECIMAL},
+      finance_media_in = #{financeMediaIn,jdbcType=DECIMAL},
+      finance_type_pro = #{financeTypePro,jdbcType=DECIMAL},
+      finance_all_pro = #{financeAllPro,jdbcType=DECIMAL},
+      finance_class_avg = #{financeClassAvg,jdbcType=DECIMAL},
+      tech_media_in = #{techMediaIn,jdbcType=DECIMAL},
+      tech_type_pro = #{techTypePro,jdbcType=DECIMAL},
+      tech_all_pro = #{techAllPro,jdbcType=DECIMAL},
+      tech_class_avg = #{techClassAvg,jdbcType=DECIMAL},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      creator = #{creator,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      updater = #{updater,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

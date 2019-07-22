@@ -1,0 +1,590 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.unicom.mapper.EventHeatRatioMapper">
+  <resultMap id="BaseResultMap" type="com.unicom.model.EventHeatRatio">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="event_id" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="heat_type" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="time_point" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="heat_value" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="point" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="pro" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="creator" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="updater" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, event_id, heat_type, time_point, heat_value, point, pro, create_time, creator, 
+    update_time, updater
+  </sql>
+  <select id="selectByExample" parameterType="com.unicom.model.EventHeatRatioExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from event_heat_ratio
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from event_heat_ratio
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from event_heat_ratio
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.unicom.model.EventHeatRatioExample">
+    delete from event_heat_ratio
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.unicom.model.EventHeatRatio" useGeneratedKeys="true">
+    insert into event_heat_ratio (event_id, heat_type, time_point, 
+      heat_value, point, pro, 
+      create_time, creator, update_time, 
+      updater)
+    values (#{eventId,jdbcType=VARCHAR}, #{heatType,jdbcType=TINYINT}, #{timePoint,jdbcType=VARCHAR}, 
+      #{heatValue,jdbcType=DECIMAL}, #{point,jdbcType=INTEGER}, #{pro,jdbcType=DECIMAL}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updater,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.unicom.model.EventHeatRatio" useGeneratedKeys="true">
+    insert into event_heat_ratio
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="eventId != null">
+        event_id,
+      </if>
+      <if test="heatType != null">
+        heat_type,
+      </if>
+      <if test="timePoint != null">
+        time_point,
+      </if>
+      <if test="heatValue != null">
+        heat_value,
+      </if>
+      <if test="point != null">
+        point,
+      </if>
+      <if test="pro != null">
+        pro,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="creator != null">
+        creator,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updater != null">
+        updater,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="eventId != null">
+        #{eventId,jdbcType=VARCHAR},
+      </if>
+      <if test="heatType != null">
+        #{heatType,jdbcType=TINYINT},
+      </if>
+      <if test="timePoint != null">
+        #{timePoint,jdbcType=VARCHAR},
+      </if>
+      <if test="heatValue != null">
+        #{heatValue,jdbcType=DECIMAL},
+      </if>
+      <if test="point != null">
+        #{point,jdbcType=INTEGER},
+      </if>
+      <if test="pro != null">
+        #{pro,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updater != null">
+        #{updater,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByExampleSelective" parameterType="map">
+    update event_heat_ratio
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.eventId != null">
+        event_id = #{record.eventId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.heatType != null">
+        heat_type = #{record.heatType,jdbcType=TINYINT},
+      </if>
+      <if test="record.timePoint != null">
+        time_point = #{record.timePoint,jdbcType=VARCHAR},
+      </if>
+      <if test="record.heatValue != null">
+        heat_value = #{record.heatValue,jdbcType=DECIMAL},
+      </if>
+      <if test="record.point != null">
+        point = #{record.point,jdbcType=INTEGER},
+      </if>
+      <if test="record.pro != null">
+        pro = #{record.pro,jdbcType=DECIMAL},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.creator != null">
+        creator = #{record.creator,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updater != null">
+        updater = #{record.updater,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update event_heat_ratio
+    set id = #{record.id,jdbcType=INTEGER},
+      event_id = #{record.eventId,jdbcType=VARCHAR},
+      heat_type = #{record.heatType,jdbcType=TINYINT},
+      time_point = #{record.timePoint,jdbcType=VARCHAR},
+      heat_value = #{record.heatValue,jdbcType=DECIMAL},
+      point = #{record.point,jdbcType=INTEGER},
+      pro = #{record.pro,jdbcType=DECIMAL},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      creator = #{record.creator,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      updater = #{record.updater,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.unicom.model.EventHeatRatio">
+    update event_heat_ratio
+    <set>
+      <if test="eventId != null">
+        event_id = #{eventId,jdbcType=VARCHAR},
+      </if>
+      <if test="heatType != null">
+        heat_type = #{heatType,jdbcType=TINYINT},
+      </if>
+      <if test="timePoint != null">
+        time_point = #{timePoint,jdbcType=VARCHAR},
+      </if>
+      <if test="heatValue != null">
+        heat_value = #{heatValue,jdbcType=DECIMAL},
+      </if>
+      <if test="point != null">
+        point = #{point,jdbcType=INTEGER},
+      </if>
+      <if test="pro != null">
+        pro = #{pro,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updater != null">
+        updater = #{updater,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.unicom.model.EventHeatRatio">
+    update event_heat_ratio
+    set event_id = #{eventId,jdbcType=VARCHAR},
+      heat_type = #{heatType,jdbcType=TINYINT},
+      time_point = #{timePoint,jdbcType=VARCHAR},
+      heat_value = #{heatValue,jdbcType=DECIMAL},
+      point = #{point,jdbcType=INTEGER},
+      pro = #{pro,jdbcType=DECIMAL},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      creator = #{creator,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      updater = #{updater,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.unicom.model.EventHeatRatio">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="event_id" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="heat_type" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="time_point" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="heat_value" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="point" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="pro" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="creator" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="updater" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, event_id, heat_type, time_point, heat_value, point, pro, create_time, creator, 
+    update_time, updater
+  </sql>
+  <select id="selectByExample" parameterType="com.unicom.model.EventHeatRatioExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from event_heat_ratio
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from event_heat_ratio
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from event_heat_ratio
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.unicom.model.EventHeatRatioExample">
+    delete from event_heat_ratio
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.unicom.model.EventHeatRatio" useGeneratedKeys="true">
+    insert into event_heat_ratio (event_id, heat_type, time_point, 
+      heat_value, point, pro, 
+      create_time, creator, update_time, 
+      updater)
+    values (#{eventId,jdbcType=VARCHAR}, #{heatType,jdbcType=TINYINT}, #{timePoint,jdbcType=VARCHAR}, 
+      #{heatValue,jdbcType=DECIMAL}, #{point,jdbcType=INTEGER}, #{pro,jdbcType=DECIMAL}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updater,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.unicom.model.EventHeatRatio" useGeneratedKeys="true">
+    insert into event_heat_ratio
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="eventId != null">
+        event_id,
+      </if>
+      <if test="heatType != null">
+        heat_type,
+      </if>
+      <if test="timePoint != null">
+        time_point,
+      </if>
+      <if test="heatValue != null">
+        heat_value,
+      </if>
+      <if test="point != null">
+        point,
+      </if>
+      <if test="pro != null">
+        pro,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="creator != null">
+        creator,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updater != null">
+        updater,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="eventId != null">
+        #{eventId,jdbcType=VARCHAR},
+      </if>
+      <if test="heatType != null">
+        #{heatType,jdbcType=TINYINT},
+      </if>
+      <if test="timePoint != null">
+        #{timePoint,jdbcType=VARCHAR},
+      </if>
+      <if test="heatValue != null">
+        #{heatValue,jdbcType=DECIMAL},
+      </if>
+      <if test="point != null">
+        #{point,jdbcType=INTEGER},
+      </if>
+      <if test="pro != null">
+        #{pro,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updater != null">
+        #{updater,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByExampleSelective" parameterType="map">
+    update event_heat_ratio
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.eventId != null">
+        event_id = #{record.eventId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.heatType != null">
+        heat_type = #{record.heatType,jdbcType=TINYINT},
+      </if>
+      <if test="record.timePoint != null">
+        time_point = #{record.timePoint,jdbcType=VARCHAR},
+      </if>
+      <if test="record.heatValue != null">
+        heat_value = #{record.heatValue,jdbcType=DECIMAL},
+      </if>
+      <if test="record.point != null">
+        point = #{record.point,jdbcType=INTEGER},
+      </if>
+      <if test="record.pro != null">
+        pro = #{record.pro,jdbcType=DECIMAL},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.creator != null">
+        creator = #{record.creator,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updater != null">
+        updater = #{record.updater,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update event_heat_ratio
+    set id = #{record.id,jdbcType=INTEGER},
+      event_id = #{record.eventId,jdbcType=VARCHAR},
+      heat_type = #{record.heatType,jdbcType=TINYINT},
+      time_point = #{record.timePoint,jdbcType=VARCHAR},
+      heat_value = #{record.heatValue,jdbcType=DECIMAL},
+      point = #{record.point,jdbcType=INTEGER},
+      pro = #{record.pro,jdbcType=DECIMAL},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      creator = #{record.creator,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      updater = #{record.updater,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.unicom.model.EventHeatRatio">
+    update event_heat_ratio
+    <set>
+      <if test="eventId != null">
+        event_id = #{eventId,jdbcType=VARCHAR},
+      </if>
+      <if test="heatType != null">
+        heat_type = #{heatType,jdbcType=TINYINT},
+      </if>
+      <if test="timePoint != null">
+        time_point = #{timePoint,jdbcType=VARCHAR},
+      </if>
+      <if test="heatValue != null">
+        heat_value = #{heatValue,jdbcType=DECIMAL},
+      </if>
+      <if test="point != null">
+        point = #{point,jdbcType=INTEGER},
+      </if>
+      <if test="pro != null">
+        pro = #{pro,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updater != null">
+        updater = #{updater,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.unicom.model.EventHeatRatio">
+    update event_heat_ratio
+    set event_id = #{eventId,jdbcType=VARCHAR},
+      heat_type = #{heatType,jdbcType=TINYINT},
+      time_point = #{timePoint,jdbcType=VARCHAR},
+      heat_value = #{heatValue,jdbcType=DECIMAL},
+      point = #{point,jdbcType=INTEGER},
+      pro = #{pro,jdbcType=DECIMAL},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      creator = #{creator,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      updater = #{updater,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
