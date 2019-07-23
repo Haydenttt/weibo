@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 
 <generatorConfiguration>
-    <properties resource="config.properties"/>
+    <properties resource="./src/main/resources/config.properties"/>
 
     <context id="Mysql" targetRuntime="MyBatis3Simple" defaultModelType="flat">
         <property name="beginningDelimiter" value="`"/>
@@ -16,10 +16,10 @@
             <property name="caseSensitive" value="true"/>
         </plugin>
 
-        <jdbcConnection driverClass="${jdbc.driverClass}"
-                        connectionURL="${jdbc.url}"
-                        userId="${jdbc.user}"
-                        password="${jdbc.password}">
+        <jdbcConnection driverClass="${datasource.driver-class-name}"
+                        connectionURL="${datasource.url}"
+                        userId="${datasource.mysql-user-name}"
+                        password="${datasource.mysql-password}">
         </jdbcConnection>
 
         <javaModelGenerator targetPackage="com.unicom.model"
