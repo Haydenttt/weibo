@@ -1,6 +1,6 @@
 package com.unicom.exception;
 
-public enum EmBusinessError implements CommonError {
+public enum EmWeiboError implements CommonError {
     //通用错误类型
     PARAMETER_VALIDATION_ERROR(400001,"参数不合法"),
     UNKNOW_ERROR(410002,"未知错误"),
@@ -9,7 +9,7 @@ public enum EmBusinessError implements CommonError {
     ;
 
 
-    private EmBusinessError(int errCode,String errMsg){
+    private EmWeiboError(int errCode, String errMsg){
         this.errCode=errCode;
         this.errMsg=errMsg;
     }

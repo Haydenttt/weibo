@@ -1,16 +1,16 @@
 package com.unicom.exception;
 
-public class BusinessException extends RuntimeException implements CommonError {
+public class WeiboException extends RuntimeException implements CommonError {
 
     private CommonError commonError;
 
-    public BusinessException(CommonError commonError) {
+    public WeiboException(CommonError commonError) {
         super();
         this.commonError = commonError;
     }
 
 
-    public BusinessException(CommonError commonError, String errMsg) {
+    public WeiboException(CommonError commonError, String errMsg) {
         super();
         this.commonError = commonError;
         this.commonError.setErrMsg(errMsg);

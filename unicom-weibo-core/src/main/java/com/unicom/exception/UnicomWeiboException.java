@@ -6,7 +6,7 @@ package com.unicom.exception;
  * @Author: XuJianHua
  * @Date: 2019/1/4 14:52
  */
-public class UnicomPmsException extends RuntimeException {
+public class UnicomWeiboException extends RuntimeException {
 
     private static final long serialVersionUID = -2937496509853639266L;
 
@@ -20,13 +20,13 @@ public class UnicomPmsException extends RuntimeException {
      */
     private String emsg;
 
-    public UnicomPmsException(String emsg){
+    public UnicomWeiboException(String emsg){
         super(emsg);
         this.status = 99;
         this.emsg = emsg;
     }
 
-    public UnicomPmsException(Integer status, String emsg) {
+    public UnicomWeiboException(Integer status, String emsg) {
         super(emsg);
         this.status = status;
         this.emsg = emsg;

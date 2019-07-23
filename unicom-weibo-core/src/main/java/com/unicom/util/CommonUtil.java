@@ -1,7 +1,7 @@
 package com.unicom.util;
 
-import com.unicom.exception.BusinessException;
-import com.unicom.exception.EmBusinessError;
+import com.unicom.exception.WeiboException;
+import com.unicom.exception.EmWeiboError;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -89,7 +89,7 @@ public class CommonUtil {
                 inTime = simpleDateFormat.parse("2000-01-01");
             } catch (Exception e) {
                 e.printStackTrace();
-                throw new BusinessException(EmBusinessError.UNKNOW_ERROR.setErrMsg("日期获取or转换失败"));
+                throw new WeiboException(EmWeiboError.UNKNOW_ERROR.setErrMsg("日期获取or转换失败"));
             }
         }
         try {
@@ -100,7 +100,7 @@ public class CommonUtil {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            throw new BusinessException(EmBusinessError.UNKNOW_ERROR.setErrMsg("日期获取or转换失败"));
+            throw new WeiboException(EmWeiboError.UNKNOW_ERROR.setErrMsg("日期获取or转换失败"));
         }
         return time;
     }
@@ -115,7 +115,7 @@ public class CommonUtil {
                 inTime=simpleDateFormat.parse("2000-01-01");
             }catch (Exception e) {
                 e.printStackTrace();
-                throw new BusinessException(EmBusinessError.UNKNOW_ERROR.setErrMsg("日期获取or转换失败"));
+                throw new WeiboException(EmWeiboError.UNKNOW_ERROR.setErrMsg("日期获取or转换失败"));
             }
         }
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
@@ -129,7 +129,7 @@ public class CommonUtil {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            throw new BusinessException(EmBusinessError.UNKNOW_ERROR.setErrMsg("日期获取or转换失败"));
+            throw new WeiboException(EmWeiboError.UNKNOW_ERROR.setErrMsg("日期获取or转换失败"));
         }
         return time;
     }

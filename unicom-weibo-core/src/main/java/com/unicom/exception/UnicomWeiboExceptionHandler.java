@@ -18,9 +18,9 @@ import java.nio.file.AccessDeniedException;
  * @Date: 2019/1/4 14:53
  */
 @ControllerAdvice
-public class UnicomPmsExceptionHandler{
+public class UnicomWeiboExceptionHandler {
 
-    private Logger logger = LoggerFactory.getLogger(UnicomPmsExceptionHandler.class);
+    private Logger logger = LoggerFactory.getLogger(UnicomWeiboExceptionHandler.class);
 
     /**
      * 统一异常处理
@@ -33,16 +33,16 @@ public class UnicomPmsExceptionHandler{
     public ApiResult exception(Exception e) {
         ApiResult result = new ApiResult();
         //特意抛出的异常，不需要打印错误日志,直接返回
-        if (e instanceof UnicomPmsException) {
-            UnicomPmsException upe = (UnicomPmsException) e;
+        if (e instanceof UnicomWeiboException) {
+            UnicomWeiboException upe = (UnicomWeiboException) e;
             result.setStatus(upe.getStatus());
             result.setMessage(upe.getEmsg());
             return result;
         //spring security抛出的异常
-        } else if(e instanceof BusinessException){
-            BusinessException businessException = (BusinessException)e;
-            result.setMessage(businessException.getErrMsg());
-            result.setStatus(businessException.getErrCode());
+        } else if(e instanceof WeiboException){
+            WeiboException weiboException = (WeiboException)e;
+            result.setMessage(weiboException.getErrMsg());
+            result.setStatus(weiboException.getErrCode());
         }else if (e instanceof AuthenticationException) {
             result.setMessage(e.getMessage());
             result.setStatus(198);

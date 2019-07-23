@@ -1,7 +1,7 @@
 package com.unicom.util;
 
-import com.unicom.exception.BusinessException;
-import com.unicom.exception.EmBusinessError;
+import com.unicom.exception.WeiboException;
+import com.unicom.exception.EmWeiboError;
 
 import java.util.Map;
 
@@ -28,12 +28,12 @@ public class CheckUtil {
     }
 
 //    验证正确收到分页信息
-    public static void checkPageInfo(Map map) throws BusinessException {
+    public static void checkPageInfo(Map map) throws WeiboException {
         try {
             Integer.parseInt(map.get("currentPage").toString());
             Integer.parseInt(map.get("pageSize").toString());
         } catch (Exception e) {
-            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, "传入了非法分页信息");
+            throw new WeiboException(EmWeiboError.PARAMETER_VALIDATION_ERROR, "传入了非法分页信息");
         }
     }
 }
