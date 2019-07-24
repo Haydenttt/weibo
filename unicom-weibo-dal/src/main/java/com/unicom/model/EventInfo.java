@@ -59,7 +59,7 @@ public class EventInfo {
     }
 
     public void setEventId(String eventId) {
-        this.eventId = eventId == null ? null : eventId.trim();
+        this.eventId = eventId;
     }
 
     public String getTitle() {
