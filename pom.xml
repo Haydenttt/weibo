@@ -94,17 +94,17 @@
                 <artifactId>poi-scratchpad</artifactId>
                 <version>3.9</version>
             </dependency>
-            <dependency>
-                <groupId>com.squareup.okhttp3</groupId>
-                <artifactId>okhttp</artifactId>
-                <version>3.9.1</version>
-            </dependency>
+            <!--<dependency>-->
+                <!--<groupId>com.squareup.okhttp3</groupId>-->
+                <!--<artifactId>okhttp</artifactId>-->
+                <!--<version>3.9.1</version>-->
+            <!--</dependency>-->
 
-            <dependency>
-                <groupId>io.jsonwebtoken</groupId>
-                <artifactId>jjwt</artifactId>
-                <version>0.9.0</version>
-            </dependency>
+            <!--<dependency>-->
+                <!--<groupId>io.jsonwebtoken</groupId>-->
+                <!--<artifactId>jjwt</artifactId>-->
+                <!--<version>0.9.0</version>-->
+            <!--</dependency>-->
             <dependency>
                 <groupId>com.unicom</groupId>
                 <artifactId>unicom-weibo-dal</artifactId>
