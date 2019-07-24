@@ -24,11 +24,12 @@ import org.apache.http.message.BasicHeader;
 import org.apache.http.util.EntityUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.URL;
+import java.net.URLConnection;
 import java.nio.charset.Charset;
 import java.nio.charset.CodingErrorAction;
 import java.nio.file.Files;
@@ -83,7 +84,7 @@ public class HttpUtil {
              CloseableHttpResponse response = httpclient.execute(httpGet)) {
             HttpEntity httpEntity = response.getEntity();
             result = EntityUtils.toString(httpEntity);
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new WeiboException(EmWeiboError.UNKNOW_ERROR.setErrMsg("HTTP GET请求获取元数据失败！"));
         }
         return result;
@@ -92,59 +93,55 @@ public class HttpUtil {
     /**
      * 发送HttpPost请求，参数为json字符串
      *
-     * @param url     请求地址
-     * @param jsonStr json字符串
+     * @param url   请求地址
+     * @param param json字符串
      * @return
      */
-    public static String sendPost(String url, String jsonStr) {
-//        String result;
-//
-//        // 设置entity
-//        StringEntity stringEntity = new StringEntity(jsonStr, Consts.UTF_8);
-//        stringEntity.setContentType("application/json");
-//
-//        HttpPost httpPost = new HttpPost(url);
-//        httpPost.setEntity(stringEntity);
-//
-//        try (CloseableHttpClient httpclient = getBuilder().build();
-//             CloseableHttpResponse httpResponse = httpclient.execute(httpPost)) {
-//            HttpEntity httpEntity = httpResponse.getEntity();
-//            result = EntityUtils.toString(httpEntity);
-//        }
-//        return result;
-        String result="";
-
+    public static String sendPost(String url, String param) {
+        PrintWriter out = null;
+        BufferedReader in = null;
+        String result = "";
         try {
-            URL strUrl = new URL(url);
-            //通过调用url.openConnection()来获得一个新的URLConnection对象，并且将其结果强制转换为HttpURLConnection.
-            HttpURLConnection urlConnection = (HttpURLConnection) strUrl.openConnection();
-            urlConnection.setRequestMethod("POST");
-            //设置连接的超时值为30000毫秒，超时将抛出SocketTimeoutException异常
-            urlConnection.setConnectTimeout(30000);
-            //设置读取的超时值为30000毫秒，超时将抛出SocketTimeoutException异常
-            urlConnection.setReadTimeout(30000);
-            //将url连接用于输出，这样才能使用getOutputStream()。getOutputStream()返回的输出流用于传输数据
-            urlConnection.setDoOutput(true);
-            //设置通用请求属性为默认浏览器编码类型
-            urlConnection.setRequestProperty("content-type", "application/x-www-form-urlencoded");
-            //getOutputStream()返回的输出流，用于写入参数数据。
-            OutputStream outputStream = urlConnection.getOutputStream();
-            outputStream.write(jsonStr.getBytes());
-            outputStream.flush();
-            outputStream.close();
-            //此时将调用接口方法。getInputStream()返回的输入流可以读取返回的数据。
-            InputStream inputStream = urlConnection.getInputStream();
-            byte[] data = new byte[1024];
-            StringBuilder sb = new StringBuilder();
-            //inputStream每次就会将读取1024个byte到data中，当inputSteam中没有数据时，inputStream.read(data)值为-1
-            while (inputStream.read(data) != -1) {
-                String s = new String(data, Charset.forName("utf-8"));
-                sb.append(s);
+            URL realUrl = new URL(url);
+            // 打开和URL之间的连接
+            URLConnection conn = realUrl.openConnection();
+            // 设置通用的请求属性
+            conn.setRequestProperty("accept", "*/*");
+            conn.setRequestProperty("connection", "Keep-Alive");
+            conn.setRequestProperty("user-agent",
+                    "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
+            // 发送POST请求必须设置如下两行
+            conn.setDoOutput(true);
+            conn.setDoInput(true);
+            // 获取URLConnection对象对应的输出流
+            out = new PrintWriter(conn.getOutputStream());
+            // 发送请求参数
+            out.print(param);
+            // flush输出流的缓冲
+            out.flush();
+            // 定义BufferedReader输入流来读取URL的响应
+            in = new BufferedReader(
+                    new InputStreamReader(conn.getInputStream()));
+            String line;
+            while ((line = in.readLine()) != null) {
+                result += line;
             }
-            result = sb.toString();
-            inputStream.close();
-        } catch (Exception e){
-            throw new WeiboException(EmWeiboError.UNKNOW_ERROR.setErrMsg("HTTP POST x-www-form-urlencoded请求获取元数据失败！"));
+        } catch (Exception e) {
+            System.out.println("发送 POST 请求出现异常！" + e);
+            e.printStackTrace();
+        }
+        //使用finally块来关闭输出流、输入流
+        finally {
+            try {
+                if (out != null) {
+                    out.close();
+                }
+                if (in != null) {
+                    in.close();
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
         return result;
     }
@@ -190,7 +187,7 @@ public class HttpUtil {
              CloseableHttpResponse httpResponse = httpclient.execute(httpPost)) {
             HttpEntity httpEntity = httpResponse.getEntity();
             result = EntityUtils.toString(httpEntity);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new WeiboException(EmWeiboError.UNKNOW_ERROR.setErrMsg("HTTP POST MultipartFile请求获取元数据失败！"));
         }
         return result;
@@ -217,8 +214,8 @@ public class HttpUtil {
 //        return multipartFile;
 //    }
 
-//    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException {
 //    System.out.println(sendGet("http://ef.zhiweidata.com/index/indexUp.do"));
-//    System.out.println(sendPost("http://ef.zhiweidata.com/index/oneEvent.do","eventId=d6e62d4dbc728a7e10015705"));
-//    }
+        System.out.println(sendPost("http://ef.zhiweidata.com/analy/overviewV2.do", "eventId=5816b4a30cf23b5e19909a27"));
+    }
 }
