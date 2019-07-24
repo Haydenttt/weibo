@@ -23,15 +23,13 @@ public class IndexController extends BaseController{
     @Autowired
     private IndexService indexService;
 
-    @PostMapping(value = "/rmIndex")
-    @ResponseBody
-    public ApiResult rmIndex(){
-        indexService.deleteIndexIntro();
-        return ApiResult.success();
-    }
-
     @PostMapping(value = "/indexIntro")
     public ApiResult indexIntro(){
+//        1.删历史数据
+//        indexService.deleteIndexIntro();
+//        2.插入数据
+        indexService.updateIndexIntro();
+//        3.返回数据
         List<IndexIntroVO> indexIntro = indexService.getIndexIntro();
         ApiResult apiResult;
         apiResult = ApiResult.success();

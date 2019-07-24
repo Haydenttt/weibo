@@ -27,20 +27,29 @@ public class IndexServiceImpl implements IndexService {
     @Autowired
     IndexStatsMapper indexStatsMapper;
 
-
+//    删除index_intro表历史数据
     @Override
     public void deleteIndexIntro(){
         IndexIntroExample example = new IndexIntroExample();
         IndexIntroExample.Criteria criteria = example.createCriteria();
-        criteria.andUpdaterEqualTo("tlj");
+        criteria.andIdIsNotNull();
         indexIntroMapper.deleteByExample(example);
     }
 
+//    获得源数据并插入index_intro表
+    @Override
+    public void updateIndexIntro(){
+//        获得json
+//        计算7日热度均值
+//        插入数据库
+    }
+
+//    获得index_intro表所有数据
     @Override
     public List<IndexIntroVO> getIndexIntro(){
         IndexIntroExample example = new IndexIntroExample();
         IndexIntroExample.Criteria criteria = example.createCriteria();
-        criteria.andUpdaterEqualTo("tlj");
+        criteria.andIdIsNotNull();
         List<IndexIntro> indexIntroList = indexIntroMapper.selectByExample(example);
 //        自生成属性转为VO格式return
         List<IndexIntroVO> indexIntroVOList = new ArrayList<>();
@@ -51,4 +60,6 @@ public class IndexServiceImpl implements IndexService {
         }
         return indexIntroVOList;
     }
+
+
 }

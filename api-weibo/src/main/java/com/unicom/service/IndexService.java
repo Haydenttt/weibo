@@ -9,4 +9,6 @@ public interface IndexService {
     void deleteIndexIntro();
 
     List<IndexIntroVO> getIndexIntro();
+
+    void updateIndexIntro();
 }
