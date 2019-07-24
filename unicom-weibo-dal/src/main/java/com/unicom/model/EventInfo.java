@@ -5,7 +5,7 @@ import java.util.Date;
 public class EventInfo {
     private Integer id;
 
-    private Integer eventId;
+    private String eventId;
 
     private String title;
 
@@ -27,7 +27,7 @@ public class EventInfo {
 
     private String updater;
 
-    public EventInfo(Integer id, Integer eventId, String title, String description, String firstType, Date startTime, String tags, Byte isEnd, Date createTime, String creator, Date updateTime, String updater) {
+    public EventInfo(Integer id, String eventId, String title, String description, String firstType, Date startTime, String tags, Byte isEnd, Date createTime, String creator, Date updateTime, String updater) {
         this.id = id;
         this.eventId = eventId;
         this.title = title;
@@ -54,11 +54,11 @@ public class EventInfo {
         this.id = id;
     }
 
-    public Integer getEventId() {
+    public String getEventId() {
         return eventId;
     }
 
-    public void setEventId(Integer eventId) {
+    public void setEventId(String eventId) {
         this.eventId = eventId;
     }
 
@@ -140,5 +140,23 @@ public class EventInfo {
 
     public void setUpdater(String updater) {
         this.updater = updater == null ? null : updater.trim();
+    }
+
+    @Override
+    public String toString() {
+        return "EventInfo{" +
+                "id=" + id +
+                ", eventId='" + eventId + '\'' +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", firstType='" + firstType + '\'' +
+                ", startTime=" + startTime +
+                ", tags='" + tags + '\'' +
+                ", isEnd=" + isEnd +
+                ", createTime=" + createTime +
+                ", creator='" + creator + '\'' +
+                ", updateTime=" + updateTime +
+                ", updater='" + updater + '\'' +
+                '}';
     }
 }

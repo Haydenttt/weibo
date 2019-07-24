@@ -3,7 +3,10 @@ package com.unicom.mapper;
 import com.unicom.model.EventStats;
 import com.unicom.model.EventStatsExample;
 import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
 
 public interface EventStatsMapper {
     int deleteByExample(EventStatsExample example);

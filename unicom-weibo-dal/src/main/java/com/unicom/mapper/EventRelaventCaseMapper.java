@@ -3,7 +3,10 @@ package com.unicom.mapper;
 import com.unicom.model.EventRelaventCase;
 import com.unicom.model.EventRelaventCaseExample;
 import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
 
 public interface EventRelaventCaseMapper {
     int deleteByExample(EventRelaventCaseExample example);

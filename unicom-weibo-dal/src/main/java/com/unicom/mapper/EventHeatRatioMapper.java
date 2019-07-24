@@ -2,8 +2,10 @@ package com.unicom.mapper;
 
 import com.unicom.model.EventHeatRatio;
 import com.unicom.model.EventHeatRatioExample;
-import java.util.List;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface EventHeatRatioMapper {
     int deleteByExample(EventHeatRatioExample example);

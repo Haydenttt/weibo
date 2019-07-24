@@ -175,7 +175,7 @@ public class EventInfoExample {
             return (Criteria) this;
         }
 
-        public Criteria andEventIdEqualTo(Integer value) {
+        public Criteria andEventIdEqualTo(String value) {
             addCriterion("event_id =", value, "eventId");
             return (Criteria) this;
         }
