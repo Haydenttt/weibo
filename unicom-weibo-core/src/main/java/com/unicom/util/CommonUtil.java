@@ -4,9 +4,7 @@ import com.unicom.exception.WeiboException;
 import com.unicom.exception.EmWeiboError;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Map;
+import java.util.*;
 
 //字符串比较，相同返回true
 public class CommonUtil {

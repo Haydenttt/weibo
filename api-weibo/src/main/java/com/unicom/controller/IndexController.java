@@ -3,9 +3,11 @@ package com.unicom.controller;
 import com.unicom.http.ApiResult;
 import com.unicom.service.IndexService;
 import com.unicom.service.vo.IndexIntroVO;
+import com.unicom.service.vo.IndexStatsVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -23,18 +25,17 @@ public class IndexController extends BaseController{
     @Autowired
     private IndexService indexService;
 
-    @PostMapping(value = "/indexIntro")
-    public ApiResult indexIntro(){
+    @PostMapping(value = "/indexStats")
+    public ApiResult indexStats(){
 //        1.删历史数据
-//        indexService.deleteIndexIntro();
+        indexService.deleteIndexStats();
 //        2.插入数据
-        indexService.updateIndexIntro();
+        indexService.updateIndexStats();
 //        3.返回数据
-        List<IndexIntroVO> indexIntro = indexService.getIndexIntro();
+        Map<String, Object> statsMap = indexService.getIndexStats();
         ApiResult apiResult;
         apiResult = ApiResult.success();
-        apiResult.setData(indexIntro);
+        apiResult.setData(statsMap);
         return apiResult;
     }
-
 }

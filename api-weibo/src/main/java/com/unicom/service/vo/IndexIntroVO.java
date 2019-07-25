@@ -10,7 +10,7 @@ public class IndexIntroVO {
 
     private Integer dayHeatSum;
 
-    private Byte dayHeatLevel;
+    private String dayHeatLevel;
 
     private String dayHeatStart;
 
@@ -26,26 +26,11 @@ public class IndexIntroVO {
         this.dayHeatSum = dayHeatSum;
     }
 
-    public String  getDayHeatLevel() {
-        if (0 == dayHeatLevel) {
-            return "低";
-        }
-        if (1 == dayHeatLevel) {
-            return "中等";
-        }
-        if (2 == dayHeatLevel) {
-            return "高";
-        }
-        if (3 == dayHeatLevel) {
-            return "超低";
-        }
-        if (4 == dayHeatLevel) {
-            return "超高";
-        }
-        return "undefined day heat level";
+    public String getDayHeatLevel() {
+        return dayHeatLevel;
     }
 
-    public void setDayHeatLevel(Byte dayHeatLevel) {
+    public void setDayHeatLevel(String dayHeatLevel) {
         this.dayHeatLevel = dayHeatLevel;
     }
 

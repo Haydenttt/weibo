@@ -7,7 +7,7 @@ public class IndexIntro {
 
     private Integer dayHeatSum;
 
-    private Byte dayHeatLevel;
+    private String dayHeatLevel;
 
     private String dayHeatStart;
 
@@ -23,7 +23,7 @@ public class IndexIntro {
 
     private String updater;
 
-    public IndexIntro(Integer id, Integer dayHeatSum, Byte dayHeatLevel, String dayHeatStart, String dayHeatEnd, Integer dayHeatAvg, Date createTime, String creator, Date updateTime, String updater) {
+    public IndexIntro(Integer id, Integer dayHeatSum, String dayHeatLevel, String dayHeatStart, String dayHeatEnd, Integer dayHeatAvg, Date createTime, String creator, Date updateTime, String updater) {
         this.id = id;
         this.dayHeatSum = dayHeatSum;
         this.dayHeatLevel = dayHeatLevel;
@@ -56,12 +56,12 @@ public class IndexIntro {
         this.dayHeatSum = dayHeatSum;
     }
 
-    public Byte getDayHeatLevel() {
+    public String getDayHeatLevel() {
         return dayHeatLevel;
     }
 
-    public void setDayHeatLevel(Byte dayHeatLevel) {
-        this.dayHeatLevel = dayHeatLevel;
+    public void setDayHeatLevel(String dayHeatLevel) {
+        this.dayHeatLevel = dayHeatLevel == null ? null : dayHeatLevel.trim();
     }
 
     public String getDayHeatStart() {

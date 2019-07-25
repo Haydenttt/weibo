@@ -235,52 +235,62 @@ public class IndexIntroExample {
             return (Criteria) this;
         }
 
-        public Criteria andDayHeatLevelEqualTo(Byte value) {
+        public Criteria andDayHeatLevelEqualTo(String value) {
             addCriterion("day_heat_level =", value, "dayHeatLevel");
             return (Criteria) this;
         }
 
-        public Criteria andDayHeatLevelNotEqualTo(Byte value) {
+        public Criteria andDayHeatLevelNotEqualTo(String value) {
             addCriterion("day_heat_level <>", value, "dayHeatLevel");
             return (Criteria) this;
         }
 
-        public Criteria andDayHeatLevelGreaterThan(Byte value) {
+        public Criteria andDayHeatLevelGreaterThan(String value) {
             addCriterion("day_heat_level >", value, "dayHeatLevel");
             return (Criteria) this;
         }
 
-        public Criteria andDayHeatLevelGreaterThanOrEqualTo(Byte value) {
+        public Criteria andDayHeatLevelGreaterThanOrEqualTo(String value) {
             addCriterion("day_heat_level >=", value, "dayHeatLevel");
             return (Criteria) this;
         }
 
-        public Criteria andDayHeatLevelLessThan(Byte value) {
+        public Criteria andDayHeatLevelLessThan(String value) {
             addCriterion("day_heat_level <", value, "dayHeatLevel");
             return (Criteria) this;
         }
 
-        public Criteria andDayHeatLevelLessThanOrEqualTo(Byte value) {
+        public Criteria andDayHeatLevelLessThanOrEqualTo(String value) {
             addCriterion("day_heat_level <=", value, "dayHeatLevel");
             return (Criteria) this;
         }
 
-        public Criteria andDayHeatLevelIn(List<Byte> values) {
+        public Criteria andDayHeatLevelLike(String value) {
+            addCriterion("day_heat_level like", value, "dayHeatLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andDayHeatLevelNotLike(String value) {
+            addCriterion("day_heat_level not like", value, "dayHeatLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andDayHeatLevelIn(List<String> values) {
             addCriterion("day_heat_level in", values, "dayHeatLevel");
             return (Criteria) this;
         }
 
-        public Criteria andDayHeatLevelNotIn(List<Byte> values) {
+        public Criteria andDayHeatLevelNotIn(List<String> values) {
             addCriterion("day_heat_level not in", values, "dayHeatLevel");
             return (Criteria) this;
         }
 
-        public Criteria andDayHeatLevelBetween(Byte value1, Byte value2) {
+        public Criteria andDayHeatLevelBetween(String value1, String value2) {
             addCriterion("day_heat_level between", value1, value2, "dayHeatLevel");
             return (Criteria) this;
         }
 
-        public Criteria andDayHeatLevelNotBetween(Byte value1, Byte value2) {
+        public Criteria andDayHeatLevelNotBetween(String value1, String value2) {
             addCriterion("day_heat_level not between", value1, value2, "dayHeatLevel");
             return (Criteria) this;
         }

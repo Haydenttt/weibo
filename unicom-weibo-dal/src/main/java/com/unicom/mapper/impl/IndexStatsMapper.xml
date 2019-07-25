@@ -4,20 +4,22 @@
   <resultMap id="BaseResultMap" type="com.unicom.model.IndexStats">
     <constructor>
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="event_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="event_id" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="title" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="img" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="first_type" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="rank_day_time" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="rank_time" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="sum_heat" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="heat_exponent" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="pro" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
-      <arg column="day_heat_avg" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="last_rank" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="is_day" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="is_valid" javaType="java.lang.Byte" jdbcType="TINYINT" />
       <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
       <arg column="creator" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
       <arg column="updater" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="current_rank" javaType="java.lang.Integer" jdbcType="INTEGER" />
     </constructor>
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -79,8 +81,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, event_id, title, img, first_type, rank_day_time, sum_heat, heat_exponent, pro, 
-    day_heat_avg, is_day, create_time, creator, update_time, updater
+    id, event_id, title, img, first_type, rank_time, sum_heat, heat_exponent, pro, last_rank, 
+    is_day, is_valid, create_time, creator, update_time, updater, current_rank
   </sql>
   <select id="selectByExample" parameterType="com.unicom.model.IndexStatsExample" resultMap="BaseResultMap">
     select
@@ -115,15 +117,17 @@
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.unicom.model.IndexStats" useGeneratedKeys="true">
     insert into index_stats (event_id, title, img, 
-      first_type, rank_day_time, sum_heat, 
-      heat_exponent, pro, day_heat_avg, 
-      is_day, create_time, creator, 
-      update_time, updater)
-    values (#{eventId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{img,jdbcType=VARCHAR}, 
-      #{firstType,jdbcType=VARCHAR}, #{rankDayTime,jdbcType=VARCHAR}, #{sumHeat,jdbcType=INTEGER}, 
-      #{heatExponent,jdbcType=INTEGER}, #{pro,jdbcType=DECIMAL}, #{dayHeatAvg,jdbcType=INTEGER}, 
-      #{isDay,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=VARCHAR}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{updater,jdbcType=VARCHAR})
+      first_type, rank_time, sum_heat, 
+      heat_exponent, pro, last_rank, 
+      is_day, is_valid, create_time, 
+      creator, update_time, updater, 
+      current_rank)
+    values (#{eventId,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{img,jdbcType=VARCHAR}, 
+      #{firstType,jdbcType=VARCHAR}, #{rankTime,jdbcType=VARCHAR}, #{sumHeat,jdbcType=INTEGER}, 
+      #{heatExponent,jdbcType=INTEGER}, #{pro,jdbcType=DECIMAL}, #{lastRank,jdbcType=INTEGER}, 
+      #{isDay,jdbcType=TINYINT}, #{isValid,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{creator,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updater,jdbcType=VARCHAR}, 
+      #{currentRank,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.unicom.model.IndexStats" useGeneratedKeys="true">
     insert into index_stats
@@ -140,8 +144,8 @@
       <if test="firstType != null">
         first_type,
       </if>
-      <if test="rankDayTime != null">
-        rank_day_time,
+      <if test="rankTime != null">
+        rank_time,
       </if>
       <if test="sumHeat != null">
         sum_heat,
@@ -152,11 +156,14 @@
       <if test="pro != null">
         pro,
       </if>
-      <if test="dayHeatAvg != null">
-        day_heat_avg,
+      <if test="lastRank != null">
+        last_rank,
       </if>
       <if test="isDay != null">
         is_day,
+      </if>
+      <if test="isValid != null">
+        is_valid,
       </if>
       <if test="createTime != null">
         create_time,
@@ -170,10 +177,13 @@
       <if test="updater != null">
         updater,
       </if>
+      <if test="currentRank != null">
+        current_rank,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="eventId != null">
-        #{eventId,jdbcType=INTEGER},
+        #{eventId,jdbcType=VARCHAR},
       </if>
       <if test="title != null">
         #{title,jdbcType=VARCHAR},
@@ -184,8 +194,8 @@
       <if test="firstType != null">
         #{firstType,jdbcType=VARCHAR},
       </if>
-      <if test="rankDayTime != null">
-        #{rankDayTime,jdbcType=VARCHAR},
+      <if test="rankTime != null">
+        #{rankTime,jdbcType=VARCHAR},
       </if>
       <if test="sumHeat != null">
         #{sumHeat,jdbcType=INTEGER},
@@ -196,11 +206,14 @@
       <if test="pro != null">
         #{pro,jdbcType=DECIMAL},
       </if>
-      <if test="dayHeatAvg != null">
-        #{dayHeatAvg,jdbcType=INTEGER},
+      <if test="lastRank != null">
+        #{lastRank,jdbcType=INTEGER},
       </if>
       <if test="isDay != null">
         #{isDay,jdbcType=TINYINT},
+      </if>
+      <if test="isValid != null">
+        #{isValid,jdbcType=TINYINT},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -214,6 +227,9 @@
       <if test="updater != null">
         #{updater,jdbcType=VARCHAR},
       </if>
+      <if test="currentRank != null">
+        #{currentRank,jdbcType=INTEGER},
+      </if>
     </trim>
   </insert>
   <update id="updateByExampleSelective" parameterType="map">
@@ -223,7 +239,7 @@
         id = #{record.id,jdbcType=INTEGER},
       </if>
       <if test="record.eventId != null">
-        event_id = #{record.eventId,jdbcType=INTEGER},
+        event_id = #{record.eventId,jdbcType=VARCHAR},
       </if>
       <if test="record.title != null">
         title = #{record.title,jdbcType=VARCHAR},
@@ -234,8 +250,8 @@
       <if test="record.firstType != null">
         first_type = #{record.firstType,jdbcType=VARCHAR},
       </if>
-      <if test="record.rankDayTime != null">
-        rank_day_time = #{record.rankDayTime,jdbcType=VARCHAR},
+      <if test="record.rankTime != null">
+        rank_time = #{record.rankTime,jdbcType=VARCHAR},
       </if>
       <if test="record.sumHeat != null">
         sum_heat = #{record.sumHeat,jdbcType=INTEGER},
@@ -246,11 +262,14 @@
       <if test="record.pro != null">
         pro = #{record.pro,jdbcType=DECIMAL},
       </if>
-      <if test="record.dayHeatAvg != null">
-        day_heat_avg = #{record.dayHeatAvg,jdbcType=INTEGER},
+      <if test="record.lastRank != null">
+        last_rank = #{record.lastRank,jdbcType=INTEGER},
       </if>
       <if test="record.isDay != null">
         is_day = #{record.isDay,jdbcType=TINYINT},
+      </if>
+      <if test="record.isValid != null">
+        is_valid = #{record.isValid,jdbcType=TINYINT},
       </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -264,6 +283,9 @@
       <if test="record.updater != null">
         updater = #{record.updater,jdbcType=VARCHAR},
       </if>
+      <if test="record.currentRank != null">
+        current_rank = #{record.currentRank,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -272,20 +294,22 @@
   <update id="updateByExample" parameterType="map">
     update index_stats
     set id = #{record.id,jdbcType=INTEGER},
-      event_id = #{record.eventId,jdbcType=INTEGER},
+      event_id = #{record.eventId,jdbcType=VARCHAR},
       title = #{record.title,jdbcType=VARCHAR},
       img = #{record.img,jdbcType=VARCHAR},
       first_type = #{record.firstType,jdbcType=VARCHAR},
-      rank_day_time = #{record.rankDayTime,jdbcType=VARCHAR},
+      rank_time = #{record.rankTime,jdbcType=VARCHAR},
       sum_heat = #{record.sumHeat,jdbcType=INTEGER},
       heat_exponent = #{record.heatExponent,jdbcType=INTEGER},
       pro = #{record.pro,jdbcType=DECIMAL},
-      day_heat_avg = #{record.dayHeatAvg,jdbcType=INTEGER},
+      last_rank = #{record.lastRank,jdbcType=INTEGER},
       is_day = #{record.isDay,jdbcType=TINYINT},
+      is_valid = #{record.isValid,jdbcType=TINYINT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       creator = #{record.creator,jdbcType=VARCHAR},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-      updater = #{record.updater,jdbcType=VARCHAR}
+      updater = #{record.updater,jdbcType=VARCHAR},
+      current_rank = #{record.currentRank,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -294,7 +318,7 @@
     update index_stats
     <set>
       <if test="eventId != null">
-        event_id = #{eventId,jdbcType=INTEGER},
+        event_id = #{eventId,jdbcType=VARCHAR},
       </if>
       <if test="title != null">
         title = #{title,jdbcType=VARCHAR},
@@ -305,8 +329,8 @@
       <if test="firstType != null">
         first_type = #{firstType,jdbcType=VARCHAR},
       </if>
-      <if test="rankDayTime != null">
-        rank_day_time = #{rankDayTime,jdbcType=VARCHAR},
+      <if test="rankTime != null">
+        rank_time = #{rankTime,jdbcType=VARCHAR},
       </if>
       <if test="sumHeat != null">
         sum_heat = #{sumHeat,jdbcType=INTEGER},
@@ -317,11 +341,14 @@
       <if test="pro != null">
         pro = #{pro,jdbcType=DECIMAL},
       </if>
-      <if test="dayHeatAvg != null">
-        day_heat_avg = #{dayHeatAvg,jdbcType=INTEGER},
+      <if test="lastRank != null">
+        last_rank = #{lastRank,jdbcType=INTEGER},
       </if>
       <if test="isDay != null">
         is_day = #{isDay,jdbcType=TINYINT},
+      </if>
+      <if test="isValid != null">
+        is_valid = #{isValid,jdbcType=TINYINT},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -335,25 +362,30 @@
       <if test="updater != null">
         updater = #{updater,jdbcType=VARCHAR},
       </if>
+      <if test="currentRank != null">
+        current_rank = #{currentRank,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.unicom.model.IndexStats">
     update index_stats
-    set event_id = #{eventId,jdbcType=INTEGER},
+    set event_id = #{eventId,jdbcType=VARCHAR},
       title = #{title,jdbcType=VARCHAR},
       img = #{img,jdbcType=VARCHAR},
       first_type = #{firstType,jdbcType=VARCHAR},
-      rank_day_time = #{rankDayTime,jdbcType=VARCHAR},
+      rank_time = #{rankTime,jdbcType=VARCHAR},
       sum_heat = #{sumHeat,jdbcType=INTEGER},
       heat_exponent = #{heatExponent,jdbcType=INTEGER},
       pro = #{pro,jdbcType=DECIMAL},
-      day_heat_avg = #{dayHeatAvg,jdbcType=INTEGER},
+      last_rank = #{lastRank,jdbcType=INTEGER},
       is_day = #{isDay,jdbcType=TINYINT},
+      is_valid = #{isValid,jdbcType=TINYINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       creator = #{creator,jdbcType=VARCHAR},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
-      updater = #{updater,jdbcType=VARCHAR}
+      updater = #{updater,jdbcType=VARCHAR},
+      current_rank = #{currentRank,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

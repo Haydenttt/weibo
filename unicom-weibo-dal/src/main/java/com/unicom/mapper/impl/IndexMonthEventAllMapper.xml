@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.unicom.model.IndexMonthEventAll">
     <constructor>
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="event_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="event_id" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="title" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="img" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="first_type" javaType="java.lang.String" jdbcType="VARCHAR" />
@@ -115,7 +115,7 @@
       first_type, start_time, inf_exponent, 
       tags, create_time, creator, 
       update_time, updater)
-    values (#{eventId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{img,jdbcType=VARCHAR}, 
+    values (#{eventId,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{img,jdbcType=VARCHAR}, 
       #{firstType,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, #{infExponent,jdbcType=DECIMAL}, 
       #{tags,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=VARCHAR}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{updater,jdbcType=VARCHAR})
@@ -159,7 +159,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="eventId != null">
-        #{eventId,jdbcType=INTEGER},
+        #{eventId,jdbcType=VARCHAR},
       </if>
       <if test="title != null">
         #{title,jdbcType=VARCHAR},
@@ -200,7 +200,7 @@
         id = #{record.id,jdbcType=INTEGER},
       </if>
       <if test="record.eventId != null">
-        event_id = #{record.eventId,jdbcType=INTEGER},
+        event_id = #{record.eventId,jdbcType=VARCHAR},
       </if>
       <if test="record.title != null">
         title = #{record.title,jdbcType=VARCHAR},
@@ -240,7 +240,7 @@
   <update id="updateByExample" parameterType="map">
     update index_month_event_all
     set id = #{record.id,jdbcType=INTEGER},
-      event_id = #{record.eventId,jdbcType=INTEGER},
+      event_id = #{record.eventId,jdbcType=VARCHAR},
       title = #{record.title,jdbcType=VARCHAR},
       img = #{record.img,jdbcType=VARCHAR},
       first_type = #{record.firstType,jdbcType=VARCHAR},
@@ -259,7 +259,7 @@
     update index_month_event_all
     <set>
       <if test="eventId != null">
-        event_id = #{eventId,jdbcType=INTEGER},
+        event_id = #{eventId,jdbcType=VARCHAR},
       </if>
       <if test="title != null">
         title = #{title,jdbcType=VARCHAR},
@@ -296,7 +296,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.unicom.model.IndexMonthEventAll">
     update index_month_event_all
-    set event_id = #{eventId,jdbcType=INTEGER},
+    set event_id = #{eventId,jdbcType=VARCHAR},
       title = #{title,jdbcType=VARCHAR},
       img = #{img,jdbcType=VARCHAR},
       first_type = #{firstType,jdbcType=VARCHAR},

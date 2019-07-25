@@ -5,7 +5,7 @@
     <constructor>
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="day_heat_sum" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="day_heat_level" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="day_heat_level" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="day_heat_start" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="day_heat_end" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="day_heat_avg" javaType="java.lang.Integer" jdbcType="INTEGER" />
@@ -113,7 +113,7 @@
       day_heat_end, day_heat_avg, create_time, 
       creator, update_time, updater
       )
-    values (#{dayHeatSum,jdbcType=INTEGER}, #{dayHeatLevel,jdbcType=TINYINT}, #{dayHeatStart,jdbcType=VARCHAR}, 
+    values (#{dayHeatSum,jdbcType=INTEGER}, #{dayHeatLevel,jdbcType=VARCHAR}, #{dayHeatStart,jdbcType=VARCHAR}, 
       #{dayHeatEnd,jdbcType=VARCHAR}, #{dayHeatAvg,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
       #{creator,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updater,jdbcType=VARCHAR}
       )
@@ -154,7 +154,7 @@
         #{dayHeatSum,jdbcType=INTEGER},
       </if>
       <if test="dayHeatLevel != null">
-        #{dayHeatLevel,jdbcType=TINYINT},
+        #{dayHeatLevel,jdbcType=VARCHAR},
       </if>
       <if test="dayHeatStart != null">
         #{dayHeatStart,jdbcType=VARCHAR},
@@ -189,7 +189,7 @@
         day_heat_sum = #{record.dayHeatSum,jdbcType=INTEGER},
       </if>
       <if test="record.dayHeatLevel != null">
-        day_heat_level = #{record.dayHeatLevel,jdbcType=TINYINT},
+        day_heat_level = #{record.dayHeatLevel,jdbcType=VARCHAR},
       </if>
       <if test="record.dayHeatStart != null">
         day_heat_start = #{record.dayHeatStart,jdbcType=VARCHAR},
@@ -221,7 +221,7 @@
     update index_intro
     set id = #{record.id,jdbcType=INTEGER},
       day_heat_sum = #{record.dayHeatSum,jdbcType=INTEGER},
-      day_heat_level = #{record.dayHeatLevel,jdbcType=TINYINT},
+      day_heat_level = #{record.dayHeatLevel,jdbcType=VARCHAR},
       day_heat_start = #{record.dayHeatStart,jdbcType=VARCHAR},
       day_heat_end = #{record.dayHeatEnd,jdbcType=VARCHAR},
       day_heat_avg = #{record.dayHeatAvg,jdbcType=INTEGER},
@@ -240,7 +240,7 @@
         day_heat_sum = #{dayHeatSum,jdbcType=INTEGER},
       </if>
       <if test="dayHeatLevel != null">
-        day_heat_level = #{dayHeatLevel,jdbcType=TINYINT},
+        day_heat_level = #{dayHeatLevel,jdbcType=VARCHAR},
       </if>
       <if test="dayHeatStart != null">
         day_heat_start = #{dayHeatStart,jdbcType=VARCHAR},
@@ -269,7 +269,7 @@
   <update id="updateByPrimaryKey" parameterType="com.unicom.model.IndexIntro">
     update index_intro
     set day_heat_sum = #{dayHeatSum,jdbcType=INTEGER},
-      day_heat_level = #{dayHeatLevel,jdbcType=TINYINT},
+      day_heat_level = #{dayHeatLevel,jdbcType=VARCHAR},
       day_heat_start = #{dayHeatStart,jdbcType=VARCHAR},
       day_heat_end = #{dayHeatEnd,jdbcType=VARCHAR},
       day_heat_avg = #{dayHeatAvg,jdbcType=INTEGER},

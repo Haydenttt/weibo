@@ -176,52 +176,62 @@ public class IndexStatsExample {
             return (Criteria) this;
         }
 
-        public Criteria andEventIdEqualTo(Integer value) {
+        public Criteria andEventIdEqualTo(String value) {
             addCriterion("event_id =", value, "eventId");
             return (Criteria) this;
         }
 
-        public Criteria andEventIdNotEqualTo(Integer value) {
+        public Criteria andEventIdNotEqualTo(String value) {
             addCriterion("event_id <>", value, "eventId");
             return (Criteria) this;
         }
 
-        public Criteria andEventIdGreaterThan(Integer value) {
+        public Criteria andEventIdGreaterThan(String value) {
             addCriterion("event_id >", value, "eventId");
             return (Criteria) this;
         }
 
-        public Criteria andEventIdGreaterThanOrEqualTo(Integer value) {
+        public Criteria andEventIdGreaterThanOrEqualTo(String value) {
             addCriterion("event_id >=", value, "eventId");
             return (Criteria) this;
         }
 
-        public Criteria andEventIdLessThan(Integer value) {
+        public Criteria andEventIdLessThan(String value) {
             addCriterion("event_id <", value, "eventId");
             return (Criteria) this;
         }
 
-        public Criteria andEventIdLessThanOrEqualTo(Integer value) {
+        public Criteria andEventIdLessThanOrEqualTo(String value) {
             addCriterion("event_id <=", value, "eventId");
             return (Criteria) this;
         }
 
-        public Criteria andEventIdIn(List<Integer> values) {
+        public Criteria andEventIdLike(String value) {
+            addCriterion("event_id like", value, "eventId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEventIdNotLike(String value) {
+            addCriterion("event_id not like", value, "eventId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEventIdIn(List<String> values) {
             addCriterion("event_id in", values, "eventId");
             return (Criteria) this;
         }
 
-        public Criteria andEventIdNotIn(List<Integer> values) {
+        public Criteria andEventIdNotIn(List<String> values) {
             addCriterion("event_id not in", values, "eventId");
             return (Criteria) this;
         }
 
-        public Criteria andEventIdBetween(Integer value1, Integer value2) {
+        public Criteria andEventIdBetween(String value1, String value2) {
             addCriterion("event_id between", value1, value2, "eventId");
             return (Criteria) this;
         }
 
-        public Criteria andEventIdNotBetween(Integer value1, Integer value2) {
+        public Criteria andEventIdNotBetween(String value1, String value2) {
             addCriterion("event_id not between", value1, value2, "eventId");
             return (Criteria) this;
         }
@@ -436,73 +446,73 @@ public class IndexStatsExample {
             return (Criteria) this;
         }
 
-        public Criteria andRankDayTimeIsNull() {
-            addCriterion("rank_day_time is null");
+        public Criteria andRankTimeIsNull() {
+            addCriterion("rank_time is null");
             return (Criteria) this;
         }
 
-        public Criteria andRankDayTimeIsNotNull() {
-            addCriterion("rank_day_time is not null");
+        public Criteria andRankTimeIsNotNull() {
+            addCriterion("rank_time is not null");
             return (Criteria) this;
         }
 
-        public Criteria andRankDayTimeEqualTo(String value) {
-            addCriterion("rank_day_time =", value, "rankDayTime");
+        public Criteria andRankTimeEqualTo(String value) {
+            addCriterion("rank_time =", value, "rankTime");
             return (Criteria) this;
         }
 
-        public Criteria andRankDayTimeNotEqualTo(String value) {
-            addCriterion("rank_day_time <>", value, "rankDayTime");
+        public Criteria andRankTimeNotEqualTo(String value) {
+            addCriterion("rank_time <>", value, "rankTime");
             return (Criteria) this;
         }
 
-        public Criteria andRankDayTimeGreaterThan(String value) {
-            addCriterion("rank_day_time >", value, "rankDayTime");
+        public Criteria andRankTimeGreaterThan(String value) {
+            addCriterion("rank_time >", value, "rankTime");
             return (Criteria) this;
         }
 
-        public Criteria andRankDayTimeGreaterThanOrEqualTo(String value) {
-            addCriterion("rank_day_time >=", value, "rankDayTime");
+        public Criteria andRankTimeGreaterThanOrEqualTo(String value) {
+            addCriterion("rank_time >=", value, "rankTime");
             return (Criteria) this;
         }
 
-        public Criteria andRankDayTimeLessThan(String value) {
-            addCriterion("rank_day_time <", value, "rankDayTime");
+        public Criteria andRankTimeLessThan(String value) {
+            addCriterion("rank_time <", value, "rankTime");
             return (Criteria) this;
         }
 
-        public Criteria andRankDayTimeLessThanOrEqualTo(String value) {
-            addCriterion("rank_day_time <=", value, "rankDayTime");
+        public Criteria andRankTimeLessThanOrEqualTo(String value) {
+            addCriterion("rank_time <=", value, "rankTime");
             return (Criteria) this;
         }
 
-        public Criteria andRankDayTimeLike(String value) {
-            addCriterion("rank_day_time like", value, "rankDayTime");
+        public Criteria andRankTimeLike(String value) {
+            addCriterion("rank_time like", value, "rankTime");
             return (Criteria) this;
         }
 
-        public Criteria andRankDayTimeNotLike(String value) {
-            addCriterion("rank_day_time not like", value, "rankDayTime");
+        public Criteria andRankTimeNotLike(String value) {
+            addCriterion("rank_time not like", value, "rankTime");
             return (Criteria) this;
         }
 
-        public Criteria andRankDayTimeIn(List<String> values) {
-            addCriterion("rank_day_time in", values, "rankDayTime");
+        public Criteria andRankTimeIn(List<String> values) {
+            addCriterion("rank_time in", values, "rankTime");
             return (Criteria) this;
         }
 
-        public Criteria andRankDayTimeNotIn(List<String> values) {
-            addCriterion("rank_day_time not in", values, "rankDayTime");
+        public Criteria andRankTimeNotIn(List<String> values) {
+            addCriterion("rank_time not in", values, "rankTime");
             return (Criteria) this;
         }
 
-        public Criteria andRankDayTimeBetween(String value1, String value2) {
-            addCriterion("rank_day_time between", value1, value2, "rankDayTime");
+        public Criteria andRankTimeBetween(String value1, String value2) {
+            addCriterion("rank_time between", value1, value2, "rankTime");
             return (Criteria) this;
         }
 
-        public Criteria andRankDayTimeNotBetween(String value1, String value2) {
-            addCriterion("rank_day_time not between", value1, value2, "rankDayTime");
+        public Criteria andRankTimeNotBetween(String value1, String value2) {
+            addCriterion("rank_time not between", value1, value2, "rankTime");
             return (Criteria) this;
         }
 
@@ -686,63 +696,63 @@ public class IndexStatsExample {
             return (Criteria) this;
         }
 
-        public Criteria andDayHeatAvgIsNull() {
-            addCriterion("day_heat_avg is null");
+        public Criteria andLastRankIsNull() {
+            addCriterion("last_rank is null");
             return (Criteria) this;
         }
 
-        public Criteria andDayHeatAvgIsNotNull() {
-            addCriterion("day_heat_avg is not null");
+        public Criteria andLastRankIsNotNull() {
+            addCriterion("last_rank is not null");
             return (Criteria) this;
         }
 
-        public Criteria andDayHeatAvgEqualTo(Integer value) {
-            addCriterion("day_heat_avg =", value, "dayHeatAvg");
+        public Criteria andLastRankEqualTo(Integer value) {
+            addCriterion("last_rank =", value, "lastRank");
             return (Criteria) this;
         }
 
-        public Criteria andDayHeatAvgNotEqualTo(Integer value) {
-            addCriterion("day_heat_avg <>", value, "dayHeatAvg");
+        public Criteria andLastRankNotEqualTo(Integer value) {
+            addCriterion("last_rank <>", value, "lastRank");
             return (Criteria) this;
         }
 
-        public Criteria andDayHeatAvgGreaterThan(Integer value) {
-            addCriterion("day_heat_avg >", value, "dayHeatAvg");
+        public Criteria andLastRankGreaterThan(Integer value) {
+            addCriterion("last_rank >", value, "lastRank");
             return (Criteria) this;
         }
 
-        public Criteria andDayHeatAvgGreaterThanOrEqualTo(Integer value) {
-            addCriterion("day_heat_avg >=", value, "dayHeatAvg");
+        public Criteria andLastRankGreaterThanOrEqualTo(Integer value) {
+            addCriterion("last_rank >=", value, "lastRank");
             return (Criteria) this;
         }
 
-        public Criteria andDayHeatAvgLessThan(Integer value) {
-            addCriterion("day_heat_avg <", value, "dayHeatAvg");
+        public Criteria andLastRankLessThan(Integer value) {
+            addCriterion("last_rank <", value, "lastRank");
             return (Criteria) this;
         }
 
-        public Criteria andDayHeatAvgLessThanOrEqualTo(Integer value) {
-            addCriterion("day_heat_avg <=", value, "dayHeatAvg");
+        public Criteria andLastRankLessThanOrEqualTo(Integer value) {
+            addCriterion("last_rank <=", value, "lastRank");
             return (Criteria) this;
         }
 
-        public Criteria andDayHeatAvgIn(List<Integer> values) {
-            addCriterion("day_heat_avg in", values, "dayHeatAvg");
+        public Criteria andLastRankIn(List<Integer> values) {
+            addCriterion("last_rank in", values, "lastRank");
             return (Criteria) this;
         }
 
-        public Criteria andDayHeatAvgNotIn(List<Integer> values) {
-            addCriterion("day_heat_avg not in", values, "dayHeatAvg");
+        public Criteria andLastRankNotIn(List<Integer> values) {
+            addCriterion("last_rank not in", values, "lastRank");
             return (Criteria) this;
         }
 
-        public Criteria andDayHeatAvgBetween(Integer value1, Integer value2) {
-            addCriterion("day_heat_avg between", value1, value2, "dayHeatAvg");
+        public Criteria andLastRankBetween(Integer value1, Integer value2) {
+            addCriterion("last_rank between", value1, value2, "lastRank");
             return (Criteria) this;
         }
 
-        public Criteria andDayHeatAvgNotBetween(Integer value1, Integer value2) {
-            addCriterion("day_heat_avg not between", value1, value2, "dayHeatAvg");
+        public Criteria andLastRankNotBetween(Integer value1, Integer value2) {
+            addCriterion("last_rank not between", value1, value2, "lastRank");
             return (Criteria) this;
         }
 
@@ -803,6 +813,66 @@ public class IndexStatsExample {
 
         public Criteria andIsDayNotBetween(Byte value1, Byte value2) {
             addCriterion("is_day not between", value1, value2, "isDay");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsValidIsNull() {
+            addCriterion("is_valid is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsValidIsNotNull() {
+            addCriterion("is_valid is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsValidEqualTo(Byte value) {
+            addCriterion("is_valid =", value, "isValid");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsValidNotEqualTo(Byte value) {
+            addCriterion("is_valid <>", value, "isValid");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsValidGreaterThan(Byte value) {
+            addCriterion("is_valid >", value, "isValid");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsValidGreaterThanOrEqualTo(Byte value) {
+            addCriterion("is_valid >=", value, "isValid");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsValidLessThan(Byte value) {
+            addCriterion("is_valid <", value, "isValid");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsValidLessThanOrEqualTo(Byte value) {
+            addCriterion("is_valid <=", value, "isValid");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsValidIn(List<Byte> values) {
+            addCriterion("is_valid in", values, "isValid");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsValidNotIn(List<Byte> values) {
+            addCriterion("is_valid not in", values, "isValid");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsValidBetween(Byte value1, Byte value2) {
+            addCriterion("is_valid between", value1, value2, "isValid");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsValidNotBetween(Byte value1, Byte value2) {
+            addCriterion("is_valid not between", value1, value2, "isValid");
             return (Criteria) this;
         }
 
@@ -1063,6 +1133,66 @@ public class IndexStatsExample {
 
         public Criteria andUpdaterNotBetween(String value1, String value2) {
             addCriterion("updater not between", value1, value2, "updater");
+            return (Criteria) this;
+        }
+
+        public Criteria andCurrentRankIsNull() {
+            addCriterion("current_rank is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCurrentRankIsNotNull() {
+            addCriterion("current_rank is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCurrentRankEqualTo(Integer value) {
+            addCriterion("current_rank =", value, "currentRank");
+            return (Criteria) this;
+        }
+
+        public Criteria andCurrentRankNotEqualTo(Integer value) {
+            addCriterion("current_rank <>", value, "currentRank");
+            return (Criteria) this;
+        }
+
+        public Criteria andCurrentRankGreaterThan(Integer value) {
+            addCriterion("current_rank >", value, "currentRank");
+            return (Criteria) this;
+        }
+
+        public Criteria andCurrentRankGreaterThanOrEqualTo(Integer value) {
+            addCriterion("current_rank >=", value, "currentRank");
+            return (Criteria) this;
+        }
+
+        public Criteria andCurrentRankLessThan(Integer value) {
+            addCriterion("current_rank <", value, "currentRank");
+            return (Criteria) this;
+        }
+
+        public Criteria andCurrentRankLessThanOrEqualTo(Integer value) {
+            addCriterion("current_rank <=", value, "currentRank");
+            return (Criteria) this;
+        }
+
+        public Criteria andCurrentRankIn(List<Integer> values) {
+            addCriterion("current_rank in", values, "currentRank");
+            return (Criteria) this;
+        }
+
+        public Criteria andCurrentRankNotIn(List<Integer> values) {
+            addCriterion("current_rank not in", values, "currentRank");
+            return (Criteria) this;
+        }
+
+        public Criteria andCurrentRankBetween(Integer value1, Integer value2) {
+            addCriterion("current_rank between", value1, value2, "currentRank");
+            return (Criteria) this;
+        }
+
+        public Criteria andCurrentRankNotBetween(Integer value1, Integer value2) {
+            addCriterion("current_rank not between", value1, value2, "currentRank");
             return (Criteria) this;
         }
     }

@@ -205,6 +205,16 @@ public class EventInfoExample {
             return (Criteria) this;
         }
 
+        public Criteria andEventIdLike(String value) {
+            addCriterion("event_id like", value, "eventId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEventIdNotLike(String value) {
+            addCriterion("event_id not like", value, "eventId");
+            return (Criteria) this;
+        }
+
         public Criteria andEventIdIn(List<String> values) {
             addCriterion("event_id in", values, "eventId");
             return (Criteria) this;

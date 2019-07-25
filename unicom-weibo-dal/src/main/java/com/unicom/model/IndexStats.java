@@ -6,7 +6,7 @@ import java.util.Date;
 public class IndexStats {
     private Integer id;
 
-    private Integer eventId;
+    private String eventId;
 
     private String title;
 
@@ -14,7 +14,7 @@ public class IndexStats {
 
     private String firstType;
 
-    private String rankDayTime;
+    private String rankTime;
 
     private Integer sumHeat;
 
@@ -22,9 +22,11 @@ public class IndexStats {
 
     private BigDecimal pro;
 
-    private Integer dayHeatAvg;
+    private Integer lastRank;
 
     private Byte isDay;
+
+    private Byte isValid;
 
     private Date createTime;
 
@@ -34,22 +36,26 @@ public class IndexStats {
 
     private String updater;
 
-    public IndexStats(Integer id, Integer eventId, String title, String img, String firstType, String rankDayTime, Integer sumHeat, Integer heatExponent, BigDecimal pro, Integer dayHeatAvg, Byte isDay, Date createTime, String creator, Date updateTime, String updater) {
+    private Integer currentRank;
+
+    public IndexStats(Integer id, String eventId, String title, String img, String firstType, String rankTime, Integer sumHeat, Integer heatExponent, BigDecimal pro, Integer lastRank, Byte isDay, Byte isValid, Date createTime, String creator, Date updateTime, String updater, Integer currentRank) {
         this.id = id;
         this.eventId = eventId;
         this.title = title;
         this.img = img;
         this.firstType = firstType;
-        this.rankDayTime = rankDayTime;
+        this.rankTime = rankTime;
         this.sumHeat = sumHeat;
         this.heatExponent = heatExponent;
         this.pro = pro;
-        this.dayHeatAvg = dayHeatAvg;
+        this.lastRank = lastRank;
         this.isDay = isDay;
+        this.isValid = isValid;
         this.createTime = createTime;
         this.creator = creator;
         this.updateTime = updateTime;
         this.updater = updater;
+        this.currentRank = currentRank;
     }
 
     public IndexStats() {
@@ -64,12 +70,12 @@ public class IndexStats {
         this.id = id;
     }
 
-    public Integer getEventId() {
+    public String getEventId() {
         return eventId;
     }
 
-    public void setEventId(Integer eventId) {
-        this.eventId = eventId;
+    public void setEventId(String eventId) {
+        this.eventId = eventId == null ? null : eventId.trim();
     }
 
     public String getTitle() {
@@ -96,12 +102,12 @@ public class IndexStats {
         this.firstType = firstType == null ? null : firstType.trim();
     }
 
-    public String getRankDayTime() {
-        return rankDayTime;
+    public String getRankTime() {
+        return rankTime;
     }
 
-    public void setRankDayTime(String rankDayTime) {
-        this.rankDayTime = rankDayTime == null ? null : rankDayTime.trim();
+    public void setRankTime(String rankTime) {
+        this.rankTime = rankTime == null ? null : rankTime.trim();
     }
 
     public Integer getSumHeat() {
@@ -128,12 +134,12 @@ public class IndexStats {
         this.pro = pro;
     }
 
-    public Integer getDayHeatAvg() {
-        return dayHeatAvg;
+    public Integer getLastRank() {
+        return lastRank;
     }
 
-    public void setDayHeatAvg(Integer dayHeatAvg) {
-        this.dayHeatAvg = dayHeatAvg;
+    public void setLastRank(Integer lastRank) {
+        this.lastRank = lastRank;
     }
 
     public Byte getIsDay() {
@@ -142,6 +148,14 @@ public class IndexStats {
 
     public void setIsDay(Byte isDay) {
         this.isDay = isDay;
+    }
+
+    public Byte getIsValid() {
+        return isValid;
+    }
+
+    public void setIsValid(Byte isValid) {
+        this.isValid = isValid;
     }
 
     public Date getCreateTime() {
@@ -174,5 +188,13 @@ public class IndexStats {
 
     public void setUpdater(String updater) {
         this.updater = updater == null ? null : updater.trim();
+    }
+
+    public Integer getCurrentRank() {
+        return currentRank;
+    }
+
+    public void setCurrentRank(Integer currentRank) {
+        this.currentRank = currentRank;
     }
 }

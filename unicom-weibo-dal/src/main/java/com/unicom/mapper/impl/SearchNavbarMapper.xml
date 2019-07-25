@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.unicom.model.SearchNavbar">
     <constructor>
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="event_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="event_id" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="title" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="img_url" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="first_type" javaType="java.lang.String" jdbcType="VARCHAR" />
@@ -114,7 +114,7 @@
       first_type, inf_exponent, media, 
       create_time, creator, update_time, 
       updater)
-    values (#{eventId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{imgUrl,jdbcType=VARCHAR}, 
+    values (#{eventId,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{imgUrl,jdbcType=VARCHAR}, 
       #{firstType,jdbcType=VARCHAR}, #{infExponent,jdbcType=DECIMAL}, #{media,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{updater,jdbcType=VARCHAR})
@@ -155,7 +155,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="eventId != null">
-        #{eventId,jdbcType=INTEGER},
+        #{eventId,jdbcType=VARCHAR},
       </if>
       <if test="title != null">
         #{title,jdbcType=VARCHAR},
@@ -193,7 +193,7 @@
         id = #{record.id,jdbcType=INTEGER},
       </if>
       <if test="record.eventId != null">
-        event_id = #{record.eventId,jdbcType=INTEGER},
+        event_id = #{record.eventId,jdbcType=VARCHAR},
       </if>
       <if test="record.title != null">
         title = #{record.title,jdbcType=VARCHAR},
@@ -230,7 +230,7 @@
   <update id="updateByExample" parameterType="map">
     update search_navbar
     set id = #{record.id,jdbcType=INTEGER},
-      event_id = #{record.eventId,jdbcType=INTEGER},
+      event_id = #{record.eventId,jdbcType=VARCHAR},
       title = #{record.title,jdbcType=VARCHAR},
       img_url = #{record.imgUrl,jdbcType=VARCHAR},
       first_type = #{record.firstType,jdbcType=VARCHAR},
@@ -248,7 +248,7 @@
     update search_navbar
     <set>
       <if test="eventId != null">
-        event_id = #{eventId,jdbcType=INTEGER},
+        event_id = #{eventId,jdbcType=VARCHAR},
       </if>
       <if test="title != null">
         title = #{title,jdbcType=VARCHAR},
@@ -282,7 +282,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.unicom.model.SearchNavbar">
     update search_navbar
-    set event_id = #{eventId,jdbcType=INTEGER},
+    set event_id = #{eventId,jdbcType=VARCHAR},
       title = #{title,jdbcType=VARCHAR},
       img_url = #{imgUrl,jdbcType=VARCHAR},
       first_type = #{firstType,jdbcType=VARCHAR},

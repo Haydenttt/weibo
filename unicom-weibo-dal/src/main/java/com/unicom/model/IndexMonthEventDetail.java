@@ -6,7 +6,7 @@ import java.util.Date;
 public class IndexMonthEventDetail {
     private Integer id;
 
-    private Integer eventId;
+    private String eventId;
 
     private String title;
 
@@ -32,7 +32,7 @@ public class IndexMonthEventDetail {
 
     private String updater;
 
-    public IndexMonthEventDetail(Integer id, Integer eventId, String title, String firstType, BigDecimal inf, BigDecimal typePro, BigDecimal allPro, Integer sevenDayInf, String sevenDayTime, String sevenDayStart, Date createTime, String creator, Date updateTime, String updater) {
+    public IndexMonthEventDetail(Integer id, String eventId, String title, String firstType, BigDecimal inf, BigDecimal typePro, BigDecimal allPro, Integer sevenDayInf, String sevenDayTime, String sevenDayStart, Date createTime, String creator, Date updateTime, String updater) {
         this.id = id;
         this.eventId = eventId;
         this.title = title;
@@ -61,12 +61,12 @@ public class IndexMonthEventDetail {
         this.id = id;
     }
 
-    public Integer getEventId() {
+    public String getEventId() {
         return eventId;
     }
 
-    public void setEventId(Integer eventId) {
-        this.eventId = eventId;
+    public void setEventId(String eventId) {
+        this.eventId = eventId == null ? null : eventId.trim();
     }
 
     public String getTitle() {

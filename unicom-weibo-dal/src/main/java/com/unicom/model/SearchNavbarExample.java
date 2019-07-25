@@ -176,52 +176,62 @@ public class SearchNavbarExample {
             return (Criteria) this;
         }
 
-        public Criteria andEventIdEqualTo(Integer value) {
+        public Criteria andEventIdEqualTo(String value) {
             addCriterion("event_id =", value, "eventId");
             return (Criteria) this;
         }
 
-        public Criteria andEventIdNotEqualTo(Integer value) {
+        public Criteria andEventIdNotEqualTo(String value) {
             addCriterion("event_id <>", value, "eventId");
             return (Criteria) this;
         }
 
-        public Criteria andEventIdGreaterThan(Integer value) {
+        public Criteria andEventIdGreaterThan(String value) {
             addCriterion("event_id >", value, "eventId");
             return (Criteria) this;
         }
 
-        public Criteria andEventIdGreaterThanOrEqualTo(Integer value) {
+        public Criteria andEventIdGreaterThanOrEqualTo(String value) {
             addCriterion("event_id >=", value, "eventId");
             return (Criteria) this;
         }
 
-        public Criteria andEventIdLessThan(Integer value) {
+        public Criteria andEventIdLessThan(String value) {
             addCriterion("event_id <", value, "eventId");
             return (Criteria) this;
         }
 
-        public Criteria andEventIdLessThanOrEqualTo(Integer value) {
+        public Criteria andEventIdLessThanOrEqualTo(String value) {
             addCriterion("event_id <=", value, "eventId");
             return (Criteria) this;
         }
 
-        public Criteria andEventIdIn(List<Integer> values) {
+        public Criteria andEventIdLike(String value) {
+            addCriterion("event_id like", value, "eventId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEventIdNotLike(String value) {
+            addCriterion("event_id not like", value, "eventId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEventIdIn(List<String> values) {
             addCriterion("event_id in", values, "eventId");
             return (Criteria) this;
         }
 
-        public Criteria andEventIdNotIn(List<Integer> values) {
+        public Criteria andEventIdNotIn(List<String> values) {
             addCriterion("event_id not in", values, "eventId");
             return (Criteria) this;
         }
 
-        public Criteria andEventIdBetween(Integer value1, Integer value2) {
+        public Criteria andEventIdBetween(String value1, String value2) {
             addCriterion("event_id between", value1, value2, "eventId");
             return (Criteria) this;
         }
 
-        public Criteria andEventIdNotBetween(Integer value1, Integer value2) {
+        public Criteria andEventIdNotBetween(String value1, String value2) {
             addCriterion("event_id not between", value1, value2, "eventId");
             return (Criteria) this;
         }
