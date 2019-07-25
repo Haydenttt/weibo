@@ -2,13 +2,8 @@ package com.unicom.controller;
 
 import com.unicom.http.ApiResult;
 import com.unicom.service.IndexService;
-import com.unicom.service.vo.IndexIntroVO;
-import com.unicom.service.vo.IndexStatsVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 /**

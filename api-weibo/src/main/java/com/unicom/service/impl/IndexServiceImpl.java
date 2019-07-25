@@ -1,7 +1,5 @@
 package com.unicom.service.impl;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.unicom.constant.UrlConst;
 import com.unicom.exception.EmWeiboError;
@@ -15,12 +13,10 @@ import com.unicom.model.IndexStatsExample;
 import com.unicom.service.IndexService;
 import com.unicom.service.vo.IndexIntroVO;
 import com.unicom.service.vo.IndexStatsVO;
-import com.unicom.util.CommonUtil;
 import com.unicom.util.HttpUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -305,7 +301,9 @@ public class IndexServiceImpl implements IndexService {
     toRankList(6, 9, resultDay, rankDayList);
     toRankList(11, 9, resultHour, rankHourList);
 
-    //    data的最外层
+    deleteIndexIntro();
+    updateIndexIntro();
+    // data的最外层
     dataMap.put("dayHotSum", getIndexIntro().get(0).getDayHeatSum());
     dataMap.put("dayHotLevel", getIndexIntro().get(0).getDayHeatLevel());
     dataMap.put("dayHotAvg", getIndexIntro().get(0).getDayHeatAvg());
@@ -337,7 +335,7 @@ public class IndexServiceImpl implements IndexService {
     return result;
   }
 
-  //  将DO属性的select结果集转换为VO格式
+  // 将DO属性的select结果集转换为VO格式
   private static List<IndexStatsVO> do2voList(List<IndexStats> entireList) {
     List<IndexStatsVO> statsVOList = new ArrayList<>();
     for (IndexStats indexStats : entireList) {
