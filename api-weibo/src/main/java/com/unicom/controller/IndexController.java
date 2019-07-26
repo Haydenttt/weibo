@@ -33,4 +33,15 @@ public class IndexController extends BaseController{
         apiResult.setData(statsMap);
         return apiResult;
     }
+
+    @PostMapping(value = "/indexMonth")
+    public ApiResult indexMonth(){
+        indexService.deleteIndexMonth();
+        indexService.updateIndexMonth();
+        Map<String ,Object> monthMap = indexService.getIndexMonth();
+        ApiResult apiResult;
+        apiResult = ApiResult.success();
+        apiResult.setData(monthMap);
+        return apiResult;
+    }
 }

@@ -1,26 +1,25 @@
 package com.unicom.service.impl;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.unicom.constant.UrlConst;
 import com.unicom.exception.EmWeiboError;
 import com.unicom.exception.WeiboException;
 import com.unicom.mapper.IndexIntroMapper;
+import com.unicom.mapper.IndexMonthEventAllMapper;
+import com.unicom.mapper.IndexMonthEventDetailMapper;
 import com.unicom.mapper.IndexStatsMapper;
-import com.unicom.model.IndexIntro;
-import com.unicom.model.IndexIntroExample;
-import com.unicom.model.IndexStats;
-import com.unicom.model.IndexStatsExample;
+import com.unicom.model.*;
 import com.unicom.service.IndexService;
 import com.unicom.service.vo.IndexIntroVO;
+import com.unicom.service.vo.IndexMonthEventAllVO;
 import com.unicom.service.vo.IndexStatsVO;
 import com.unicom.util.HttpUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+import java.util.*;
 
 /**
  * @program: weibo
@@ -32,9 +31,11 @@ public class IndexServiceImpl implements IndexService {
 
   @Autowired IndexIntroMapper indexIntroMapper;
   @Autowired IndexStatsMapper indexStatsMapper;
+  @Autowired IndexMonthEventAllMapper indexMonthEventAllMapper;
+  @Autowired IndexMonthEventDetailMapper indexMonthEventDetailMapper;
 
   /**
-   * @apiNote : index_intro()
+   * @apiNote : indexIntro()
    * @description: 删除index_intro表历史数据
    */
   @Override
@@ -46,7 +47,7 @@ public class IndexServiceImpl implements IndexService {
   }
 
   /**
-   * @apiNote : index_intro()
+   * @apiNote : indexIntro()
    * @description: 获得源数据，并插入index_intro表
    */
   @Override
@@ -93,7 +94,7 @@ public class IndexServiceImpl implements IndexService {
   }
 
   /**
-   * @apiNote : index_intro()
+   * @apiNote : indexIntro()
    * @description: select数据表index_intro的所有数据
    */
   @Override
@@ -202,7 +203,7 @@ public class IndexServiceImpl implements IndexService {
       }
 
       // 分时热度（其他事件 OtherEvent不查）
-      for (int i = 11; i >= 0; i--) {
+      for (int i = 0; i <= 11; i++) {
         for (int j = 0; j <= 9; j++) {
           stats.setEventId(
               ((JSONObject)
@@ -266,7 +267,7 @@ public class IndexServiceImpl implements IndexService {
 
   /**
    * @apiNote : indexStats()
-   * @description: select数据表index_stats的所有数据
+   * @description: select数据表index_stats的所有数据,并封装成json返回
    */
   @Override
   public Map<String, Object> getIndexStats() {
@@ -391,5 +392,67 @@ public class IndexServiceImpl implements IndexService {
       rankMap.put("sumH", result.get(i).get(0).getSumHeat());
       rankList.add(rankMap);
     }
+  }
+
+  /**
+   * @apiNote : indexMonth()
+   * @description: 删除index_month_event_all表历史数据
+   */
+  @Override
+  public void deleteIndexMonth() {
+    IndexMonthEventAllExample example = new IndexMonthEventAllExample();
+    IndexMonthEventAllExample.Criteria criteria = example.createCriteria();
+    criteria.andIdIsNotNull();
+    indexMonthEventAllMapper.deleteByExample(example);
+  }
+
+  @Override
+  public void updateIndexMonth() {
+    // 获得json
+    String data = HttpUtil.sendGet(UrlConst.INDEX);
+    IndexMonthEventAll monthEventAll = new IndexMonthEventAll();
+    try {
+      // 把String转换成json
+      JSONObject dataJson = JSONObject.parseObject(data);
+      // 获取map
+      JSONArray monthJson = dataJson.getJSONArray("monthEvent");
+
+      // 解析json
+      for (Object obj : monthJson) {
+        monthEventAll.setEventId(((JSONObject) obj).getString("eventId"));
+        monthEventAll.setTitle(((JSONObject) obj).getString("name"));
+        monthEventAll.setImg(
+                UrlConst.IMG_PREFIX + ((JSONObject) obj).getString("img"));
+        monthEventAll.setFirstType(((JSONObject) obj).getString("type"));
+        monthEventAll.setStartTime(((JSONObject) obj).getDate("startTime"));
+        monthEventAll.setInfExponent(
+                ((JSONObject) obj).getBigDecimal("infExponent"));
+        monthEventAll.setTags(((JSONObject) obj).getString("tags"));
+        monthEventAll.setCreator(UrlConst.TLJ);
+        monthEventAll.setUpdater(UrlConst.TLJ);
+        indexMonthEventAllMapper.insertSelective(monthEventAll);
+      }
+    } catch (Exception e) {
+      throw new WeiboException(
+          EmWeiboError.UNKNOW_ERROR.setErrMsg("serviceImpl向index_month_event_all表插入失败！"));
+    }
+  }
+
+  @Override
+  public Map<String, Object> getIndexMonth() {
+    IndexMonthEventAllExample example = new IndexMonthEventAllExample();
+    IndexMonthEventAllExample.Criteria criteria = example.createCriteria();
+    criteria.andIdIsNotNull();
+    List<IndexMonthEventAll> monthList = indexMonthEventAllMapper.selectByExample(example);
+    // 自生成属性转为VO格式return
+    List<IndexMonthEventAllVO> monthVOList = new ArrayList<>();
+    for (IndexMonthEventAll indexMonthEventAll : monthList) {
+      IndexMonthEventAllVO monthVO = new IndexMonthEventAllVO();
+      BeanUtils.copyProperties(indexMonthEventAll, monthVO);
+      monthVOList.add(monthVO);
+    }
+
+
+    return null;
   }
 }
