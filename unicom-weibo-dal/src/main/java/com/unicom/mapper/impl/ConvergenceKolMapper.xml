@@ -108,6 +108,12 @@
     delete from convergence_kol
     where kol_id = #{kolId,jdbcType=INTEGER}
   </delete>
+  <delete id="deleteByExample" parameterType="com.unicom.model.ConvergenceKolExample">
+    delete from convergence_kol
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
   <insert id="insert" parameterType="com.unicom.model.ConvergenceKol">
     insert into convergence_kol (kol_id, event_id, username, 
       fans, avatar, webo_text, 
@@ -122,109 +128,6 @@
       #{createTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{updater,jdbcType=VARCHAR})
   </insert>
-  <update id="updateByExampleSelective" parameterType="map">
-    update convergence_kol
-    <set>
-      <if test="record.kolId != null">
-        kol_id = #{record.kolId,jdbcType=INTEGER},
-      </if>
-      <if test="record.eventId != null">
-        event_id = #{record.eventId,jdbcType=VARCHAR},
-      </if>
-      <if test="record.username != null">
-        username = #{record.username,jdbcType=VARCHAR},
-      </if>
-      <if test="record.fans != null">
-        fans = #{record.fans,jdbcType=INTEGER},
-      </if>
-      <if test="record.avatar != null">
-        avatar = #{record.avatar,jdbcType=VARCHAR},
-      </if>
-      <if test="record.weboText != null">
-        webo_text = #{record.weboText,jdbcType=VARCHAR},
-      </if>
-      <if test="record.ifForward != null">
-        if_forward = #{record.ifForward,jdbcType=TINYINT},
-      </if>
-      <if test="record.weiboTime != null">
-        weibo_time = #{record.weiboTime,jdbcType=VARCHAR},
-      </if>
-      <if test="record.url != null">
-        url = #{record.url,jdbcType=VARCHAR},
-      </if>
-      <if test="record.sex != null">
-        sex = #{record.sex,jdbcType=TINYINT},
-      </if>
-      <if test="record.rootWeibo != null">
-        root_weibo = #{record.rootWeibo,jdbcType=VARCHAR},
-      </if>
-      <if test="record.vType != null">
-        v_type = #{record.vType,jdbcType=TINYINT},
-      </if>
-      <if test="record.createTime != null">
-        create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.creator != null">
-        creator = #{record.creator,jdbcType=VARCHAR},
-      </if>
-      <if test="record.updateTime != null">
-        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.updater != null">
-        updater = #{record.updater,jdbcType=VARCHAR},
-      </if>
-    </set>
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map">
-    update convergence_kol
-    set kol_id = #{record.kolId,jdbcType=INTEGER},
-      event_id = #{record.eventId,jdbcType=VARCHAR},
-      username = #{record.username,jdbcType=VARCHAR},
-      fans = #{record.fans,jdbcType=INTEGER},
-      avatar = #{record.avatar,jdbcType=VARCHAR},
-      webo_text = #{record.weboText,jdbcType=VARCHAR},
-      if_forward = #{record.ifForward,jdbcType=TINYINT},
-      weibo_time = #{record.weiboTime,jdbcType=VARCHAR},
-      url = #{record.url,jdbcType=VARCHAR},
-      sex = #{record.sex,jdbcType=TINYINT},
-      root_weibo = #{record.rootWeibo,jdbcType=VARCHAR},
-      v_type = #{record.vType,jdbcType=TINYINT},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      creator = #{record.creator,jdbcType=VARCHAR},
-      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-      updater = #{record.updater,jdbcType=VARCHAR}
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.unicom.model.ConvergenceKol">
-    update convergence_kol
-    set event_id = #{eventId,jdbcType=VARCHAR},
-      username = #{username,jdbcType=VARCHAR},
-      fans = #{fans,jdbcType=INTEGER},
-      avatar = #{avatar,jdbcType=VARCHAR},
-      webo_text = #{weboText,jdbcType=VARCHAR},
-      if_forward = #{ifForward,jdbcType=TINYINT},
-      weibo_time = #{weiboTime,jdbcType=VARCHAR},
-      url = #{url,jdbcType=VARCHAR},
-      sex = #{sex,jdbcType=TINYINT},
-      root_weibo = #{rootWeibo,jdbcType=VARCHAR},
-      v_type = #{vType,jdbcType=TINYINT},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      creator = #{creator,jdbcType=VARCHAR},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      updater = #{updater,jdbcType=VARCHAR}
-    where kol_id = #{kolId,jdbcType=INTEGER}
-  </update>
-  <delete id="deleteByExample" parameterType="com.unicom.model.ConvergenceKolExample">
-    delete from convergence_kol
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
   <insert id="insertSelective" parameterType="com.unicom.model.ConvergenceKol">
     insert into convergence_kol
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -328,6 +231,84 @@
       </if>
     </trim>
   </insert>
+  <update id="updateByExampleSelective" parameterType="map">
+    update convergence_kol
+    <set>
+      <if test="record.kolId != null">
+        kol_id = #{record.kolId,jdbcType=INTEGER},
+      </if>
+      <if test="record.eventId != null">
+        event_id = #{record.eventId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.username != null">
+        username = #{record.username,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fans != null">
+        fans = #{record.fans,jdbcType=INTEGER},
+      </if>
+      <if test="record.avatar != null">
+        avatar = #{record.avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="record.weboText != null">
+        webo_text = #{record.weboText,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ifForward != null">
+        if_forward = #{record.ifForward,jdbcType=TINYINT},
+      </if>
+      <if test="record.weiboTime != null">
+        weibo_time = #{record.weiboTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.url != null">
+        url = #{record.url,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sex != null">
+        sex = #{record.sex,jdbcType=TINYINT},
+      </if>
+      <if test="record.rootWeibo != null">
+        root_weibo = #{record.rootWeibo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vType != null">
+        v_type = #{record.vType,jdbcType=TINYINT},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.creator != null">
+        creator = #{record.creator,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updater != null">
+        updater = #{record.updater,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update convergence_kol
+    set kol_id = #{record.kolId,jdbcType=INTEGER},
+      event_id = #{record.eventId,jdbcType=VARCHAR},
+      username = #{record.username,jdbcType=VARCHAR},
+      fans = #{record.fans,jdbcType=INTEGER},
+      avatar = #{record.avatar,jdbcType=VARCHAR},
+      webo_text = #{record.weboText,jdbcType=VARCHAR},
+      if_forward = #{record.ifForward,jdbcType=TINYINT},
+      weibo_time = #{record.weiboTime,jdbcType=VARCHAR},
+      url = #{record.url,jdbcType=VARCHAR},
+      sex = #{record.sex,jdbcType=TINYINT},
+      root_weibo = #{record.rootWeibo,jdbcType=VARCHAR},
+      v_type = #{record.vType,jdbcType=TINYINT},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      creator = #{record.creator,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      updater = #{record.updater,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.unicom.model.ConvergenceKol">
     update convergence_kol
     <set>
@@ -377,6 +358,25 @@
         updater = #{updater,jdbcType=VARCHAR},
       </if>
     </set>
+    where kol_id = #{kolId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.unicom.model.ConvergenceKol">
+    update convergence_kol
+    set event_id = #{eventId,jdbcType=VARCHAR},
+      username = #{username,jdbcType=VARCHAR},
+      fans = #{fans,jdbcType=INTEGER},
+      avatar = #{avatar,jdbcType=VARCHAR},
+      webo_text = #{weboText,jdbcType=VARCHAR},
+      if_forward = #{ifForward,jdbcType=TINYINT},
+      weibo_time = #{weiboTime,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=TINYINT},
+      root_weibo = #{rootWeibo,jdbcType=VARCHAR},
+      v_type = #{vType,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      creator = #{creator,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      updater = #{updater,jdbcType=VARCHAR}
     where kol_id = #{kolId,jdbcType=INTEGER}
   </update>
 </mapper>

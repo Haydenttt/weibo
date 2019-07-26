@@ -72,7 +72,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, event_id, top_name, rank, create_time, creator, update_time, updater
+    id, event_id, top_name, `rank`, create_time, creator, update_time, updater
   </sql>
   <select id="selectByExample" parameterType="com.unicom.model.EventHistoryTopExample" resultMap="BaseResultMap">
     select
@@ -106,10 +106,10 @@
     </if>
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.unicom.model.EventHistoryTop" useGeneratedKeys="true">
-    insert into event_history_top (event_id, top_name, rank, 
+    insert into event_history_top (event_id, top_name, rank,
       create_time, creator, update_time, 
       updater)
-    values (#{eventId,jdbcType=VARCHAR}, #{topName,jdbcType=VARCHAR}, #{rank,jdbcType=INTEGER}, 
+    values (#{eventId,jdbcType=VARCHAR}, #{topName,jdbcType=VARCHAR}, #{rank,jdbcType=INTEGER},
       #{createTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{updater,jdbcType=VARCHAR})
   </insert>
@@ -123,7 +123,7 @@
         top_name,
       </if>
       <if test="rank != null">
-        rank,
+        `rank`,
       </if>
       <if test="createTime != null">
         create_time,
@@ -175,7 +175,7 @@
         top_name = #{record.topName,jdbcType=VARCHAR},
       </if>
       <if test="record.rank != null">
-        rank = #{record.rank,jdbcType=INTEGER},
+        `rank` = #{record.rank,jdbcType=INTEGER},
       </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -199,7 +199,7 @@
     set id = #{record.id,jdbcType=INTEGER},
       event_id = #{record.eventId,jdbcType=VARCHAR},
       top_name = #{record.topName,jdbcType=VARCHAR},
-      rank = #{record.rank,jdbcType=INTEGER},
+      `rank` = #{record.rank,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       creator = #{record.creator,jdbcType=VARCHAR},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
@@ -218,7 +218,7 @@
         top_name = #{topName,jdbcType=VARCHAR},
       </if>
       <if test="rank != null">
-        rank = #{rank,jdbcType=INTEGER},
+        `rank` = #{rank,jdbcType=INTEGER},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -239,7 +239,7 @@
     update event_history_top
     set event_id = #{eventId,jdbcType=VARCHAR},
       top_name = #{topName,jdbcType=VARCHAR},
-      rank = #{rank,jdbcType=INTEGER},
+      `rank` = #{rank,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       creator = #{creator,jdbcType=VARCHAR},
       update_time = #{updateTime,jdbcType=TIMESTAMP},

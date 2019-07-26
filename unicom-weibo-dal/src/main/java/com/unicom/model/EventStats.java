@@ -395,4 +395,45 @@ public class EventStats {
     public void setUpdater(String updater) {
         this.updater = updater == null ? null : updater.trim();
     }
+
+    @Override
+    public String toString() {
+        return "EventStats{" +
+                "id=" + id +
+                ", eventId='" + eventId + '\'' +
+                ", effectInf=" + effectInf +
+                ", effectTypePro=" + effectTypePro +
+                ", effectAllPro=" + effectAllPro +
+                ", effectClassAvg=" + effectClassAvg +
+                ", weiboInf=" + weiboInf +
+                ", weiboTypePro=" + weiboTypePro +
+                ", weiboAllPro=" + weiboAllPro +
+                ", weiboClassAvg=" + weiboClassAvg +
+                ", weixinInf=" + weixinInf +
+                ", weixinTypePro=" + weixinTypePro +
+                ", weixinAllPro=" + weixinAllPro +
+                ", weixinClassAvg=" + weixinClassAvg +
+                ", mediaInf=" + mediaInf +
+                ", mediaTypePro=" + mediaTypePro +
+                ", mediaAllPro=" + mediaAllPro +
+                ", mediaClassAvg=" + mediaClassAvg +
+                ", mediaNum=" + mediaNum +
+                ", ccpMediaIn=" + ccpMediaIn +
+                ", ccpTypePro=" + ccpTypePro +
+                ", ccpAllPro=" + ccpAllPro +
+                ", ccpClassAvg=" + ccpClassAvg +
+                ", financeMediaIn=" + financeMediaIn +
+                ", financeTypePro=" + financeTypePro +
+                ", financeAllPro=" + financeAllPro +
+                ", financeClassAvg=" + financeClassAvg +
+                ", techMediaIn=" + techMediaIn +
+                ", techTypePro=" + techTypePro +
+                ", techAllPro=" + techAllPro +
+                ", techClassAvg=" + techClassAvg +
+                ", createTime=" + createTime +
+                ", creator='" + creator + '\'' +
+                ", updateTime=" + updateTime +
+                ", updater='" + updater + '\'' +
+                '}';
+    }
 }

@@ -1,10 +1,12 @@
 package com.unicom.controller;
 
+import com.unicom.http.ApiResult;
 import com.unicom.service.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @program: weibo
@@ -12,17 +14,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author: Hayden TONG
  * @create: 2019-07-22 08:44
  **/
-@Controller
+@RestController
 @RequestMapping("profile")
 public class ProfileController {
 
     @Autowired
     private ProfileService profileService;
 
-    @PostMapping("/getProfileData")
-    public String getProfileData() {
-        String data = profileService.crawlProfileData("123");
-        profileService.handlProfileData(data, "5816b4a30cf23b5e19909a27");
-        return null;
+    @PostMapping(value = "/getEventInfo")
+    public ApiResult getProfileData(@RequestParam("eventId") String eventId) {
+        String data = profileService.crawlProfileData(eventId);
+        profileService.handlProfileData(data, eventId);
+        ApiResult apiResult = ApiResult.success();
+        apiResult.setData(profileService.getEventInfoData(eventId));
+        return apiResult;
     }
 }
