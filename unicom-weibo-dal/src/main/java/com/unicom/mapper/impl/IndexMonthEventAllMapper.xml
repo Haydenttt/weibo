@@ -8,7 +8,7 @@
       <arg column="title" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="img" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="first_type" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="start_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="start_time" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="inf_exponent" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
       <arg column="tags" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
@@ -116,7 +116,7 @@
       tags, create_time, creator, 
       update_time, updater)
     values (#{eventId,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{img,jdbcType=VARCHAR}, 
-      #{firstType,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, #{infExponent,jdbcType=DECIMAL}, 
+      #{firstType,jdbcType=VARCHAR}, #{startTime,jdbcType=VARCHAR}, #{infExponent,jdbcType=DECIMAL}, 
       #{tags,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=VARCHAR}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{updater,jdbcType=VARCHAR})
   </insert>
@@ -171,7 +171,7 @@
         #{firstType,jdbcType=VARCHAR},
       </if>
       <if test="startTime != null">
-        #{startTime,jdbcType=TIMESTAMP},
+        #{startTime,jdbcType=VARCHAR},
       </if>
       <if test="infExponent != null">
         #{infExponent,jdbcType=DECIMAL},
@@ -212,7 +212,7 @@
         first_type = #{record.firstType,jdbcType=VARCHAR},
       </if>
       <if test="record.startTime != null">
-        start_time = #{record.startTime,jdbcType=TIMESTAMP},
+        start_time = #{record.startTime,jdbcType=VARCHAR},
       </if>
       <if test="record.infExponent != null">
         inf_exponent = #{record.infExponent,jdbcType=DECIMAL},
@@ -244,7 +244,7 @@
       title = #{record.title,jdbcType=VARCHAR},
       img = #{record.img,jdbcType=VARCHAR},
       first_type = #{record.firstType,jdbcType=VARCHAR},
-      start_time = #{record.startTime,jdbcType=TIMESTAMP},
+      start_time = #{record.startTime,jdbcType=VARCHAR},
       inf_exponent = #{record.infExponent,jdbcType=DECIMAL},
       tags = #{record.tags,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -271,7 +271,7 @@
         first_type = #{firstType,jdbcType=VARCHAR},
       </if>
       <if test="startTime != null">
-        start_time = #{startTime,jdbcType=TIMESTAMP},
+        start_time = #{startTime,jdbcType=VARCHAR},
       </if>
       <if test="infExponent != null">
         inf_exponent = #{infExponent,jdbcType=DECIMAL},
@@ -300,7 +300,7 @@
       title = #{title,jdbcType=VARCHAR},
       img = #{img,jdbcType=VARCHAR},
       first_type = #{firstType,jdbcType=VARCHAR},
-      start_time = #{startTime,jdbcType=TIMESTAMP},
+      start_time = #{startTime,jdbcType=VARCHAR},
       inf_exponent = #{infExponent,jdbcType=DECIMAL},
       tags = #{tags,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},

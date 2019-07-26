@@ -406,6 +406,10 @@ public class IndexServiceImpl implements IndexService {
     indexMonthEventAllMapper.deleteByExample(example);
   }
 
+  /**
+   * @apiNote : indexMonth()
+   * @description: 获得数据源，并插入index_month_event_all表
+   */
   @Override
   public void updateIndexMonth() {
     // 获得json
@@ -424,7 +428,7 @@ public class IndexServiceImpl implements IndexService {
         monthEventAll.setImg(
                 UrlConst.IMG_PREFIX + ((JSONObject) obj).getString("img"));
         monthEventAll.setFirstType(((JSONObject) obj).getString("type"));
-        monthEventAll.setStartTime(((JSONObject) obj).getDate("startTime"));
+        monthEventAll.setStartTime(((JSONObject) obj).getString("startTime").substring(0,10));
         monthEventAll.setInfExponent(
                 ((JSONObject) obj).getBigDecimal("infExponent"));
         monthEventAll.setTags(((JSONObject) obj).getString("tags"));
@@ -438,6 +442,10 @@ public class IndexServiceImpl implements IndexService {
     }
   }
 
+  /**
+   * @apiNote : indexMonth()
+   * @description: select数据表index_month_event_all的所有数据,并封装成json返回
+   */
   @Override
   public Map<String, Object> getIndexMonth() {
     IndexMonthEventAllExample example = new IndexMonthEventAllExample();
@@ -445,14 +453,106 @@ public class IndexServiceImpl implements IndexService {
     criteria.andIdIsNotNull();
     List<IndexMonthEventAll> monthList = indexMonthEventAllMapper.selectByExample(example);
     // 自生成属性转为VO格式return
-    List<IndexMonthEventAllVO> monthVOList = new ArrayList<>();
+    List<IndexMonthEventAllVO> societyList = new ArrayList<>();
+    List<IndexMonthEventAllVO> internetList = new ArrayList<>();
+    List<IndexMonthEventAllVO> govList = new ArrayList<>();
+    List<IndexMonthEventAllVO> ecoList = new ArrayList<>();
+    List<IndexMonthEventAllVO> corpList = new ArrayList<>();
+    List<IndexMonthEventAllVO> entertainmentList = new ArrayList<>();
+    List<IndexMonthEventAllVO> hazzardList = new ArrayList<>();
+    List<IndexMonthEventAllVO> crimeList = new ArrayList<>();
+    List<IndexMonthEventAllVO> globeList = new ArrayList<>();
+    List<IndexMonthEventAllVO> sportsList = new ArrayList<>();
+
     for (IndexMonthEventAll indexMonthEventAll : monthList) {
       IndexMonthEventAllVO monthVO = new IndexMonthEventAllVO();
       BeanUtils.copyProperties(indexMonthEventAll, monthVO);
-      monthVOList.add(monthVO);
+      if ("社会".equals(monthVO.getFirstType())){
+        societyList.add(monthVO);
+      }
+      if ("互联网".equals(monthVO.getFirstType())){
+        internetList.add(monthVO);
+      }
+      if ("政务".equals(monthVO.getFirstType())){
+        govList.add(monthVO);
+      }
+      if ("财经".equals(monthVO.getFirstType())){
+        ecoList.add(monthVO);
+      }
+      if ("企业".equals(monthVO.getFirstType())){
+        corpList.add(monthVO);
+      }
+      if ("娱乐".equals(monthVO.getFirstType())){
+        entertainmentList.add(monthVO);
+      }
+      if ("灾难".equals(monthVO.getFirstType())){
+        hazzardList.add(monthVO);
+      }
+      if ("违法犯罪".equals(monthVO.getFirstType())){
+        crimeList.add(monthVO);
+      }
+      if ("国际".equals(monthVO.getFirstType())){
+        globeList.add(monthVO);
+      }
+      if ("体育".equals(monthVO.getFirstType())){
+        sportsList.add(monthVO);
+      }
     }
 
+    Map<String ,Object> monthEventMap = new LinkedHashMap<>();
+    monthEventMap.put("社会",monthAddList(societyList));
+    monthEventMap.put("互联网",monthAddList(internetList));
+    monthEventMap.put("政务",monthAddList(govList));
+    monthEventMap.put("财经",monthAddList(ecoList));
+    monthEventMap.put("企业",monthAddList(corpList));
+    monthEventMap.put("娱乐",monthAddList(entertainmentList));
+    monthEventMap.put("灾难",monthAddList(hazzardList));
+    monthEventMap.put("违法犯罪",monthAddList(crimeList));
+    monthEventMap.put("国际",monthAddList(globeList));
+    monthEventMap.put("体育",monthAddList(sportsList));
+    return monthEventMap;
+  }
 
+  private List<Map<String,Object>> monthAddList(List<IndexMonthEventAllVO> voList){
+    List<Map<String ,Object>> monthEventList = new ArrayList<>();
+    for (IndexMonthEventAllVO monthEventAllVO : voList) {
+      Map<String, Object> eventMap = new HashMap<>();
+      eventMap.put("name", monthEventAllVO.getTitle());
+      eventMap.put("startTime", monthEventAllVO.getStartTime());
+      eventMap.put("infExponent", monthEventAllVO.getInfExponent());
+      monthEventList.add(eventMap);
+    }
+    return monthEventList;
+  }
+
+  /**
+   * @apiNote : indexDetail()
+   * @description: 删除index_month_event_detail表历史数据
+   */
+  @Override
+  public void deleteMonthDetail() {
+    IndexMonthEventDetailExample example = new IndexMonthEventDetailExample();
+    IndexMonthEventDetailExample.Criteria criteria = example.createCriteria();
+    criteria.andIdIsNotNull();
+    indexMonthEventDetailMapper.deleteByExample(example);
+  }
+
+  /**
+   * @apiNote : indexDetail()
+   * @description: 获得数据源，并插入index_month_event_detail表
+   */
+  @Override
+  public void updateMonthDetail(){
+
+  }
+
+  /**
+   * @apiNote : indexMonth()
+   * @description: select数据表index_month_event_detail的所有数据,并封装成json返回
+   */
+  @Override
+  public Map<String ,Object>getMonthDetail(){
     return null;
   }
+
 }

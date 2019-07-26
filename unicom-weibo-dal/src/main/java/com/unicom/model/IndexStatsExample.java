@@ -696,6 +696,66 @@ public class IndexStatsExample {
             return (Criteria) this;
         }
 
+        public Criteria andCurrentRankIsNull() {
+            addCriterion("current_rank is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCurrentRankIsNotNull() {
+            addCriterion("current_rank is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCurrentRankEqualTo(Integer value) {
+            addCriterion("current_rank =", value, "currentRank");
+            return (Criteria) this;
+        }
+
+        public Criteria andCurrentRankNotEqualTo(Integer value) {
+            addCriterion("current_rank <>", value, "currentRank");
+            return (Criteria) this;
+        }
+
+        public Criteria andCurrentRankGreaterThan(Integer value) {
+            addCriterion("current_rank >", value, "currentRank");
+            return (Criteria) this;
+        }
+
+        public Criteria andCurrentRankGreaterThanOrEqualTo(Integer value) {
+            addCriterion("current_rank >=", value, "currentRank");
+            return (Criteria) this;
+        }
+
+        public Criteria andCurrentRankLessThan(Integer value) {
+            addCriterion("current_rank <", value, "currentRank");
+            return (Criteria) this;
+        }
+
+        public Criteria andCurrentRankLessThanOrEqualTo(Integer value) {
+            addCriterion("current_rank <=", value, "currentRank");
+            return (Criteria) this;
+        }
+
+        public Criteria andCurrentRankIn(List<Integer> values) {
+            addCriterion("current_rank in", values, "currentRank");
+            return (Criteria) this;
+        }
+
+        public Criteria andCurrentRankNotIn(List<Integer> values) {
+            addCriterion("current_rank not in", values, "currentRank");
+            return (Criteria) this;
+        }
+
+        public Criteria andCurrentRankBetween(Integer value1, Integer value2) {
+            addCriterion("current_rank between", value1, value2, "currentRank");
+            return (Criteria) this;
+        }
+
+        public Criteria andCurrentRankNotBetween(Integer value1, Integer value2) {
+            addCriterion("current_rank not between", value1, value2, "currentRank");
+            return (Criteria) this;
+        }
+
         public Criteria andLastRankIsNull() {
             addCriterion("last_rank is null");
             return (Criteria) this;
@@ -1133,66 +1193,6 @@ public class IndexStatsExample {
 
         public Criteria andUpdaterNotBetween(String value1, String value2) {
             addCriterion("updater not between", value1, value2, "updater");
-            return (Criteria) this;
-        }
-
-        public Criteria andCurrentRankIsNull() {
-            addCriterion("current_rank is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCurrentRankIsNotNull() {
-            addCriterion("current_rank is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCurrentRankEqualTo(Integer value) {
-            addCriterion("current_rank =", value, "currentRank");
-            return (Criteria) this;
-        }
-
-        public Criteria andCurrentRankNotEqualTo(Integer value) {
-            addCriterion("current_rank <>", value, "currentRank");
-            return (Criteria) this;
-        }
-
-        public Criteria andCurrentRankGreaterThan(Integer value) {
-            addCriterion("current_rank >", value, "currentRank");
-            return (Criteria) this;
-        }
-
-        public Criteria andCurrentRankGreaterThanOrEqualTo(Integer value) {
-            addCriterion("current_rank >=", value, "currentRank");
-            return (Criteria) this;
-        }
-
-        public Criteria andCurrentRankLessThan(Integer value) {
-            addCriterion("current_rank <", value, "currentRank");
-            return (Criteria) this;
-        }
-
-        public Criteria andCurrentRankLessThanOrEqualTo(Integer value) {
-            addCriterion("current_rank <=", value, "currentRank");
-            return (Criteria) this;
-        }
-
-        public Criteria andCurrentRankIn(List<Integer> values) {
-            addCriterion("current_rank in", values, "currentRank");
-            return (Criteria) this;
-        }
-
-        public Criteria andCurrentRankNotIn(List<Integer> values) {
-            addCriterion("current_rank not in", values, "currentRank");
-            return (Criteria) this;
-        }
-
-        public Criteria andCurrentRankBetween(Integer value1, Integer value2) {
-            addCriterion("current_rank between", value1, value2, "currentRank");
-            return (Criteria) this;
-        }
-
-        public Criteria andCurrentRankNotBetween(Integer value1, Integer value2) {
-            addCriterion("current_rank not between", value1, value2, "currentRank");
             return (Criteria) this;
         }
     }

@@ -14,7 +14,7 @@ public class IndexMonthEventAll {
 
     private String firstType;
 
-    private Date startTime;
+    private String startTime;
 
     private BigDecimal infExponent;
 
@@ -28,7 +28,7 @@ public class IndexMonthEventAll {
 
     private String updater;
 
-    public IndexMonthEventAll(Integer id, String eventId, String title, String img, String firstType, Date startTime, BigDecimal infExponent, String tags, Date createTime, String creator, Date updateTime, String updater) {
+    public IndexMonthEventAll(Integer id, String eventId, String title, String img, String firstType, String startTime, BigDecimal infExponent, String tags, Date createTime, String creator, Date updateTime, String updater) {
         this.id = id;
         this.eventId = eventId;
         this.title = title;
@@ -87,12 +87,12 @@ public class IndexMonthEventAll {
         this.firstType = firstType == null ? null : firstType.trim();
     }
 
-    public Date getStartTime() {
+    public String getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
+    public void setStartTime(String startTime) {
+        this.startTime = startTime == null ? null : startTime.trim();
     }
 
     public BigDecimal getInfExponent() {

@@ -24,4 +24,10 @@ public interface IndexService {
     void updateIndexMonth();
 
     Map<String ,Object>getIndexMonth();
+
+    void deleteMonthDetail();
+
+    void updateMonthDetail();
+
+    Map<String ,Object>getMonthDetail();
 }

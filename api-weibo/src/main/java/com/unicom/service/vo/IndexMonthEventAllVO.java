@@ -15,7 +15,7 @@ public class IndexMonthEventAllVO {
 
     private String firstType;
 
-    private Date startTime;
+    private String startTime;
 
     private BigDecimal infExponent;
 
@@ -35,11 +35,11 @@ public class IndexMonthEventAllVO {
         this.firstType = firstType;
     }
 
-    public Date getStartTime() {
+    public String getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Date startTime) {
+    public void setStartTime(String startTime) {
         this.startTime = startTime;
     }
 
@@ -54,7 +54,17 @@ public class IndexMonthEventAllVO {
     public IndexMonthEventAllVO() {
     }
 
-    public IndexMonthEventAllVO(String title, String firstType, Date startTime, BigDecimal infExponent) {
+    @Override
+    public String toString() {
+        return "IndexMonthEventAllVO{" +
+                "title='" + title + '\'' +
+                ", firstType='" + firstType + '\'' +
+                ", startTime=" + startTime +
+                ", infExponent=" + infExponent +
+                '}';
+    }
+
+    public IndexMonthEventAllVO(String title, String firstType, String startTime, BigDecimal infExponent) {
         this.title = title;
         this.firstType = firstType;
         this.startTime = startTime;

@@ -22,6 +22,8 @@ public class IndexStats {
 
     private BigDecimal pro;
 
+    private Integer currentRank;
+
     private Integer lastRank;
 
     private Byte isDay;
@@ -36,9 +38,7 @@ public class IndexStats {
 
     private String updater;
 
-    private Integer currentRank;
-
-    public IndexStats(Integer id, String eventId, String title, String img, String firstType, String rankTime, Integer sumHeat, Integer heatExponent, BigDecimal pro, Integer lastRank, Byte isDay, Byte isValid, Date createTime, String creator, Date updateTime, String updater, Integer currentRank) {
+    public IndexStats(Integer id, String eventId, String title, String img, String firstType, String rankTime, Integer sumHeat, Integer heatExponent, BigDecimal pro, Integer currentRank, Integer lastRank, Byte isDay, Byte isValid, Date createTime, String creator, Date updateTime, String updater) {
         this.id = id;
         this.eventId = eventId;
         this.title = title;
@@ -48,6 +48,7 @@ public class IndexStats {
         this.sumHeat = sumHeat;
         this.heatExponent = heatExponent;
         this.pro = pro;
+        this.currentRank = currentRank;
         this.lastRank = lastRank;
         this.isDay = isDay;
         this.isValid = isValid;
@@ -55,7 +56,6 @@ public class IndexStats {
         this.creator = creator;
         this.updateTime = updateTime;
         this.updater = updater;
-        this.currentRank = currentRank;
     }
 
     public IndexStats() {
@@ -134,6 +134,14 @@ public class IndexStats {
         this.pro = pro;
     }
 
+    public Integer getCurrentRank() {
+        return currentRank;
+    }
+
+    public void setCurrentRank(Integer currentRank) {
+        this.currentRank = currentRank;
+    }
+
     public Integer getLastRank() {
         return lastRank;
     }
@@ -188,13 +196,5 @@ public class IndexStats {
 
     public void setUpdater(String updater) {
         this.updater = updater == null ? null : updater.trim();
-    }
-
-    public Integer getCurrentRank() {
-        return currentRank;
-    }
-
-    public void setCurrentRank(Integer currentRank) {
-        this.currentRank = currentRank;
     }
 }
