@@ -13,6 +13,7 @@ import com.unicom.model.*;
 import com.unicom.service.IndexService;
 import com.unicom.service.vo.IndexIntroVO;
 import com.unicom.service.vo.IndexMonthEventAllVO;
+import com.unicom.service.vo.IndexMonthEventDetailVO;
 import com.unicom.service.vo.IndexStatsVO;
 import com.unicom.util.HttpUtil;
 import org.springframework.beans.BeanUtils;
@@ -291,7 +292,7 @@ public class IndexServiceImpl implements IndexService {
     statsVOHourList = do2voList(entireHourList);
 
     // 最外层data
-    Map<String, Object> dataMap = new HashMap<>();
+    Map<String, Object> dataMap = new LinkedHashMap<>();
     // "rankDay"数组
     List<Map<String, Object>> rankDayList = new ArrayList<>();
     List<Map<String, Object>> rankHourList = new ArrayList<>();
@@ -517,6 +518,7 @@ public class IndexServiceImpl implements IndexService {
     List<Map<String ,Object>> monthEventList = new ArrayList<>();
     for (IndexMonthEventAllVO monthEventAllVO : voList) {
       Map<String, Object> eventMap = new HashMap<>();
+      eventMap.put("eventId",monthEventAllVO.getEventId());
       eventMap.put("name", monthEventAllVO.getTitle());
       eventMap.put("startTime", monthEventAllVO.getStartTime());
       eventMap.put("infExponent", monthEventAllVO.getInfExponent());
@@ -542,8 +544,32 @@ public class IndexServiceImpl implements IndexService {
    * @description: 获得数据源，并插入index_month_event_detail表
    */
   @Override
-  public void updateMonthDetail(){
-
+  public void updateMonthDetail(String eventId){
+    // 获得json
+    String data = HttpUtil.sendPost(UrlConst.ONE_EVENT,"eventId=" + eventId);
+    IndexMonthEventDetail eventDetail = new IndexMonthEventDetail();
+    try {
+      // 把String转换成json
+      JSONObject dataJson = JSONObject.parseObject(data);
+      // 获取map
+      for (int i = 0;i < 7;i++){
+        JSONObject exEffectJson = (dataJson.getJSONObject("ex")).getJSONObject("effect");
+        JSONArray sevenDayJson = dataJson.getJSONArray("sevenDay");
+        eventDetail.setEventId(eventId);
+        eventDetail.setInf(exEffectJson.getBigDecimal("inf"));
+        eventDetail.setTypePro(exEffectJson.getBigDecimal("typePro"));
+        eventDetail.setAllPro(exEffectJson.getBigDecimal("allPro"));
+        eventDetail.setTitle(dataJson.getString("name"));
+        eventDetail.setFirstType(dataJson.getString("type"));
+        eventDetail.setSevenDayInf(((JSONObject)(sevenDayJson.get(i))).getInteger("num"));
+        eventDetail.setSevenDayTime(((JSONObject)(sevenDayJson.get(i))).getString("time"));
+        eventDetail.setCreator(UrlConst.TLJ);
+        eventDetail.setUpdater(UrlConst.TLJ);
+        indexMonthEventDetailMapper.insertSelective(eventDetail);
+      }
+  }catch (Exception e){
+      throw new WeiboException(EmWeiboError.UNKNOW_ERROR.setErrMsg("serviceImpl向index_month_event_detail表插入失败！"));
+    }
   }
 
   /**
@@ -552,7 +578,39 @@ public class IndexServiceImpl implements IndexService {
    */
   @Override
   public Map<String ,Object>getMonthDetail(){
-    return null;
+
+    IndexMonthEventDetailExample example = new IndexMonthEventDetailExample();
+    IndexMonthEventDetailExample.Criteria criteria = example.createCriteria();
+    criteria.andIdIsNotNull();
+    List<IndexMonthEventDetail> detailList = indexMonthEventDetailMapper.selectByExample(example);
+    // 自生成属性转为VO格式return
+    List<IndexMonthEventDetailVO> detailVOList = new ArrayList<>();
+    for (IndexMonthEventDetail eventDetail : detailList) {
+      IndexMonthEventDetailVO detailVO = new IndexMonthEventDetailVO();
+      BeanUtils.copyProperties(eventDetail, detailVO);
+      detailVOList.add(detailVO);
+    }
+
+    Map<String ,Object> detailMap = new HashMap<>();
+    Map<String ,Object> effectMap = new HashMap<>();
+    List<Map<String ,Object>> sevenDayList = new ArrayList<>();
+
+    for (int i = 0;i < 7;i++){
+      Map<String ,Object> sevenDayMap = new LinkedHashMap<>();
+      sevenDayMap.put("time",detailVOList.get(i).getSevenDayTime());
+      sevenDayMap.put("num",detailVOList.get(i).getSevenDayInf());
+      sevenDayList.add(sevenDayMap);
+    }
+
+    effectMap.put("inf",detailVOList.get(0).getInf());
+    effectMap.put("typePro",detailVOList.get(0).getTypePro());
+    effectMap.put("allPro",detailVOList.get(0).getAllPro());
+
+    detailMap.put("name",detailVOList.get(0).getTitle());
+    detailMap.put("type",detailVOList.get(0).getFirstType());
+    detailMap.put("effect",effectMap);
+    detailMap.put("sevenDay",sevenDayList);
+    return detailMap;
   }
 
 }

@@ -33,22 +33,6 @@ public class IndexStatsVO {
 
     private Integer tendency;
 
-    public IndexStatsVO() {
-    }
-
-    public IndexStatsVO(String eventId, String title, String img, String rankTime, Integer sumHeat, Integer heatExponent, BigDecimal pro, Integer currentRank, Integer lastRank, Integer tendency, Byte isDay) {
-        this.eventId = eventId;
-        this.title = title;
-        this.img = img;
-        this.rankTime = rankTime;
-        this.sumHeat = sumHeat;
-        this.heatExponent = heatExponent;
-        this.pro = pro;
-        this.currentRank = currentRank;
-        this.lastRank = lastRank;
-        this.tendency = tendency;
-    }
-
     public String getEventId() {
         return eventId;
     }

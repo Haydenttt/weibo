@@ -27,7 +27,7 @@ public interface IndexService {
 
     void deleteMonthDetail();
 
-    void updateMonthDetail();
+    void updateMonthDetail(String eventId);
 
     Map<String ,Object>getMonthDetail();
 }

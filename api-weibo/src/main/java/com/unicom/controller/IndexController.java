@@ -2,6 +2,7 @@ package com.unicom.controller;
 
 import com.unicom.http.ApiResult;
 import com.unicom.service.IndexService;
+import com.unicom.util.CommonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.Map;
@@ -45,5 +46,16 @@ public class IndexController extends BaseController{
         return apiResult;
     }
 
+    @PostMapping(value = "/indexDetail")
+    public ApiResult indexDetail(@RequestBody Map<String, Object> map){
+        String eventId = CommonUtil.getStringFromMap(map,"eventId");
+        indexService.deleteMonthDetail();
+        indexService.updateMonthDetail(eventId);
+        Map<String ,Object> detailMap = indexService.getMonthDetail();
+        ApiResult apiResult;
+        apiResult = ApiResult.success();
+        apiResult.setData(detailMap);
+        return apiResult;
+    }
 
 }

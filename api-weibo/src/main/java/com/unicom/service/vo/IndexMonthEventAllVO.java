@@ -11,6 +11,8 @@ import java.util.Date;
  **/
 public class IndexMonthEventAllVO {
 
+    private String eventId;
+
     private String title;
 
     private String firstType;
@@ -18,6 +20,14 @@ public class IndexMonthEventAllVO {
     private String startTime;
 
     private BigDecimal infExponent;
+
+    public String getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(String eventId) {
+        this.eventId = eventId;
+    }
 
     public String getTitle() {
         return title;
@@ -52,22 +62,5 @@ public class IndexMonthEventAllVO {
     }
 
     public IndexMonthEventAllVO() {
-    }
-
-    @Override
-    public String toString() {
-        return "IndexMonthEventAllVO{" +
-                "title='" + title + '\'' +
-                ", firstType='" + firstType + '\'' +
-                ", startTime=" + startTime +
-                ", infExponent=" + infExponent +
-                '}';
-    }
-
-    public IndexMonthEventAllVO(String title, String firstType, String startTime, BigDecimal infExponent) {
-        this.title = title;
-        this.firstType = firstType;
-        this.startTime = startTime;
-        this.infExponent = infExponent;
     }
 }
