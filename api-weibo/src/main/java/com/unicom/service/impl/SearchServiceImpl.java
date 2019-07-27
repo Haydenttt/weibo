@@ -113,7 +113,7 @@ public class SearchServiceImpl implements SearchService {
         SearchNavbarExample searchNavbarExample = new SearchNavbarExample();
         SearchNavbarExample.Criteria criteria = searchNavbarExample.createCriteria();
         criteria.andIdIsNotNull();
-        searchNavbarMapper.selectByExample(searchNavbarExample);
+        searchNavbarMapper.deleteByExample(searchNavbarExample);
     }
 
     @Override
@@ -148,7 +148,6 @@ public class SearchServiceImpl implements SearchService {
         List<SearchNavbar> navbarList = searchNavbarMapper.selectByExample(example);
 
         List<SearchNavbarVO> navbarVOList = new ArrayList<>();
-
         for (SearchNavbar searchNavbar : navbarList) {
             SearchNavbarVO navbarVO = new SearchNavbarVO();
             BeanUtils.copyProperties(searchNavbar, navbarVO);
@@ -157,9 +156,9 @@ public class SearchServiceImpl implements SearchService {
 
         Map<String ,Object> resultMap = new HashMap<>();
         List<Map<String ,Object>> dataList = new ArrayList<>();
-        Map<String ,Object> dataMap = new HashMap<>();
 
         for (SearchNavbarVO navbarVO : navbarVOList){
+            Map<String ,Object> dataMap = new HashMap<>();
             dataMap.put("imgUrl",navbarVO.getImgUrl());
             dataMap.put("eventId",navbarVO.getEventId());
             dataMap.put("media",navbarVO.getMedia().replace("[", "").replace("]", "").replaceAll("\"",""));
