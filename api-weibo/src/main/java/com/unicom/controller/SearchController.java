@@ -24,12 +24,23 @@ public class SearchController extends BaseController {
     SearchService searchService;
 
     @PostMapping(value = "/searchResult")
-    public ApiResult search(@RequestParam Map<String, Object> map){
+    public ApiResult searchResult(@RequestParam Map<String, Object> map){
         String keyword = CommonUtil.getStringFromMap(map,"keyword");
         Integer page = Integer.valueOf(CommonUtil.getStringFromMap(map,"page"));
         searchService.deleteSearchResult();
         searchService.updateSearchResult(keyword,page);
         Map<String ,Object> resultMap = searchService.getSearchResult();
+        ApiResult apiResult;
+        apiResult = ApiResult.success();
+        apiResult.setData(resultMap);
+        return apiResult;
+    }
+
+    @GetMapping(value = "/searchNavbar")
+    public ApiResult searchNavbar(){
+        searchService.deleteSearchNavbar();
+        searchService.updateSearchNavbar();
+        Map<String ,Object> resultMap = searchService.getSearchNavbar();
         ApiResult apiResult;
         apiResult = ApiResult.success();
         apiResult.setData(resultMap);
