@@ -88,9 +88,9 @@ public class SearchServiceImpl implements SearchService {
         }
 
         Map<String ,Object> resultMap = new HashMap<>();
-        Map<String ,Object> eventsMap = new LinkedHashMap<>();
         List<Map<String ,Object>> eventsList = new ArrayList<>();
         for (SearchResultVO resultVO : resultVOList) {
+            Map<String ,Object> eventsMap = new HashMap<>();
             eventsMap.put("eventId", resultVO.getEventId());
             eventsMap.put("firstType", resultVO.getFirstType());
             eventsMap.put("title", resultVO.getTitle());
