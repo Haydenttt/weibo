@@ -131,4 +131,21 @@ public class EventIndicator {
     public void setUpdater(String updater) {
         this.updater = updater == null ? null : updater.trim();
     }
+
+    @Override
+    public String toString() {
+        return "EventIndicator{" +
+                "id=" + id +
+                ", eventId='" + eventId + '\'' +
+                ", avgVel=" + avgVel +
+                ", isEnd=" + isEnd +
+                ", maxVel=" + maxVel +
+                ", continuedTime='" + continuedTime + '\'' +
+                ", nearHotInf=" + nearHotInf +
+                ", createTime=" + createTime +
+                ", creator='" + creator + '\'' +
+                ", updateTime=" + updateTime +
+                ", updater='" + updater + '\'' +
+                '}';
+    }
 }

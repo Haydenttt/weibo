@@ -2,8 +2,10 @@ package com.unicom.mapper;
 
 import com.unicom.model.EventMeanwhileCase;
 import com.unicom.model.EventMeanwhileCaseExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+
 
 public interface EventMeanwhileCaseMapper {
     int deleteByExample(EventMeanwhileCaseExample example);

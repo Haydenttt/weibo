@@ -131,4 +131,11 @@ public class CommonUtil {
         }
         return time;
     }
+
+    public static Date milliSecondToDate(Long milliSecond) {
+        Date date = new Date();
+        date.setTime(milliSecond);
+        return date;
+    }
+
 }
