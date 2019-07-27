@@ -21,7 +21,7 @@ public class IndexController extends BaseController{
     @Autowired
     private IndexService indexService;
 
-    @PostMapping(value = "/indexStats")
+    @GetMapping(value = "/indexStats")
     public ApiResult indexStats(){
 //        1.删历史数据
         indexService.deleteIndexStats();
@@ -35,7 +35,7 @@ public class IndexController extends BaseController{
         return apiResult;
     }
 
-    @PostMapping(value = "/indexMonth")
+    @GetMapping(value = "/indexMonth")
     public ApiResult indexMonth(){
         indexService.deleteIndexMonth();
         indexService.updateIndexMonth();
@@ -47,7 +47,7 @@ public class IndexController extends BaseController{
     }
 
     @PostMapping(value = "/indexDetail")
-    public ApiResult indexDetail(@RequestBody Map<String, Object> map){
+    public ApiResult indexDetail(@RequestParam Map<String, Object> map){
         String eventId = CommonUtil.getStringFromMap(map,"eventId");
         indexService.deleteMonthDetail();
         indexService.updateMonthDetail(eventId);

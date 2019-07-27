@@ -145,7 +145,7 @@ public class IndexServiceImpl implements IndexService {
       stats.setIsValid((byte) 0);
 
       // 分日热度
-      for (int i = 6; i >= 0; i--) {
+      for (int i = 0; i <= 6; i++) {
         for (int j = 0; j <= 9; j++) {
           stats.setEventId(
               ((JSONObject)
@@ -381,7 +381,7 @@ public class IndexServiceImpl implements IndexService {
       }
       rankMap.put("info", rankInfoList);
       if (outer == 6) {
-        rankMap.put("time", result.get(i).get(0).getRankTime());
+        rankMap.put("time", result.get(i).get(0).getRankTime().substring(5));
       }
       if (outer == 11) {
         // 只取时间后2位的小时
@@ -597,7 +597,7 @@ public class IndexServiceImpl implements IndexService {
 
     for (int i = 0;i < 7;i++){
       Map<String ,Object> sevenDayMap = new LinkedHashMap<>();
-      sevenDayMap.put("time",detailVOList.get(i).getSevenDayTime());
+      sevenDayMap.put("time",detailVOList.get(i).getSevenDayTime().substring(5));
       sevenDayMap.put("num",detailVOList.get(i).getSevenDayInf());
       sevenDayList.add(sevenDayMap);
     }
