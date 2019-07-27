@@ -2,15 +2,13 @@ package com.unicom.mapper;
 
 import com.unicom.model.EventInfo;
 import com.unicom.model.EventInfoExample;
-import java.util.List;
-
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-public interface EventInfoMapper {
-    int deleteByExample(EventInfoExample example);
+import java.util.List;
 
-    int deleteByPrimaryKey(Integer id);
+public interface EventInfoMapper {
+
+    int deleteByExample(EventInfoExample example);
 
     int insert(EventInfo record);
 
