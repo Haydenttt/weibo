@@ -3,18 +3,18 @@
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 
 <generatorConfiguration>
-    <properties resource="./src/main/resources/config.properties"/>
+    <properties resource="config.properties"/>
 
-    <context id="Mysql" targetRuntime="MyBatis3Simple" defaultModelType="flat">
+    <context id="DB2Tables" targetRuntime="MyBatis3" defaultModelType="flat">
         <property name="beginningDelimiter" value="`"/>
         <property name="endingDelimiter" value="`"/>
 
-        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
-        <plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>
-        <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
-            <property name="mappers" value="tk.mybatis.mapper.common.Mapper"/>
-            <property name="caseSensitive" value="true"/>
-        </plugin>
+        <!--<plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>-->
+        <!--<plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>-->
+        <!--<plugin type="">-->
+            <!--<property name="mappers" value="tk.mybatis.mapper.common.Mapper"/>-->
+            <!--<property name="caseSensitive" value="true"/>-->
+        <!--</plugin>-->
 
         <jdbcConnection driverClass="${datasource.driver-class-name}"
                         connectionURL="${datasource.url}"
@@ -23,80 +23,30 @@
         </jdbcConnection>
 
         <javaModelGenerator targetPackage="com.unicom.model"
-                            targetProject="src/main/java">
+                            targetProject="unicom-weibo-dal/src/main/java">
             <property name="enableSubPackages" value="true"/>
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
 
         <sqlMapGenerator targetPackage="com.unicom.mapper.impl"
-                         targetProject="src/main/resources"/>
+                         targetProject="unicom-weibo-dal/src/main/java">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
 
         <javaClientGenerator targetPackage="com.unicom.mapper"
-                             targetProject="src/main/java"
+                             targetProject="unicom-weibo-dal/src/main/java"
                              type="XMLMAPPER"/>
 
-        <table tableName="event_info" domainObjectName="EventInfoMapper"
-               enableCountByExample="false"
-               enableUpdateByExample="true"
-               enableDeleteByExample="true"
-               enableSelectByExample="true"
-               selectByExampleQueryId="true">
-            <generatedKey column="id" sqlStatement="JDBC"/>
-        </table>
-        <table tableName="event_info" domainObjectName="EventInfoMapper"
-               enableCountByExample="false"
-               enableUpdateByExample="true"
-               enableDeleteByExample="true"
-               enableSelectByExample="true"
-               selectByExampleQueryId="true">
-            <generatedKey column="id" sqlStatement="JDBC"/>
-        </table>
-        <table tableName="event_info" domainObjectName="EventInfoMapper"
-               enableCountByExample="false"
-               enableUpdateByExample="true"
-               enableDeleteByExample="true"
-               enableSelectByExample="true"
-               selectByExampleQueryId="true">
-            <generatedKey column="id" sqlStatement="JDBC"/>
-        </table>
-        <table tableName="event_info" domainObjectName="EventInfoMapper"
-               enableCountByExample="false"
-               enableUpdateByExample="true"
-               enableDeleteByExample="true"
-               enableSelectByExample="true"
-               selectByExampleQueryId="true">
-            <generatedKey column="id" sqlStatement="JDBC"/>
-        </table>
-        <table tableName="event_info" domainObjectName="EventInfoMapper"
-               enableCountByExample="false"
-               enableUpdateByExample="true"
-               enableDeleteByExample="true"
-               enableSelectByExample="true"
-               selectByExampleQueryId="true">
-            <generatedKey column="id" sqlStatement="JDBC"/>
-        </table>
-        <table tableName="event_info" domainObjectName="EventInfoMapper"
-               enableCountByExample="false"
-               enableUpdateByExample="true"
-               enableDeleteByExample="true"
-               enableSelectByExample="true"
-               selectByExampleQueryId="true">
-            <generatedKey column="id" sqlStatement="JDBC"/>
-        </table>
-        <table tableName="event_info" domainObjectName="EventInfoMapper"
-               enableCountByExample="false"
-               enableUpdateByExample="true"
-               enableDeleteByExample="true"
-               enableSelectByExample="true"
-               selectByExampleQueryId="true">
-            <generatedKey column="id" sqlStatement="JDBC"/>
-        </table>
-        <table tableName="event_info" domainObjectName="EventInfoMapper"
-               enableCountByExample="false"
-               enableUpdateByExample="true"
-               enableDeleteByExample="true"
-               enableSelectByExample="true"
-               selectByExampleQueryId="true">
+        <table tableName="event_info" domainObjectName="EventInfo" enableCountByExample="false">
+            <!--enableInsert="true"-->
+            <!--enableUpdateByPrimaryKey="true"-->
+            <!--enableSelectByPrimaryKey="true"-->
+            <!--enableDeleteByPrimaryKey="true"-->
+            <!--enableCountByExample="false"-->
+            <!--enableUpdateByExample="true"-->
+            <!--enableDeleteByExample="true"-->
+            <!--enableSelectByExample="true"-->
+            <!--selectByExampleQueryId="true">-->
             <generatedKey column="id" sqlStatement="JDBC"/>
         </table>
 

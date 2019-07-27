@@ -43,5 +43,4 @@ public interface TrendService {
      * @return json字符串
      */
     Map<String, Object> assembleResult(String eventId);
-
 }

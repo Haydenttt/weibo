@@ -2,6 +2,8 @@ package com.unicom.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.unicom.exception.EmWeiboError;
+import com.unicom.exception.WeiboException;
 import com.unicom.mapper.EventIndicatorMapper;
 import com.unicom.mapper.EventInfoMapper;
 import com.unicom.mapper.EventMeanwhileCaseMapper;
@@ -18,7 +20,7 @@ import java.util.*;
 /**
  * @program: weibo
  * @description:
- * @author: liupei
+ * @author: lp
  * @create: 2019-07-22 08:54
  **/
 @Service
@@ -181,7 +183,7 @@ public class TrendServiceImpl implements TrendService {
      * @param eventId 事件id
      * @return 同期事件list
      */
-    public List<EventMeanwhileCase> getMeanwhileEvents(String eventId) {
+    private List<EventMeanwhileCase> getMeanwhileEvents(String eventId) {
         EventMeanwhileCaseExample eventMeanwhileCaseExample = new EventMeanwhileCaseExample();
         eventMeanwhileCaseExample.createCriteria().andEventIdEqualTo(eventId);
         List<EventMeanwhileCase> eventMeanwhileCaseList = eventMeanwhileCaseMapper.selectByExample(eventMeanwhileCaseExample);
@@ -189,7 +191,7 @@ public class TrendServiceImpl implements TrendService {
     }
 
     public Map<String, Object> assembleResult(String eventId) {
-        Map<String, Object> resultMap = new HashMap<>();
+        Map<String, Object> resultMap = new LinkedHashMap<>();
         EventIndicatorExample eventIndicatorExample = new EventIndicatorExample();
         eventIndicatorExample.createCriteria().andEventIdEqualTo(eventId);
         List<EventIndicator> eventIndicatorList = eventIndicatorMapper.selectByExample(eventIndicatorExample);
@@ -197,54 +199,88 @@ public class TrendServiceImpl implements TrendService {
         EventTimelineTrendExample eventTimelineTrendExample = new EventTimelineTrendExample();
         eventTimelineTrendExample.createCriteria().andEventIdEqualTo(eventId).andPlatformTypeEqualTo((byte) 0);
 
+        EventInfoExample eventInfoExample = new EventInfoExample();
         List<EventTimelineTrend> eventTimelineTrendList = eventTimelineTrendMapper.selectByExample(eventTimelineTrendExample);
         if (eventIndicatorList.size() > 0) {
-            EventIndicator eventIndicator = eventIndicatorList.get(0);
-            resultMap.put("nearHotInf", eventIndicator.getNearHotInf());
-            resultMap.put("avgVel", eventIndicator.getAvgVel());
-            resultMap.put("topVel", eventIndicator.getMaxVel());
-            resultMap.put("continuedTime", eventIndicator.getContinuedTime());
-            List<String> timeList = new ArrayList<>();
-            for (EventTimelineTrend eventTimelineTrend : eventTimelineTrendList) {
-                timeList.add(eventTimelineTrend.getTime());
-            }
-            resultMap.put("xLine", timeList);
-            List<Integer> numList = new ArrayList<>();
-            List<Integer> weiboNumList = new ArrayList<>();
-            List<Integer> wechatNumList = new ArrayList<>();
-            List<Integer> mediaNumList = new ArrayList<>();
-            //全局传播趋势timeLine数值
-            for (EventTimelineTrend eventTimelineTrend : eventTimelineTrendList) {
-                numList.add(eventTimelineTrend.getNum());
-            }
-            resultMap.put("quanjv", numList);
+            try {
+                resultMap.put("eventId", eventId);
+                eventInfoExample.clear();
+                eventInfoExample.createCriteria().andEventIdEqualTo(eventId);
+                EventInfo eventInfo = eventInfoMapper.selectByExample(eventInfoExample).get(0);
+                resultMap.put("title", eventInfo.getTitle());
+                resultMap.put("imgUrl", eventInfo.getImgUrl());
+                EventIndicator eventIndicator = eventIndicatorList.get(0);
+                resultMap.put("nearHotInf", eventIndicator.getNearHotInf());
+                resultMap.put("avgVel", eventIndicator.getAvgVel());
+                resultMap.put("topVel", eventIndicator.getMaxVel());
+                resultMap.put("continuedTime", eventIndicator.getContinuedTime());
+                List<String> timeList = new ArrayList<>();
+                for (EventTimelineTrend eventTimelineTrend : eventTimelineTrendList) {
+                    timeList.add(eventTimelineTrend.getTime());
+                }
+                resultMap.put("xLine", timeList);
+                List<Integer> numList = new ArrayList<>();
+                List<Integer> weiboNumList = new ArrayList<>();
+                List<Integer> wechatNumList = new ArrayList<>();
+                List<Integer> mediaNumList = new ArrayList<>();
+                //全局传播趋势timeLine数值
+                for (EventTimelineTrend eventTimelineTrend : eventTimelineTrendList) {
+                    numList.add(eventTimelineTrend.getNum());
+                }
+                resultMap.put("quanjv", numList);
 
-            eventTimelineTrendExample.clear();
-            eventTimelineTrendExample.createCriteria().andEventIdEqualTo(eventId).andPlatformTypeEqualTo((byte) 1);
-            List<EventTimelineTrend> weiboTimeLineList = eventTimelineTrendMapper.selectByExample(eventTimelineTrendExample);
-            //微博传播趋势timeLine数值
-            for (EventTimelineTrend eventTimelineTrend : weiboTimeLineList) {
-                weiboNumList.add(eventTimelineTrend.getNum());
-            }
-            resultMap.put("weibo", weiboNumList);
+                eventTimelineTrendExample.clear();
+                eventTimelineTrendExample.createCriteria().andEventIdEqualTo(eventId).andPlatformTypeEqualTo((byte) 1);
+                List<EventTimelineTrend> weiboTimeLineList = eventTimelineTrendMapper.selectByExample(eventTimelineTrendExample);
+                //微博传播趋势timeLine数值
+                for (EventTimelineTrend eventTimelineTrend : weiboTimeLineList) {
+                    weiboNumList.add(eventTimelineTrend.getNum());
+                }
+                resultMap.put("weibo", weiboNumList);
 
-            eventTimelineTrendExample.clear();
-            eventTimelineTrendExample.createCriteria().andEventIdEqualTo(eventId).andPlatformTypeEqualTo((byte) 2);
-            List<EventTimelineTrend> wechatTimeLineList = eventTimelineTrendMapper.selectByExample(eventTimelineTrendExample);
-            //微信传播趋势timeLine数值
-            for (EventTimelineTrend eventTimelineTrend : wechatTimeLineList) {
-                wechatNumList.add(eventTimelineTrend.getNum());
-            }
-            resultMap.put("weixin", wechatNumList);
+                eventTimelineTrendExample.clear();
+                eventTimelineTrendExample.createCriteria().andEventIdEqualTo(eventId).andPlatformTypeEqualTo((byte) 2);
+                List<EventTimelineTrend> wechatTimeLineList = eventTimelineTrendMapper.selectByExample(eventTimelineTrendExample);
+                //微信传播趋势timeLine数值
+                for (EventTimelineTrend eventTimelineTrend : wechatTimeLineList) {
+                    wechatNumList.add(eventTimelineTrend.getNum());
+                }
+                resultMap.put("weixin", wechatNumList);
 
-            eventTimelineTrendExample.clear();
-            eventTimelineTrendExample.createCriteria().andEventIdEqualTo(eventId).andPlatformTypeEqualTo((byte) 3);
-            List<EventTimelineTrend> mediaTimeLineList = eventTimelineTrendMapper.selectByExample(eventTimelineTrendExample);
-            //网媒传播趋势timeLine数值
-            for (EventTimelineTrend eventTimelineTrend : mediaTimeLineList) {
-                mediaNumList.add(eventTimelineTrend.getNum());
+                eventTimelineTrendExample.clear();
+                eventTimelineTrendExample.createCriteria().andEventIdEqualTo(eventId).andPlatformTypeEqualTo((byte) 3);
+                List<EventTimelineTrend> mediaTimeLineList = eventTimelineTrendMapper.selectByExample(eventTimelineTrendExample);
+                //网媒传播趋势timeLine数值
+                for (EventTimelineTrend eventTimelineTrend : mediaTimeLineList) {
+                    mediaNumList.add(eventTimelineTrend.getNum());
+                }
+                resultMap.put("wangmei", mediaNumList);
+                eventInfoExample.clear();
+                eventTimelineTrendExample.clear();
+                List<EventMeanwhileCase> eventMeanwhileCaseList = getMeanwhileEvents(eventId);
+                int index = 1;
+                for (EventMeanwhileCase eventMeanwhileCase : eventMeanwhileCaseList) {
+                    Map<String, Object> map = new LinkedHashMap<>();
+                    eventInfoExample.clear();
+                    eventInfoExample.createCriteria().andEventIdEqualTo(eventMeanwhileCase.getRelaventEventId());
+                    String eventTitle = eventInfoMapper.selectByExample(eventInfoExample).get(0).getTitle();//根据同期事件id获取事件标题
+                    eventTimelineTrendExample.clear();
+                    eventTimelineTrendExample.createCriteria().andEventIdEqualTo(eventMeanwhileCase.getRelaventEventId()).andPlatformTypeEqualTo((byte) 0);
+                    List<Integer> meanwhileNumList = new ArrayList<>();
+                    List<EventTimelineTrend> meanwhileCaseTimelineList = eventTimelineTrendMapper.selectByExample(eventTimelineTrendExample);
+                    for (EventTimelineTrend eventTimelineTrend : meanwhileCaseTimelineList) {
+                        meanwhileNumList.add(eventTimelineTrend.getNum());
+                    }
+                    map.put("name", eventTitle);
+                    map.put("value", meanwhileNumList);
+                    resultMap.put("line" + index, map);
+                    index++;
+                }
+            } catch (Exception e) {
+                throw new WeiboException(EmWeiboError.UNKNOW_ERROR.setErrMsg("解析传播趋势json失败"));
             }
-            resultMap.put("wangmei", mediaNumList);
+        } else {
+            resultMap.put("errMsg", "该事件无传播趋势数据！");
         }
         return resultMap;
     }

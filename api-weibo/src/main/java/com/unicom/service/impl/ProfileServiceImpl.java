@@ -16,39 +16,42 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
-import java.util.List;
+import java.util.*;
 
 /**
  * @program: weibo
  * @description:
- * @author: liupei
+ * @author: lp
  * @create: 2019-07-22 08:53
  **/
 @Service
 public class ProfileServiceImpl implements ProfileService {
 
-    static final String PROFILE_URL = "http://ef.zhiweidata.com/analy/overviewV2.do";
-    static final String IMG_URL = "http://ef.zhiweidata.com/img/event.do?name=";
+    private static final String PROFILE_URL = "http://ef.zhiweidata.com/analy/overviewV2.do";
+    private static final String IMG_URL = "http://ef.zhiweidata.com/img/event.do?name=";
+
+    private final EventInfoMapper eventInfoMapper;
+    private final EventHistoryTopMapper eventHistoryTopMapper;
+    private final EventStatsMapper eventStatsMapper;
+    private final EventRelaventCaseMapper eventRelaventCaseMapper;
+    private final EventHeatRatioMapper eventHeatRatioMapper;
 
     @Autowired
-    private EventInfoMapper eventInfoMapper;
-    @Autowired
-    private EventHistoryTopMapper eventHistoryTopMapper;
-    @Autowired
-    private EventStatsMapper eventStatsMapper;
-    @Autowired
-    private EventRelaventCaseMapper eventRelaventCaseMapper;
-    @Autowired
-    private EventHeatRatioMapper eventHeatRatioMapper;
-
-    @Override
-    public String crawlProfileData(String eventId) {
-        String data = HttpUtil.sendPost(PROFILE_URL, "eventId=" + eventId);
-        return data;
+    public ProfileServiceImpl(EventInfoMapper eventInfoMapper, EventHistoryTopMapper eventHistoryTopMapper, EventStatsMapper eventStatsMapper, EventRelaventCaseMapper eventRelaventCaseMapper, EventHeatRatioMapper eventHeatRatioMapper) {
+        this.eventInfoMapper = eventInfoMapper;
+        this.eventHistoryTopMapper = eventHistoryTopMapper;
+        this.eventStatsMapper = eventStatsMapper;
+        this.eventRelaventCaseMapper = eventRelaventCaseMapper;
+        this.eventHeatRatioMapper = eventHeatRatioMapper;
     }
 
     @Override
-    public void handlProfileData(String dataStr, String eventId) {
+    public String crawlProfileData(String eventId) {
+        return HttpUtil.sendPost(PROFILE_URL, "eventId=" + eventId);
+    }
+
+    @Override
+    public void handleProfileData(String dataStr, String eventId) {
         EventInfo eventInfo = new EventInfo();
         EventStats eventStats = new EventStats();
         try {
@@ -59,6 +62,7 @@ public class ProfileServiceImpl implements ProfileService {
             JSONObject data = dataJson.getJSONObject("data");
             //new EventInfo对象填充数据
             eventInfo.setEventId(eventId);
+            System.out.println(data);
             eventInfo.setTitle(data.getString("name"));
             eventInfo.setDescription(data.getString("descript"));
             eventInfo.setFirstType(data.getString("firstType"));
@@ -66,6 +70,7 @@ public class ProfileServiceImpl implements ProfileService {
             eventInfo.setTags(data.getJSONArray("tags").toString());
             //事件是否已结束。0-未结束，1-已结束
             eventInfo.setIsEnd(data.getString("isEnd").equals("true") ? (byte) 1 : (byte) 0);
+            eventInfo.setImgUrl(IMG_URL + eventId + ".jpg");
             eventInfo.setCreator("lp");
             eventInfo.setUpdater("lp");
 
@@ -75,22 +80,11 @@ public class ProfileServiceImpl implements ProfileService {
 
             //向数据库中添加事件时间热度数据前先清空旧数据
             EventHeatRatioExample eventHourHeatRatioExample = new EventHeatRatioExample();
-            EventHeatRatioExample.Criteria hourHeatCriteria = eventHourHeatRatioExample.createCriteria();
-            hourHeatCriteria.andEventIdEqualTo(eventId);
-            hourHeatCriteria.andHeatTypeEqualTo((byte) 1);
+            eventHourHeatRatioExample.createCriteria().andEventIdEqualTo(eventId);
             eventHeatRatioMapper.deleteByExample(eventHourHeatRatioExample);
             for (int i = handledHourJsonArray.size() - 1; i >= 0; i--) {
-                JSONObject hourHeatRatio = (JSONObject) handledHourJsonArray.get(i);
-                EventHeatRatio eventHeatRatio = new EventHeatRatio();
-                eventHeatRatio.setEventId(eventId);
-                eventHeatRatio.setHeatType((byte) 1); //1-小时热度
-                eventHeatRatio.setTimePoint(hourHeatRatio.getString("timePoint"));
-                eventHeatRatio.setHeatValue(hourHeatRatio.getBigDecimal("hE"));
-                eventHeatRatio.setPoint(hourHeatRatio.getInteger("point") + 1);
-                eventHeatRatio.setPro(hourHeatRatio.getBigDecimal("pro"));
-                eventHeatRatio.setCreator("lp");
-                eventHeatRatio.setUpdater("lp");
-                eventHeatRatioMapper.insertSelective(eventHeatRatio);
+                JSONObject heatObj = (JSONObject) handledHourJsonArray.get(i);
+                storeHeatRatio(eventId, heatObj, (byte) 1);
             }
 
             //向数据库中添加事件每天热度数据前先清空旧数据
@@ -100,17 +94,8 @@ public class ProfileServiceImpl implements ProfileService {
             dayHeatCriteria.andHeatTypeEqualTo((byte) 0);
             eventHeatRatioMapper.deleteByExample(eventDayHeatRatioExample);
             for (int i = handledDayJsonArray.size() - 1; i >= 0; i--) {
-                JSONObject dayHeatRatio = (JSONObject) handledDayJsonArray.get(i);
-                EventHeatRatio eventHeatRatio = new EventHeatRatio();
-                eventHeatRatio.setEventId(eventId);
-                eventHeatRatio.setHeatType((byte) 0); //0-每天热度
-                eventHeatRatio.setTimePoint(dayHeatRatio.getString("timePoint"));
-                eventHeatRatio.setHeatValue(dayHeatRatio.getBigDecimal("hE"));
-                eventHeatRatio.setPoint(dayHeatRatio.getInteger("point") + 1);
-                eventHeatRatio.setPro(dayHeatRatio.getBigDecimal("pro"));
-                eventHeatRatio.setCreator("lp");
-                eventHeatRatio.setUpdater("lp");
-                eventHeatRatioMapper.insertSelective(eventHeatRatio);
+                JSONObject heatObj = (JSONObject) handledDayJsonArray.get(i);
+                storeHeatRatio(eventId, heatObj, (byte) 0);
             }
 
             //事件概况-影响力、媒体参与情况
@@ -188,45 +173,23 @@ public class ProfileServiceImpl implements ProfileService {
             JSONArray aboutEvents = data.getJSONArray("aboutEvents");
             for (Object classEvent : classEvents) {
                 EventRelaventCase eventRelaventCase = new EventRelaventCase();
-                eventRelaventCase.setEventId("eventId");
+                eventRelaventCase.setEventId(eventId);
                 eventRelaventCase.setRelaventType((byte) 0);//0-同类事件
                 eventRelaventCase.setRelaventEventId(((JSONObject) classEvent).getString("id"));
                 eventRelaventCase.setPoint(((JSONObject) classEvent).getInteger("point"));
-                eventRelaventCase.setTitle(((JSONObject) classEvent).getString("name"));
-                eventRelaventCase.setInfoExponent(((JSONObject) classEvent).getBigDecimal("infExponent"));
-                eventRelaventCase.setImgUrl(IMG_URL + ((JSONObject) classEvent).getString("eventImgUrl"));
-                eventRelaventCase.setCreator("lp");
-                eventRelaventCase.setUpdater("lp");
-                EventRelaventCaseExample eventRelaventCaseExample = new EventRelaventCaseExample();
-                EventRelaventCaseExample.Criteria eventRelaventCaseExampleCriteria = eventRelaventCaseExample.createCriteria();
-                eventRelaventCaseExampleCriteria.andRelaventEventIdEqualTo(eventRelaventCase.getRelaventEventId());
-                List<EventRelaventCase> eventRelaventCaseList = eventRelaventCaseMapper.selectByExample(eventRelaventCaseExample);
-                if (eventRelaventCaseList.size() == 0) {
-                    eventRelaventCaseMapper.insertSelective(eventRelaventCase);
-                }
+                storeRelaventEvent((JSONObject) classEvent, eventRelaventCase);
             }
 
             for (Object aboutEvent : aboutEvents) {
                 EventRelaventCase eventRelaventCase = new EventRelaventCase();
-                eventRelaventCase.setEventId("eventId");
+                eventRelaventCase.setEventId(eventId);
                 eventRelaventCase.setRelaventType((byte) 1);//1-相关事件
                 eventRelaventCase.setRelaventEventId(((JSONObject) aboutEvent).getString("id"));
-                eventRelaventCase.setTitle(((JSONObject) aboutEvent).getString("name"));
-                eventRelaventCase.setInfoExponent(((JSONObject) aboutEvent).getBigDecimal("infExponent"));
-                eventRelaventCase.setImgUrl(IMG_URL + ((JSONObject) aboutEvent).getString("eventImgUrl"));
-                eventRelaventCase.setCreator("lp");
-                eventRelaventCase.setUpdater("lp");
-                EventRelaventCaseExample eventRelaventCaseExample = new EventRelaventCaseExample();
-                EventRelaventCaseExample.Criteria eventRelaventCaseExampleCriteria = eventRelaventCaseExample.createCriteria();
-                eventRelaventCaseExampleCriteria.andRelaventEventIdEqualTo(eventRelaventCase.getRelaventEventId());
-                List<EventRelaventCase> eventRelaventCaseList = eventRelaventCaseMapper.selectByExample(eventRelaventCaseExample);
-                if (eventRelaventCaseList.size() == 0) {
-                    eventRelaventCaseMapper.insertSelective(eventRelaventCase);
-                }
+                storeRelaventEvent((JSONObject) aboutEvent, eventRelaventCase);
             }
         } catch (Exception e) {
             e.printStackTrace();
-//            throw new WeiboException(EmWeiboError.UNKNOW_ERROR.setErrMsg("解析事件概况json失败"));
+            throw new WeiboException(EmWeiboError.UNKNOW_ERROR.setErrMsg("解析事件概况json失败"));
         }
         //查询数据库中是否已有该事件数据，如果没有则插入，否则不做操作
         EventInfoExample eventInfoExample = new EventInfoExample();
@@ -238,12 +201,186 @@ public class ProfileServiceImpl implements ProfileService {
         }
     }
 
-    public EventInfo getEventInfoData(String eventId) {
+    private void storeHeatRatio(String eventId, JSONObject heatObj, byte heatType) {
+        EventHeatRatio eventHeatRatio = new EventHeatRatio();
+        eventHeatRatio.setEventId(eventId);
+        eventHeatRatio.setHeatType(heatType); //1-小时热度
+        eventHeatRatio.setTimePoint(heatObj.getString("timePoint"));
+        eventHeatRatio.setHeatValue(heatObj.getBigDecimal("hE"));
+        eventHeatRatio.setPoint(heatObj.getInteger("point"));
+        eventHeatRatio.setPro(heatObj.getBigDecimal("pro"));
+        eventHeatRatio.setCreator("lp");
+        eventHeatRatio.setUpdater("lp");
+        eventHeatRatioMapper.insertSelective(eventHeatRatio);
+    }
+
+    /**
+     * 插入同类、相关事件数据
+     *
+     * @param relaventEvent     同类、相关事件json对象
+     * @param eventRelaventCase 要插入的事件对象
+     */
+    private void storeRelaventEvent(JSONObject relaventEvent, EventRelaventCase eventRelaventCase) {
+        eventRelaventCase.setTitle(relaventEvent.getString("name"));
+        eventRelaventCase.setInfoExponent(relaventEvent.getBigDecimal("infExponent"));
+        eventRelaventCase.setImgUrl(IMG_URL + relaventEvent.getString("eventImgUrl"));
+        eventRelaventCase.setCreator("lp");
+        eventRelaventCase.setUpdater("lp");
+        EventRelaventCaseExample eventRelaventCaseExample = new EventRelaventCaseExample();
+        EventRelaventCaseExample.Criteria eventRelaventCaseExampleCriteria = eventRelaventCaseExample.createCriteria();
+        eventRelaventCaseExampleCriteria.andRelaventEventIdEqualTo(eventRelaventCase.getRelaventEventId());
+        List<EventRelaventCase> eventRelaventCaseList = eventRelaventCaseMapper.selectByExample(eventRelaventCaseExample);
+        if (eventRelaventCaseList.size() == 0) {
+            eventRelaventCaseMapper.insertSelective(eventRelaventCase);
+        }
+    }
+
+    public Map<String, Object> getEventInfoData(String eventId) {
+        Map<String, Object> resultMap = new LinkedHashMap<>();
         EventInfoExample eventInfoExample = new EventInfoExample();
         EventInfoExample.Criteria criteria = eventInfoExample.createCriteria();
         criteria.andEventIdEqualTo(eventId);
         List<EventInfo> eventInfoList = eventInfoMapper.selectByExample(eventInfoExample);
-        return eventInfoList.get(0);
+        if (eventInfoList.size() > 0) {
+            EventInfo eventInfo = eventInfoList.get(0);
+            resultMap.put("eventId", eventInfo.getEventId());
+            resultMap.put("title", eventInfo.getTitle());
+            resultMap.put("description", eventInfo.getDescription());
+            resultMap.put("firstType", eventInfo.getFirstType());
+            resultMap.put("startTime", eventInfo.getStartTime());
+            resultMap.put("tags", eventInfo.getTags().replaceAll("\"", ""));
+            resultMap.put("imgUrl", eventInfo.getImgUrl());
+            resultMap.put("isEnd", eventInfo.getIsEnd() == 0 ? "未结束" : "已结束");
+        } else {
+            resultMap.put("errMsg", "事件不存在！");
+        }
+        return resultMap;
+    }
+
+    public Map<String, Object> getStats(String eventId) {
+        Map<String, Object> resultMap = new LinkedHashMap<>();
+        EventStatsExample eventStatsExample = new EventStatsExample();
+        eventStatsExample.createCriteria().andEventIdEqualTo(eventId);
+        List<EventStats> eventStatsList = eventStatsMapper.selectByExample(eventStatsExample);
+        if (eventStatsList.size() > 0) {
+            EventStats eventStats = eventStatsList.get(0);
+            resultMap.put("effectInf", eventStats.getEffectInf());
+            resultMap.put("effectTypePro", eventStats.getEffectTypePro());
+            resultMap.put("effectAllPro", eventStats.getEffectAllPro());
+            resultMap.put("effectClassAvg", eventStats.getEffectClassAvg());
+            resultMap.put("weiboInf", eventStats.getWeiboInf());
+            resultMap.put("weiboTypePro", eventStats.getWeiboTypePro());
+            resultMap.put("weiboAllPro", eventStats.getWeiboAllPro());
+            resultMap.put("weiboClassAvg", eventStats.getWeiboClassAvg());
+            resultMap.put("weixinInf", eventStats.getWeixinInf());
+            resultMap.put("weixinTypePro", eventStats.getWeixinTypePro());
+            resultMap.put("weixinAllPro", eventStats.getWeixinAllPro());
+            resultMap.put("weixinClassAvg", eventStats.getWeixinClassAvg());
+            resultMap.put("mediaInf", eventStats.getMediaInf());
+            resultMap.put("mediaTypePro", eventStats.getMediaTypePro());
+            resultMap.put("mediaAllPro", eventStats.getMediaAllPro());
+            resultMap.put("mediaClassAvg", eventStats.getMediaClassAvg());
+            resultMap.put("mediaNum", eventStats.getMediaNum());
+            resultMap.put("ccpMediaIn", eventStats.getCcpMediaIn());
+            resultMap.put("ccpTypePro", eventStats.getCcpTypePro());
+            resultMap.put("ccpAllPro", eventStats.getCcpAllPro());
+            resultMap.put("ccpClassAvg", eventStats.getCcpClassAvg());
+            resultMap.put("financeMediaIn", eventStats.getCcpMediaIn());
+            resultMap.put("financeTypePro", eventStats.getFinanceTypePro());
+            resultMap.put("financeAllPro", eventStats.getFinanceAllPro());
+            resultMap.put("financeClassAvg", eventStats.getFinanceClassAvg());
+            resultMap.put("techMediaIn", eventStats.getTechMediaIn());
+            resultMap.put("techTypePro", eventStats.getTechTypePro());
+            resultMap.put("techAllPro", eventStats.getTechAllPro());
+            resultMap.put("techClassAvg", eventStats.getTechClassAvg());
+        } else {
+            resultMap.put("errMsp", "事件不存在");
+        }
+        return resultMap;
+    }
+
+    @Override
+    public Map<String, Object> getRelaventEvents(String eventId) {
+        Map<String, Object> resultMap = new LinkedHashMap<>();
+        List<Map> classEventList = new ArrayList<>();
+        List<Map> relaventEventList = new ArrayList<>();
+        EventRelaventCaseExample eventRelaventCaseExample = new EventRelaventCaseExample();
+        eventRelaventCaseExample.createCriteria().andEventIdEqualTo(eventId).andRelaventTypeEqualTo((byte) 0);
+        List<EventRelaventCase> classEvents = eventRelaventCaseMapper.selectByExample(eventRelaventCaseExample);
+        eventRelaventCaseExample.clear();
+        eventRelaventCaseExample.createCriteria().andEventIdEqualTo(eventId).andRelaventTypeEqualTo((byte) 1);
+        List<EventRelaventCase> relaventEvents = eventRelaventCaseMapper.selectByExample(eventRelaventCaseExample);
+        if (classEvents.size() > 0 || relaventEvents.size() > 0) {
+            for (EventRelaventCase classEvent : classEvents) {
+                Map<String, Object> classEventMap = new LinkedHashMap<>();
+                classEventMap.put("eventId", classEvent.getRelaventEventId());
+                classEventMap.put("point", classEvent.getPoint() + "th");
+                classEventMap.put("title", classEvent.getTitle());
+                classEventMap.put("infExponent", classEvent.getInfoExponent());
+                classEventList.add(classEventMap);
+            }
+            for (EventRelaventCase relaventEvent : relaventEvents) {
+                Map<String, Object> relaventEventMap = new LinkedHashMap<>();
+                relaventEventMap.put("eventId", relaventEvent.getRelaventEventId());
+                relaventEventMap.put("title", relaventEvent.getTitle());
+                relaventEventMap.put("imgUrl", relaventEvent.getImgUrl());
+                relaventEventList.add(relaventEventMap);
+            }
+            resultMap.put("classEvents", classEventList);
+            resultMap.put("relaventEvents", relaventEventList);
+        } else {
+            resultMap.put("errMsg", "该事件无同类或相关事件数据");
+        }
+        return resultMap;
+    }
+
+    @Override
+    public Map<String, Object> getEventHeatRatio(String eventId) {
+        Map<String, Object> resultMap = new LinkedHashMap<>();
+        List<Map> dayList = new ArrayList<>();
+        List<Map> hourList = new ArrayList<>();
+        EventHeatRatioExample eventHeatRatioExample = new EventHeatRatioExample();
+        eventHeatRatioExample.createCriteria().andEventIdEqualTo(eventId).andHeatTypeEqualTo((byte) 0);
+        List<EventHeatRatio> dayHeatRatioList = eventHeatRatioMapper.selectByExample(eventHeatRatioExample);
+        eventHeatRatioExample.clear();
+        eventHeatRatioExample.createCriteria().andEventIdEqualTo(eventId).andHeatTypeEqualTo((byte) 1);
+        List<EventHeatRatio> hourHeatRatioList = eventHeatRatioMapper.selectByExample(eventHeatRatioExample);
+        if (dayHeatRatioList.size() > 0 || hourHeatRatioList.size() > 0) {
+            Collections.reverse(dayHeatRatioList);
+            for (EventHeatRatio dayHeatRatio : dayHeatRatioList) {
+                assembleHeatList(dayList, dayHeatRatio);
+            }
+            Collections.reverse(hourHeatRatioList);
+            for (int i = 0; i < hourHeatRatioList.size() - 1; i++) {
+                EventHeatRatio hourHeatRatio = hourHeatRatioList.get(i);
+                assembleHeatList(hourList, hourHeatRatio);
+            }
+            String nowTimePoint = hourHeatRatioList.get(24).getTimePoint();
+            resultMap.put("nowTimePoint", nowTimePoint.substring(nowTimePoint.length() - 2));
+            resultMap.put("nowPoint", hourHeatRatioList.get(24).getPoint());
+            resultMap.put("nowPro", hourHeatRatioList.get(24).getPro());
+            resultMap.put("nowHeatValue", hourHeatRatioList.get(24).getHeatValue());
+            resultMap.put("dayHeatRatio", dayList);
+            resultMap.put("hourHeatRatio", hourList);
+        } else {
+            resultMap.put("errMsg", "该事件无热度数据");
+        }
+        return resultMap;
+    }
+
+    /**
+     * 组装热度list
+     *
+     * @param heatList  返回的热度结果集
+     * @param heatRatio 热度对象
+     */
+    private void assembleHeatList(List<Map> heatList, EventHeatRatio heatRatio) {
+        Map<String, Object> heatMap = new LinkedHashMap<>();
+        heatMap.put("timePoint", heatRatio.getTimePoint());
+        heatMap.put("heatValue", heatRatio.getHeatValue());
+        heatMap.put("point", heatRatio.getPoint());
+        heatMap.put("pro", heatRatio.getPro());
+        heatList.add(heatMap);
     }
 
     @Override
@@ -265,35 +402,25 @@ public class ProfileServiceImpl implements ProfileService {
             resultArray = JSONArray.parseArray(JSON.toJSONString(hourHeat.subList(index - 12, index + 13)));//截取7天的子list
         } else {
             //对于未结束事件取当前小时加过去24小时共25小时的数据，hourHeatRatio中当前一小时的数据基本为空，所以从hourNowRankMap中取出对应的pro值和point值。
-            JSONObject hourHeatNaught = (JSONObject) hourHeat.get(0);
-            String startTimePoint = hourHeatNaught.getString("timePoint");
+            String nowTimePoint = ((JSONObject) hourHeat.get(hourHeat.size() - 1)).getString("timePoint");
             //获取未结束事件小时热度list的长度，某些事件元素不足25个，需要补全前面为空的元素
             int hourHeatSize = hourHeat.size();
             int sizeDValue = 25 - hourHeatSize;//计算需要补全的空元素个数
+            ((JSONObject) hourHeat.get(hourHeatSize - 1)).put("pro", jsonObject.getJSONObject("hourNowRankMap").getBigDecimal("pro"));
+            ((JSONObject) hourHeat.get(hourHeatSize - 1)).put("point", jsonObject.getJSONObject("hourNowRankMap").getInteger("point") + 1);
+            ((JSONObject) hourHeat.get(hourHeatSize - 1)).put("hE", jsonObject.getJSONObject("hourNowRankMap").getBigDecimal("hE"));
             if (sizeDValue > 0) {
                 String[] calculatedPastHourArray;
+                String startTimePoint = ((JSONObject) hourHeat.get(0)).getString("timePoint");
                 try {
                     calculatedPastHourArray = DateUtil.getCalculateDay(startTimePoint, -sizeDValue, DateUtil.HOUR_PATTERN, DateUtil.ONE_HOUR_TIME);
                 } catch (ParseException e) {
                     throw new WeiboException(EmWeiboError.UNKNOW_ERROR.setErrMsg("profileService解析时间格式失败"));
                 }
-                for (int i = 0; i < sizeDValue; i++) {
-                    JSONObject newHourHeat = new JSONObject();
-                    newHourHeat.put("pro", 0);
-                    newHourHeat.put("point", 0);
-                    newHourHeat.put("hE", 0);
-                    newHourHeat.put("timePoint", calculatedPastHourArray[sizeDValue - 1 - i]);
-                    resultArray.add(newHourHeat);
-                }
-            }
-            int bound = hourHeat.size() - 25 >= 0 ? 25 : hourHeatSize;
-            for (int i = 0; i < bound; i++) {
-                if (i == hourHeatSize - 1) {
-                    ((JSONObject) hourHeat.get(i)).put("pro", jsonObject.getJSONObject("hourNowRankMap").getBigDecimal("pro"));
-                    ((JSONObject) hourHeat.get(i)).put("point", jsonObject.getJSONObject("hourNowRankMap").getInteger("point") + 1);
-                    ((JSONObject) hourHeat.get(i)).put("hE", jsonObject.getJSONObject("hourNowRankMap").getBigDecimal("hE"));
-                }
-                resultArray.add(hourHeat.get(i));
+                completeHeatRatio(resultArray, sizeDValue, calculatedPastHourArray);
+                resultArray.addAll(hourHeat);
+            } else {
+                resultArray.addAll(hourHeat.subList(hourHeatSize - 25, hourHeatSize));
             }
         }
         return resultArray;
@@ -330,28 +457,32 @@ public class ProfileServiceImpl implements ProfileService {
                 } catch (ParseException e) {
                     throw new WeiboException(EmWeiboError.UNKNOW_ERROR.setErrMsg("profileService解析时间格式失败"));
                 }
-                for (int i = 0; i < sizeDValue; i++) {
-                    JSONObject newDayHeat = new JSONObject();
-                    newDayHeat.put("pro", 0);
-                    newDayHeat.put("point", 0);
-                    newDayHeat.put("hE", 0);
-                    newDayHeat.put("timePoint", calculatedPastDayrArray[sizeDValue - 1 - i]);
-                    resultArray.add(newDayHeat);
-                }
-            }
-            int bound = dayHeat.size() - 7 >= 0 ? 7 : dayHeatSize;
-            for (int i = 0; i < bound; i++) {
-                resultArray.add(dayHeat.get(i));
+                completeHeatRatio(resultArray, sizeDValue, calculatedPastDayrArray);
+                resultArray.addAll(dayHeat);
+            } else {
+                resultArray.addAll(dayHeat.subList(dayHeatSize - 7, dayHeatSize));
             }
         }
-        System.out.println(resultArray);
         return resultArray;
     }
 
-    public static void main(String[] args) {
-        ProfileService profileService = new ProfileServiceImpl();
-        String data = profileService.crawlProfileData("423086a017b3196b10016313");
-        profileService.handlProfileData(data, "423086a017b3196b10016313");
-//        profileService.handleDayHeatRatio(JSONObject.parseObject(data).getJSONObject("data"));
+    /**
+     * 补充每天和每小时热度与7天和24小时有差值的部分
+     *
+     * @param resultArray             热度结果集
+     * @param sizeDValue              差值
+     * @param calculatedPastDayrArray 计算差值时间
+     */
+    private void completeHeatRatio(JSONArray resultArray, int sizeDValue, String[] calculatedPastDayrArray) {
+        for (int i = 0; i < sizeDValue; i++) {
+            JSONObject newDayHeat = new JSONObject();
+            newDayHeat.put("pro", 0);
+            newDayHeat.put("point", 0);
+            newDayHeat.put("hE", 0);
+            newDayHeat.put("timePoint", calculatedPastDayrArray[sizeDValue - 1 - i]);
+            resultArray.add(newDayHeat);
+        }
     }
+
+
 }

@@ -8,10 +8,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 /**
  * @program: weibo
  * @description: 传播趋势
- * @author: Hayden TONG
+ * @author: lp
  * @create: 2019-07-22 08:46
  **/
 @RestController
@@ -33,9 +35,7 @@ public class TrendController {
      */
     @PostMapping(value = "/getTrendData")
     public ApiResult getTrendData(@RequestParam("eventId") String eventId) {
-        ApiResult apiResult = ApiResult.success();
-        apiResult.setData(trendService.assembleResult(eventId));
-        return apiResult;
+        return getApiResult(trendService.assembleResult(eventId));
     }
 
     /**
@@ -53,5 +53,16 @@ public class TrendController {
         return ApiResult.success();
     }
 
+    private ApiResult getApiResult(Map resultMap) {
+        ApiResult apiResult;
+        if (resultMap.containsKey("errMsg")) {
+            apiResult = ApiResult.error();
+            apiResult.setMessage((String) resultMap.get("errMsg"));
+        } else {
+            apiResult = ApiResult.success();
+            apiResult.setData(resultMap);
+        }
+        return apiResult;
+    }
 
 }

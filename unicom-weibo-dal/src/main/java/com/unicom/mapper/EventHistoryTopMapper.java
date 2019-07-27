@@ -2,10 +2,9 @@ package com.unicom.mapper;
 
 import com.unicom.model.EventHistoryTop;
 import com.unicom.model.EventHistoryTopExample;
-import java.util.List;
-
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface EventHistoryTopMapper {
     int deleteByExample(EventHistoryTopExample example);

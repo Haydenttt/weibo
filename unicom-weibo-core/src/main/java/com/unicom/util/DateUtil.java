@@ -57,19 +57,21 @@ public class DateUtil {
 
     /**
      * 把毫秒数转为时长
+     *
      * @param millisecond
      * @return
      */
-    public static String periodToString(Long millisecond){
+    public static String periodToString(Long millisecond) {
         String str = "";
-        long day = millisecond /  86400000;
-        long hour = (millisecond % 86400000) / 3600000 ;
-        long minute = (millisecond %  86400000 % 3600000) / 60000;
-        if(day > 0){
-            str = day + "天";
-        }
-        if(hour > 0){
-            str += hour + "小时";
+//        long day = millisecond / 86400000;
+//        long hour = (millisecond % 86400000) / 3600000 ;
+        long hour = millisecond / 3600000;
+//        long minute = (millisecond % 86400000 % 3600000) / 60000;
+//        if(day > 0){
+////            str = day + "天";
+////        }
+        if (hour > 0) {
+            str += hour;
         }
 //        if(minute > 0){
 //            str += minute + "分钟";
