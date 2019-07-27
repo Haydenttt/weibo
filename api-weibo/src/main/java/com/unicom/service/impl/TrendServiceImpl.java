@@ -277,6 +277,7 @@ public class TrendServiceImpl implements TrendService {
                     index++;
                 }
             } catch (Exception e) {
+                e.printStackTrace();
                 throw new WeiboException(EmWeiboError.UNKNOW_ERROR.setErrMsg("解析传播趋势json失败"));
             }
         } else {

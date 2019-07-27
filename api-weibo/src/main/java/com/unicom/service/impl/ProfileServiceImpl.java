@@ -28,6 +28,7 @@ import java.util.*;
 public class ProfileServiceImpl implements ProfileService {
 
     private static final String PROFILE_URL = "http://ef.zhiweidata.com/analy/overviewV2.do";
+    private static final String IMG_SRC_URL = "http://ef.zhiweidata.com/analy/eventAnaly.do";
     private static final String IMG_URL = "http://ef.zhiweidata.com/img/event.do?name=";
 
     private final EventInfoMapper eventInfoMapper;
@@ -50,6 +51,11 @@ public class ProfileServiceImpl implements ProfileService {
         return HttpUtil.sendPost(PROFILE_URL, "eventId=" + eventId);
     }
 
+    private String crawlImgUrl(String eventId) {
+        JSONObject data = JSONObject.parseObject(HttpUtil.sendPost(IMG_SRC_URL, "eventId=" + eventId));
+        return data.getString("imgUrl");
+    }
+
     @Override
     public void handleProfileData(String dataStr, String eventId) {
         EventInfo eventInfo = new EventInfo();
@@ -70,7 +76,7 @@ public class ProfileServiceImpl implements ProfileService {
             eventInfo.setTags(data.getJSONArray("tags").toString());
             //事件是否已结束。0-未结束，1-已结束
             eventInfo.setIsEnd(data.getString("isEnd").equals("true") ? (byte) 1 : (byte) 0);
-            eventInfo.setImgUrl(IMG_URL + eventId + ".jpg");
+            eventInfo.setImgUrl(IMG_URL + crawlImgUrl(eventId));
             eventInfo.setCreator("lp");
             eventInfo.setUpdater("lp");
 
@@ -198,6 +204,8 @@ public class ProfileServiceImpl implements ProfileService {
         List<EventInfo> eventInfoList = eventInfoMapper.selectByExample(eventInfoExample);
         if (eventInfoList.size() == 0) {
             eventInfoMapper.insertSelective(eventInfo);
+        } else {
+            eventInfoMapper.updateByExampleSelective(eventInfo, eventInfoExample);
         }
     }
 
@@ -248,7 +256,11 @@ public class ProfileServiceImpl implements ProfileService {
             resultMap.put("description", eventInfo.getDescription());
             resultMap.put("firstType", eventInfo.getFirstType());
             resultMap.put("startTime", eventInfo.getStartTime());
-            resultMap.put("tags", eventInfo.getTags().replaceAll("\"", ""));
+            String tags = eventInfo.getTags();
+            tags = tags.substring(1, tags.length() - 1);
+            tags = tags.replaceAll("\"", "");
+            List<String> tagList = Arrays.asList(tags.split(","));
+            resultMap.put("tags", tagList);
             resultMap.put("imgUrl", eventInfo.getImgUrl());
             resultMap.put("isEnd", eventInfo.getIsEnd() == 0 ? "未结束" : "已结束");
         } else {
