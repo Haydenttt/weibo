@@ -1,6 +1,7 @@
 package com.unicom.mapper;
 
 import com.unicom.model.PortraitTags;
+import com.unicom.model.PortraitTagsCopy;
 import com.unicom.model.PortraitTagsExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
@@ -25,4 +26,6 @@ public interface PortraitTagsMapper {
     int updateByPrimaryKeySelective(PortraitTags record);
 
     int updateByPrimaryKey(PortraitTags record);
+    List<PortraitTagsCopy> getTagsByEventId(String eventId);
+    void deleteTags();
 }

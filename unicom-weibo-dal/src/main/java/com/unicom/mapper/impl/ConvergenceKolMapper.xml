@@ -7,6 +7,7 @@
       <arg column="event_id" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="username" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="fans" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="weibo_num" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="avatar" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="webo_text" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="if_forward" javaType="java.lang.Byte" jdbcType="TINYINT" />
@@ -21,6 +22,22 @@
       <arg column="updater" javaType="java.lang.String" jdbcType="VARCHAR" />
     </constructor>
   </resultMap>
+  <resultMap id="ConvergenceKolCopy" type="com.unicom.model.ConvergenceKolCopy">
+    <result column="username" javaType="java.lang.String" jdbcType="VARCHAR" property="username"/>
+    <result column="fans" javaType="java.lang.Integer" jdbcType="INTEGER" property="fans"/>
+    <result column="weibo_num" javaType="java.lang.Integer" jdbcType="INTEGER" property="weiboNum"/>
+    <result column="avatar" javaType="java.lang.String" jdbcType="VARCHAR" property="avatar"/>
+    <result column="webo_text" javaType="java.lang.String" jdbcType="VARCHAR" property="weboText"/>
+    <result column="weibo_time" javaType="java.lang.String" jdbcType="VARCHAR" property="weiboTime"/>
+  </resultMap>
+  <select id="getKolViewByEventId" parameterType="java.lang.String" resultMap="ConvergenceKolCopy">
+    select username,fans,avatar,webo_text,weibo_time,weibo_num
+    from convergence_kol
+    where event_id = #{eventId,jdbcType=VARCHAR} order by fans desc
+  </select>
+  <select id="deleteKolView">
+    truncate table convergence_kol
+  </select>
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -80,7 +97,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    kol_id, event_id, username, fans, avatar, webo_text, if_forward, weibo_time, url, 
+    kol_id, event_id, username, fans, weibo_num,avatar, webo_text, if_forward, weibo_time, url,
     sex, root_weibo, v_type, create_time, creator, update_time, updater
   </sql>
   <select id="selectByExample" parameterType="com.unicom.model.ConvergenceKolExample" resultMap="BaseResultMap">
@@ -116,13 +133,13 @@
   </delete>
   <insert id="insert" parameterType="com.unicom.model.ConvergenceKol">
     insert into convergence_kol (kol_id, event_id, username, 
-      fans, avatar, webo_text, 
+      fans,weibo_num, avatar, webo_text,
       if_forward, weibo_time, url, 
       sex, root_weibo, v_type, 
       create_time, creator, update_time, 
       updater)
     values (#{kolId,jdbcType=INTEGER}, #{eventId,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, 
-      #{fans,jdbcType=INTEGER}, #{avatar,jdbcType=VARCHAR}, #{weboText,jdbcType=VARCHAR}, 
+      #{fans,jdbcType=INTEGER},#{weiboNum,jdbcType=INTEGER}, #{avatar,jdbcType=VARCHAR}, #{weboText,jdbcType=VARCHAR},
       #{ifForward,jdbcType=TINYINT}, #{weiboTime,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
       #{sex,jdbcType=TINYINT}, #{rootWeibo,jdbcType=VARCHAR}, #{vType,jdbcType=TINYINT}, 
       #{createTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
@@ -142,6 +159,9 @@
       </if>
       <if test="fans != null">
         fans,
+      </if>
+      <if test="weiboNum != null">
+        weibo_num,
       </if>
       <if test="avatar != null">
         avatar,
@@ -192,6 +212,9 @@
       </if>
       <if test="fans != null">
         #{fans,jdbcType=INTEGER},
+      </if>
+      <if test="weiboNum != null">
+        #{weiboNum,jdbcType=INTEGER},
       </if>
       <if test="avatar != null">
         #{avatar,jdbcType=VARCHAR},
@@ -246,6 +269,9 @@
       <if test="record.fans != null">
         fans = #{record.fans,jdbcType=INTEGER},
       </if>
+      <if test="record.weiboNum != null">
+        weibo_num = #{record.weiboNum,jdbcType=INTEGER},
+      </if>
       <if test="record.avatar != null">
         avatar = #{record.avatar,jdbcType=VARCHAR},
       </if>
@@ -293,6 +319,7 @@
       event_id = #{record.eventId,jdbcType=VARCHAR},
       username = #{record.username,jdbcType=VARCHAR},
       fans = #{record.fans,jdbcType=INTEGER},
+      weibo_num = #{record.weiboNum,jdbcType=INTEGER},
       avatar = #{record.avatar,jdbcType=VARCHAR},
       webo_text = #{record.weboText,jdbcType=VARCHAR},
       if_forward = #{record.ifForward,jdbcType=TINYINT},
@@ -320,6 +347,9 @@
       </if>
       <if test="fans != null">
         fans = #{fans,jdbcType=INTEGER},
+      </if>
+      <if test="weiboNum != null">
+        weibo_num = #{weiboNum,jdbcType=INTEGER},
       </if>
       <if test="avatar != null">
         avatar = #{avatar,jdbcType=VARCHAR},
@@ -365,6 +395,7 @@
     set event_id = #{eventId,jdbcType=VARCHAR},
       username = #{username,jdbcType=VARCHAR},
       fans = #{fans,jdbcType=INTEGER},
+      weibo_num = #{weiboNum,jdbcType=INTEGER},
       avatar = #{avatar,jdbcType=VARCHAR},
       webo_text = #{weboText,jdbcType=VARCHAR},
       if_forward = #{ifForward,jdbcType=TINYINT},

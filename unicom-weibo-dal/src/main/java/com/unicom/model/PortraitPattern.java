@@ -10,7 +10,7 @@ public class PortraitPattern {
 
     private BigDecimal weboNum;
 
-    private Date time;
+    private String time;
 
     private Byte accountType;
 
@@ -22,7 +22,7 @@ public class PortraitPattern {
 
     private String updater;
 
-    public PortraitPattern(Integer patternId, String eventId, BigDecimal weboNum, Date time, Byte accountType, Date createTime, String creator, Date updateTime, String updater) {
+    public PortraitPattern(Integer patternId, String eventId, BigDecimal weboNum, String time, Byte accountType, Date createTime, String creator, Date updateTime, String updater) {
         this.patternId = patternId;
         this.eventId = eventId;
         this.weboNum = weboNum;
@@ -62,11 +62,11 @@ public class PortraitPattern {
         this.weboNum = weboNum;
     }
 
-    public Date getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(Date time) {
+    public void setTime(String time) {
         this.time = time;
     }
 

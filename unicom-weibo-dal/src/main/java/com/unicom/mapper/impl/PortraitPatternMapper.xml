@@ -6,7 +6,7 @@
       <idArg column="pattern_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="event_id" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="webo_num" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
-      <arg column="time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="time" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="account_type" javaType="java.lang.Byte" jdbcType="TINYINT" />
       <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
       <arg column="creator" javaType="java.lang.String" jdbcType="VARCHAR" />
@@ -14,6 +14,20 @@
       <arg column="updater" javaType="java.lang.String" jdbcType="VARCHAR" />
     </constructor>
   </resultMap>
+  <resultMap id="PortraitPatternCopy" type="com.unicom.model.PortraitPatternCopy">
+    <result column="webo_num" javaType="java.math.BigDecimal" jdbcType="DECIMAL" property="weboNum"/>
+    <result column="time" javaType="java.lang.String" jdbcType="VARCHAR" property="time"/>
+    <result column="account_type" javaType="java.lang.Byte" jdbcType="TINYINT" property="accountType"/>
+  </resultMap>
+  <select id="getDayLineByEventId" parameterType="java.lang.String" resultMap="PortraitPatternCopy">
+    select
+    webo_num,time,account_type
+    from portrait_pattern
+    where event_id = #{eventId,jdbcType=VARCHAR} order by time asc
+  </select>
+  <select id="deleteDayLine">
+    truncate table portrait_pattern
+  </select>
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">

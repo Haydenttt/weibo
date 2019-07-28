@@ -98,4 +98,18 @@ public class PortraitSex {
     public void setUpdater(String updater) {
         this.updater = updater == null ? null : updater.trim();
     }
+
+    @Override
+    public String toString() {
+        return "PortraitSex{" +
+                "sexId=" + sexId +
+                ", eventId='" + eventId + '\'' +
+                ", sex=" + sex +
+                ", pro=" + pro +
+                ", createTime=" + createTime +
+                ", creator='" + creator + '\'' +
+                ", updateTime=" + updateTime +
+                ", updater='" + updater + '\'' +
+                '}';
+    }
 }

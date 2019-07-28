@@ -13,6 +13,18 @@
       <arg column="updater" javaType="java.lang.String" jdbcType="VARCHAR" />
     </constructor>
   </resultMap>
+  <resultMap id="PortraitTagsCopy" type="com.unicom.model.PortraitTagsCopy">
+    <result column="tag" javaType="java.lang.String" jdbcType="VARCHAR" property="tag"/>
+    <result column="num" javaType="java.lang.Integer" jdbcType="INTEGER" property="num"/>
+  </resultMap>
+  <select id="getTagsByEventId" parameterType="java.lang.String" resultMap="PortraitTagsCopy">
+    select tag,num
+    from portrait_tags
+    where event_id = #{eventId,jdbcType=VARCHAR} order by num desc
+  </select>
+  <select id="deleteTags">
+    truncate table portrait_tags
+  </select>
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">

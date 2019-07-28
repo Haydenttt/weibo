@@ -1,6 +1,7 @@
 package com.unicom.mapper;
 
 import com.unicom.model.ConvergenceTopWords;
+import com.unicom.model.ConvergenceTopWordsCopy;
 import com.unicom.model.ConvergenceTopWordsExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
@@ -25,4 +26,6 @@ public interface ConvergenceTopWordsMapper {
     int updateByPrimaryKeySelective(ConvergenceTopWords record);
 
     int updateByPrimaryKey(ConvergenceTopWords record);
+    List<ConvergenceTopWordsCopy> getTopWordsByEventId(String eventId);
+    void deleteTopwords();
 }
