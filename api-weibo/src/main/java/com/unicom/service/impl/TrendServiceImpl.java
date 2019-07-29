@@ -211,7 +211,7 @@ public class TrendServiceImpl implements TrendService {
                 resultMap.put("imgUrl", eventInfo.getImgUrl());
                 EventIndicator eventIndicator = eventIndicatorList.get(0);
                 resultMap.put("nearHotInf", eventIndicator.getNearHotInf());
-                resultMap.put("avgVel", eventIndicator.getAvgVel());
+                resultMap.put("avgVel", eventIndicator.getAvgVel().intValue());
                 resultMap.put("topVel", eventIndicator.getMaxVel());
                 resultMap.put("continuedTime", eventIndicator.getContinuedTime());
                 List<String> timeList = new ArrayList<>();
