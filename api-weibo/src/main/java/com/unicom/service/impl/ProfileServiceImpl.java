@@ -243,6 +243,7 @@ public class ProfileServiceImpl implements ProfileService {
         }
     }
 
+    @Override
     public Map<String, Object> getEventInfoData(String eventId) {
         Map<String, Object> resultMap = new LinkedHashMap<>();
         EventInfoExample eventInfoExample = new EventInfoExample();
@@ -269,6 +270,7 @@ public class ProfileServiceImpl implements ProfileService {
         return resultMap;
     }
 
+    @Override
     public Map<String, Object> getStats(String eventId) {
         Map<String, Object> resultMap = new LinkedHashMap<>();
         EventStatsExample eventStatsExample = new EventStatsExample();

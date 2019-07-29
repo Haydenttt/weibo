@@ -11,8 +11,6 @@ import java.io.Serializable;
  */
 public class ApiResult implements Serializable {
 
-    private static final long serialVersionUID = 313112098858090298L;
-
     /**
      * 返回错误码,1表示正确,0表示错误
      */

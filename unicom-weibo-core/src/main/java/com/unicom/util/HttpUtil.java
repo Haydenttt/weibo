@@ -192,30 +192,4 @@ public class HttpUtil {
         }
         return result;
     }
-
-//    // MultipartFile里面的name就是表单的name，文件名是originalFilename
-//    private static MultipartFile fileToMultipartFile(File file, String name) throws IOException {
-//        log.info("File转MultipartFile：文件路径：{}", file.getAbsolutePath());
-//        FileInputStream inputStream = new FileInputStream(file);
-//        Path path = Paths.get(file.getAbsolutePath());
-//        String contentType = Files.probeContentType(path);
-//        if (StringUtils.isEmpty(contentType)) {
-//            contentType = "application/octet-stream";
-//        }
-//        MultipartFile multipartFile = new MockMultipartFile(
-//                name,
-//                file.getName(),
-//                contentType,
-//                inputStream);
-//        log.info("File转MultipartFile：转换后的文件信息：[name:{}, originalFilename:{} ,contentType:{}]",
-//                multipartFile.getName(),
-//                multipartFile.getOriginalFilename(),
-//                multipartFile.getContentType());
-//        return multipartFile;
-//    }
-
-    public static void main(String[] args) throws IOException {
-//    System.out.println(sendGet("http://ef.zhiweidata.com/index/indexUp.do"));
-        System.out.println(sendPost("http://ef.zhiweidata.com/analy/overviewV2.do", "eventId=5816b4a30cf23b5e19909a27"));
-    }
 }

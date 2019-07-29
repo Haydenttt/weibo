@@ -10,8 +10,6 @@ import java.text.SimpleDateFormat;
 
 /**
  * json工具类
- *
- * @author
  */
 public class JsonUtil {
 

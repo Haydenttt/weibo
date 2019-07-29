@@ -37,13 +37,14 @@ public class DateUtil {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 
         //初始化时间点
-        Date initDate = null;
-        if (null == timePoint)
+        Date initDate;
+        if (null == timePoint) {
             initDate = new Date();
-        else if (timePoint instanceof Date)
+        } else if (timePoint instanceof Date) {
             initDate = (Date) timePoint;
-        else
+        } else {
             initDate = simpleDateFormat.parse((String) timePoint);
+        }
 
         Long initMilliSeconds = initDate.getTime();
         int sign = n > 0 ? 1 : -1;
