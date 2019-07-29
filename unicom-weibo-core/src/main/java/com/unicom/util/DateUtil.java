@@ -80,4 +80,9 @@ public class DateUtil {
         return str;
     }
 
+    public static Long StringToPeriod(String dateStr) throws ParseException {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(HOUR_PATTERN);
+        Date initDate = simpleDateFormat.parse((String) dateStr);
+        return initDate.getTime();
+    }
 }
