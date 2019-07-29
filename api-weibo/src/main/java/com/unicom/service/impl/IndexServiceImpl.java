@@ -67,7 +67,6 @@ public class IndexServiceImpl implements IndexService {
       int sumHeatWeek = 0;
       for (int i = 0; i <= 6; i++) {
 
-        // TODO 时间格式尚未与前端统一
         if (i == 0) {
           intro.setDayHeatStart(
               ((JSONObject) (contentJson.getJSONArray("rankDay").get(i))).getString("time"));
@@ -90,7 +89,8 @@ public class IndexServiceImpl implements IndexService {
     try {
       indexIntroMapper.insertSelective(intro);
     } catch (Exception e) {
-      throw new WeiboException(EmWeiboError.UNKNOW_ERROR.setErrMsg("serviceImpl插入indexIntro表失败！"));
+      e.printStackTrace();
+//      throw new WeiboException(EmWeiboError.UNKNOW_ERROR.setErrMsg("serviceImpl插入indexIntro表失败！"));
     }
   }
 
@@ -262,7 +262,8 @@ public class IndexServiceImpl implements IndexService {
         }
       }
     } catch (Exception e) {
-      throw new WeiboException(EmWeiboError.UNKNOW_ERROR.setErrMsg("serviceImpl向indexStats表插入失败！"));
+      e.printStackTrace();
+//      throw new WeiboException(EmWeiboError.UNKNOW_ERROR.setErrMsg("serviceImpl向indexStats表插入失败！"));
     }
   }
 
