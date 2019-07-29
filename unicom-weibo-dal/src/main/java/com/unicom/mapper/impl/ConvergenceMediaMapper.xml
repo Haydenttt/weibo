@@ -14,6 +14,19 @@
       <arg column="updater" javaType="java.lang.String" jdbcType="VARCHAR" />
     </constructor>
   </resultMap>
+  <resultMap id="ConvergenceMediaCopy" type="com.unicom.model.ConvergenceMediaCopy">
+    <result column="title" javaType="java.lang.String" jdbcType="VARCHAR" property="title"/>
+    <result column="media_num" javaType="java.lang.Integer" jdbcType="INTEGER" property="mediaNum"/>
+    <result column="media" javaType="java.lang.String" jdbcType="VARCHAR" property="media"/>
+  </resultMap>
+  <select id="getMediaViewByEventId" parameterType="java.lang.String" resultMap="ConvergenceMediaCopy">
+    select title,media_num,media
+    from convergence_media
+    where event_id = #{eventId,jdbcType=VARCHAR} order by media_num desc
+  </select>
+  <select id="deleteMediaView">
+    truncate table convergence_media
+  </select>
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">

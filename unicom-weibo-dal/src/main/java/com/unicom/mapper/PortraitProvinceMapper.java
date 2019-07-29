@@ -1,6 +1,7 @@
 package com.unicom.mapper;
 
 import com.unicom.model.PortraitProvince;
+import com.unicom.model.PortraitProvinceCopy;
 import com.unicom.model.PortraitProvinceExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
@@ -25,4 +26,6 @@ public interface PortraitProvinceMapper {
     int updateByPrimaryKeySelective(PortraitProvince record);
 
     int updateByPrimaryKey(PortraitProvince record);
+    List<PortraitProvinceCopy> getLocationByEventId(String eventId);
+    void deleteLocation();
 }

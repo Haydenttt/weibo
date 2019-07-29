@@ -13,6 +13,12 @@
       <arg column="updater" javaType="java.lang.String" jdbcType="VARCHAR" />
     </constructor>
   </resultMap>
+
+<resultMap id="PortraitSexCopy" type="com.unicom.model.PortraitSexCopy">
+  <result column="sex" javaType="java.lang.Byte" jdbcType="TINYINT" property="sex"/>
+  <result column="pro" javaType="java.math.BigDecimal" jdbcType="DECIMAL" property="pro"/>
+</resultMap>
+
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -88,6 +94,16 @@
     <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
+  </select>
+
+  <select id="getSexByEventId" parameterType="java.lang.String" resultMap="PortraitSexCopy">
+    select
+    sex,pro
+    from portrait_sex
+    where event_id = #{eventId,jdbcType=VARCHAR} order by pro desc
+  </select>
+  <select id="deleteSex">
+    truncate table portrait_sex
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 

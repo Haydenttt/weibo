@@ -10,7 +10,7 @@ public class ConvergenceKol {
     private String username;
 
     private Integer fans;
-
+    private Integer weiboNum;
     private String avatar;
 
     private String weboText;
@@ -35,7 +35,7 @@ public class ConvergenceKol {
 
     private String updater;
 
-    public ConvergenceKol(Integer kolId, String eventId, String username, Integer fans, String avatar, String weboText, Byte ifForward, String weiboTime, String url, Byte sex, String rootWeibo, Byte vType, Date createTime, String creator, Date updateTime, String updater) {
+    public ConvergenceKol(Integer kolId, String eventId, String username, Integer fans,Integer weiboNum, String avatar, String weboText, Byte ifForward, String weiboTime, String url, Byte sex, String rootWeibo, Byte vType, Date createTime, String creator, Date updateTime, String updater) {
         this.kolId = kolId;
         this.eventId = eventId;
         this.username = username;
@@ -52,10 +52,19 @@ public class ConvergenceKol {
         this.creator = creator;
         this.updateTime = updateTime;
         this.updater = updater;
+        this.weiboNum = weiboNum;
     }
 
     public ConvergenceKol() {
         super();
+    }
+
+    public Integer getWeiboNum() {
+        return weiboNum;
+    }
+
+    public void setWeiboNum(Integer weiboNum) {
+        this.weiboNum = weiboNum;
     }
 
     public Integer getKolId() {

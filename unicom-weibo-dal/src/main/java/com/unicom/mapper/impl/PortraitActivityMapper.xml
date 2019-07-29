@@ -14,6 +14,20 @@
       <arg column="updater" javaType="java.lang.String" jdbcType="VARCHAR" />
     </constructor>
   </resultMap>
+  <resultMap id="PortraitActivityCopy" type="com.unicom.model.PortraitActivityCopy">
+    <result column="title" javaType="java.lang.String" jdbcType="VARCHAR" property="title"/>
+    <result column="activity" javaType="java.lang.Byte" jdbcType="TINYINT" property="activity"/>
+    <result column="pro" javaType="java.math.BigDecimal" jdbcType="DECIMAL" property="pro"/>
+  </resultMap>
+  <select id="getActivityByEventId" parameterType="java.lang.String" resultMap="PortraitActivityCopy">
+    select
+    title,activity,pro
+    from portrait_activity
+    where event_id = #{eventId,jdbcType=VARCHAR} order by pro desc
+  </select>
+  <select id="deleteActivity">
+    truncate table portrait_activity
+  </select>
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">

@@ -1,6 +1,7 @@
 package com.unicom.mapper;
 
 import com.unicom.model.ConvergenceMedia;
+import com.unicom.model.ConvergenceMediaCopy;
 import com.unicom.model.ConvergenceMediaExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
@@ -25,4 +26,6 @@ public interface ConvergenceMediaMapper {
     int updateByPrimaryKeySelective(ConvergenceMedia record);
 
     int updateByPrimaryKey(ConvergenceMedia record);
+    List<ConvergenceMediaCopy> getMediaViewByEventId(String eventId);
+    void deleteMediaView();
 }

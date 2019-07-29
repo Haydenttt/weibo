@@ -13,6 +13,18 @@
       <arg column="updater" javaType="java.lang.String" jdbcType="VARCHAR" />
     </constructor>
   </resultMap>
+  <resultMap id="ConvergenceTopWordsCopy" type="com.unicom.model.ConvergenceTopWordsCopy">
+    <result column="word" javaType="java.lang.String" jdbcType="VARCHAR" property="word"/>
+    <result column="num" javaType="java.lang.Integer" jdbcType="INTEGER" property="num"/>
+  </resultMap>
+  <select id="getTopWordsByEventId" parameterType="java.lang.String" resultMap="ConvergenceTopWordsCopy">
+    select word,num
+    from convergence_top_words
+    where event_id = #{eventId,jdbcType=VARCHAR} order by num desc
+  </select>
+  <select id="deleteTopwords">
+    truncate table convergence_top_words
+  </select>
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">

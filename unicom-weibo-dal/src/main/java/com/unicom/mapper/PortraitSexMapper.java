@@ -1,6 +1,7 @@
 package com.unicom.mapper;
 
 import com.unicom.model.PortraitSex;
+import com.unicom.model.PortraitSexCopy;
 import com.unicom.model.PortraitSexExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
@@ -25,4 +26,7 @@ public interface PortraitSexMapper {
     int updateByPrimaryKeySelective(PortraitSex record);
 
     int updateByPrimaryKey(PortraitSex record);
+
+    List<PortraitSexCopy> getSexByEventId(String eventId);
+    void deleteSex();
 }

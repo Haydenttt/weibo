@@ -1,8 +1,11 @@
 package com.unicom.mapper;
 
 import com.unicom.model.PortraitActivity;
+import com.unicom.model.PortraitActivityCopy;
 import com.unicom.model.PortraitActivityExample;
 import java.util.List;
+
+import com.unicom.model.PortraitProvinceCopy;
 import org.apache.ibatis.annotations.Param;
 
 public interface PortraitActivityMapper {
@@ -25,4 +28,6 @@ public interface PortraitActivityMapper {
     int updateByPrimaryKeySelective(PortraitActivity record);
 
     int updateByPrimaryKey(PortraitActivity record);
+    List<PortraitActivityCopy> getActivityByEventId(String eventId);
+    void deleteActivity();
 }

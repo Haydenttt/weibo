@@ -1,6 +1,7 @@
 package com.unicom.mapper;
 
 import com.unicom.model.PortraitPattern;
+import com.unicom.model.PortraitPatternCopy;
 import com.unicom.model.PortraitPatternExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
@@ -25,4 +26,6 @@ public interface PortraitPatternMapper {
     int updateByPrimaryKeySelective(PortraitPattern record);
 
     int updateByPrimaryKey(PortraitPattern record);
+    List<PortraitPatternCopy> getDayLineByEventId(String eventId);
+    void deleteDayLine();
 }
