@@ -15,6 +15,7 @@ import com.unicom.util.HttpUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
 import java.util.*;
 
 /**
@@ -218,6 +219,8 @@ public class TrendServiceImpl implements TrendService {
                 for (EventTimelineTrend eventTimelineTrend : eventTimelineTrendList) {
                     timeList.add(eventTimelineTrend.getTime());
                 }
+                String startTime = timeList.get(0);
+                String endTime = timeList.get(timeList.size() - 1);
                 resultMap.put("xLine", timeList);
                 List<Integer> numList = new ArrayList<>();
                 List<Integer> weiboNumList = new ArrayList<>();
@@ -272,7 +275,7 @@ public class TrendServiceImpl implements TrendService {
                         meanwhileNumList.add(eventTimelineTrend.getNum());
                     }
                     map.put("name", eventTitle);
-                    map.put("value", meanwhileNumList);
+                    map.put("value", CompleteMeanwhileCaseTimeline(meanwhileNumList, startTime, endTime, meanwhileCaseTimelineList.get(0).getTime(), meanwhileCaseTimelineList.get(meanwhileCaseTimelineList.size() - 1).getTime()));
                     resultMap.put("line" + index, map);
                     index++;
                 }
@@ -284,5 +287,44 @@ public class TrendServiceImpl implements TrendService {
             resultMap.put("errMsg", "该事件无传播趋势数据！");
         }
         return resultMap;
+    }
+
+    /**
+     * 将同期事件与主事件时期不对应的部分补0
+     *
+     * @param numList            需要补全的list
+     * @param startTime          主事件开始日期
+     * @param endTime            主事件结束日期
+     * @param meanwhileStartTime 同期事件开始日期
+     * @param meanwhileEndTime   同期事件结束日期
+     */
+    private List<Integer> CompleteMeanwhileCaseTimeline(List<Integer> numList, String startTime, String endTime, String meanwhileStartTime, String meanwhileEndTime) {
+        long startTimeMills;
+        long endTimeMills;
+        long meanwhileStartTimeMills;
+        long meanwhileEndTimeMills;
+        long startTimeMillsDValue = 0;
+        long endTimeMillsDValue = 0;
+        try {
+            startTimeMills = DateUtil.StringToPeriod(startTime);
+            endTimeMills = DateUtil.StringToPeriod(endTime);
+            meanwhileStartTimeMills = DateUtil.StringToPeriod(meanwhileStartTime);
+            meanwhileEndTimeMills = DateUtil.StringToPeriod(meanwhileEndTime);
+            startTimeMillsDValue = meanwhileStartTimeMills - startTimeMills;
+            endTimeMillsDValue = endTimeMills - meanwhileEndTimeMills;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        int startDurationHoursDValue = (int) (startTimeMillsDValue / DateUtil.ONE_HOUR_TIME);
+        int endDurationHoursDValue = (int) (endTimeMillsDValue / DateUtil.ONE_HOUR_TIME);
+        List<Integer> resultList = new ArrayList<>();
+        for (int i = 0; i < startDurationHoursDValue; i++) {
+            resultList.add(0);
+        }
+        resultList.addAll(numList);
+        for (int j = 0; j < endDurationHoursDValue; j++) {
+            resultList.add(0);
+        }
+        return resultList;
     }
 }
