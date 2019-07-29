@@ -68,3 +68,4 @@ Temporary Items
 .apdisk
 #log file
 log_dir_IS_UNDEFINED/
+*.log
