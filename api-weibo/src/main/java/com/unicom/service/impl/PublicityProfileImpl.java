@@ -51,9 +51,7 @@ public class PublicityProfileImpl implements PublicityService {
             String img_url = viewObject.getJSONObject(0).getString("img_url");
             ckol.setAvatar(img_url);
             String text = viewObject.getJSONObject(0).getString("text");
-            //System.out.println("过滤前--text:"+text);
             String textStr = EmojiUtil.filterEmoji(text);
-            //System.out.println("过滤后--text:"+textStr);
             ckol.setWeboText(textStr);
             String isForward = viewObject.getJSONObject(0).getString("isForward");
             byte b=(byte)(Integer.parseInt(isForward));
